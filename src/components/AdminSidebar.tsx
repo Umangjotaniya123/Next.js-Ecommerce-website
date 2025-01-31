@@ -1,0 +1,132 @@
+import { Route } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { IconType } from "react-icons";
+import { HiMenuAlt4 } from "react-icons/hi";
+import { sideBarData } from '../../public/temp';
+
+type dataProps = {
+  data: [name: string, value: {
+    url: string;
+    text: string;
+    Icon: IconType;
+  }[]],
+  router: any
+}
+
+
+interface LiProps {
+  data: {
+    url: string;
+    text: string;
+    Icon: IconType;
+  }
+  router: any;
+}
+
+const AdminSidebar = () => {
+  const router = useRouter();
+  // console.log(router);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [phoneActive, setPhoneActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Define the resize handler
+    const resizeHandler = () => {
+      setPhoneActive(window.innerWidth < 1200);
+    };
+
+    // Set the initial state on the client side
+    resizeHandler();
+
+    // Add the event listener
+    window.addEventListener("resize", resizeHandler);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!phoneActive)
+      setShowModal(true);
+    else
+      setShowModal(false);
+  }, [phoneActive])
+
+  const DataDiv = ({ data: [name, value], router }: dataProps) => (
+    <div className="w-[85%]">
+      <h5 className="heading opacity-50 my-3">{name}</h5>
+      <ul className="flex flex-col justify-center items-center gap-2 w-full">
+        {value.map((i, index) => (
+          <Li data={i} router={router} key={index} />
+        ))}
+      </ul>
+    </div>
+  );
+
+  const Li = ({ data: { url, text, Icon }, router }: LiProps) => (
+    <li
+      className="px-4 py-2 rounded-md w-full"
+      style={{
+        backgroundColor: router.pathname.includes(url)
+          ? "rgba(0,115,255,0.1)"
+          : "white",
+      }}
+    >
+      <Link
+        className="flex flex-row justify-start items-center gap-4"
+        href={url}
+        style={{
+          color: router.pathname.includes(url) ? "rgb(0,115,255)" : "black",
+        }}
+        onClick={() => setShowModal(phoneActive ? false : true)}
+      >
+        <p><Icon /></p>
+        <p>{text}</p>
+      </Link>
+    </li>
+  );
+  
+
+  return (
+    <>
+      {phoneActive && <button className="text-xl fixed p-4" id="hamburger" onClick={() => setShowModal(true)}>
+        <HiMenuAlt4 />
+      </button>}
+
+      {showModal && <aside
+        className={ `${phoneActive ? 
+          'absolute transition-all duration-600 w-[90%] max-w-[360px] z-20 h-[calc(100vh-5rem)]' :
+          'w-[360px]'
+        } rounded-lg flex flex-col items-center gap-2 bg-green-200`}
+      >
+        <h2 className="heading m-4 flex justify-center items-center">LOGO</h2>
+
+        {Object.entries(sideBarData).map((data, index) => {
+          // console.log(data)
+          return (
+            <DataDiv data={data} router={router} key={index} />
+          )
+        })}
+
+        {phoneActive && (
+          <button
+            className="bg-red-500 rounded-md my-3 px-8 py-1"
+            id="close-sidebar"
+            onClick={() => setShowModal(false)}
+          >
+            Close
+          </button>
+        )}
+      </aside>
+      }
+    </>
+  );
+};
+
+export default AdminSidebar;
