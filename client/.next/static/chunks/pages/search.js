@@ -1,0 +1,10 @@
+__turbopack_load_page_chunks__("/search", [
+  "static/chunks/node_modules_next_25f03d._.js",
+  "static/chunks/node_modules_react-dom_82bb97._.js",
+  "static/chunks/node_modules_react-icons_fa6_index_mjs_991a21._.js",
+  "static/chunks/node_modules_react-icons_lib_75a63d._.js",
+  "static/chunks/node_modules_1b7400._.js",
+  "static/chunks/[root of the server]__1b5423._.js",
+  "static/chunks/src_pages_search_5771e1._.js",
+  "static/chunks/src_pages_search_960065._.js"
+])
