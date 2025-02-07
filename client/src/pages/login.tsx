@@ -1,9 +1,13 @@
 import Axios from '@/config/axios';
+import { responseToast } from '@/utilities/features';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const login = () => {
+
+    const router = useRouter();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -13,7 +17,7 @@ const login = () => {
     });
 
     const onSubmit = async (data: { email: string, password: string }) => {
-        console.log(data);
+        // console.log(data);
 
         try {
             const res = await Axios.post('/user/login', {
@@ -21,7 +25,9 @@ const login = () => {
                 password: data.password
             });
 
-            console.log(res);
+            responseToast(res, router, '/');
+
+            
         } catch (error) {
             console.log('Error...', error);
         }

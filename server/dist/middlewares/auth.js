@@ -16,10 +16,12 @@ export const adminOnly = TryCatch(async (req, res, next) => {
 });
 export const verifyToken = TryCatch(async (req, res, next) => {
     const { token } = req.cookies;
+    // console.log("token", token);
     if (!token)
         return res.json({});
     const { _id } = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(_id);
+    // console.log(user);
     if (!user)
         return next(new ErrorHandler('User Not Found', 401));
     return res.json({ user });

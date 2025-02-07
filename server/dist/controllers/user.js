@@ -41,7 +41,6 @@ export const loginUser = TryCatch(async (req, res, next) => {
     // sendCookie(user, res, `Welcom back, ${user.name}`, 200);
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "10d" });
     res.cookie("token", token);
-    console.log(token);
     return res.status(201)
         .json({
         success: true,
