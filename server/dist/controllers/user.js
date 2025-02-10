@@ -8,6 +8,7 @@ export const registerUser = TryCatch(async (req, res, next) => {
     // const { name, email, photo, gender, _id, dob } = req.body;
     const { name, email, password, gender, dob } = req.body;
     let user = await User.findOne({ email });
+    console.log(user);
     if (user)
         return res.status(400).json({
             success: false,
@@ -21,8 +22,8 @@ export const registerUser = TryCatch(async (req, res, next) => {
     });
     // setCookie(user, res, `welcome, ${user.name}`, 201);
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '10d' });
+    res.cookie("token", token, { path: '/', httpOnly: true });
     return res.status(201)
-        .cookie("token", token)
         .json({
         success: true,
         message: `welcome, ${user.name}`,
@@ -39,15 +40,17 @@ export const loginUser = TryCatch(async (req, res, next) => {
     if (!isMatch)
         return next(new ErrorHandler('Invalid Email or Password', 400));
     // sendCookie(user, res, `Welcom back, ${user.name}`, 200);
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "10d" });
-    res.cookie("token", token);
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '10d' });
+    res.cookie("token", token, { path: '/', httpOnly: true });
     return res.status(201)
         .json({
         success: true,
         message: `welcome back, ${user.name}`,
+        user,
     });
 });
 export const logoutUser = TryCatch(async (req, res, next) => {
+    // res.setHeader('Set-Cookie', `token=${''}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`);
     return res.status(201)
         .cookie('token', '', { expires: new Date(Date.now()) })
         .json({

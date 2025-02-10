@@ -638,42 +638,42 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link
 ;
 ;
 ;
-const products = [
-    {
-        "_id": "6787ba4de88165bff1ae82d6",
-        "name": "Laptop - 3",
-        "photo": "uploads/5af98d8106f3a8c47cc190c05.webp",
-        "price": 132455,
-        "stock": 15,
-        "category": "laptop",
-        "createdAt": "2024-11-15T13:38:21.147Z",
-        "updatedAt": "2025-01-16T12:19:24.524Z",
-        "__v": 0
-    },
-    {
-        "_id": "6788dc3cb7eec95383fbeca4",
-        "name": "shoose",
-        "photo": "uploads/5af98d8106f3a8c47cc190c04.jpeg",
-        "price": 2342,
-        "stock": 23,
-        "category": "shoose",
-        "createdAt": "2024-03-16T10:15:24.936Z",
-        "updatedAt": "2025-01-16T10:15:24.936Z",
-        "__v": 0
-    },
-    {
-        "_id": "67890292b7eec95383fbf5d2",
-        "name": "nike",
-        "photo": "uploads/5af98d8106f3a8c47cc190c06.jpeg",
-        "price": 1234,
-        "stock": 10,
-        "category": "shoose",
-        "createdAt": "2024-11-16T12:58:58.852Z",
-        "updatedAt": "2025-01-16T12:58:58.852Z",
-        "__v": 0
-    }
-];
-const home = ()=>{
+// const products = [
+//     {
+//         "_id": "6787ba4de88165bff1ae82d6",
+//         "name": "Laptop - 3",
+//         "photo": "uploads/5af98d8106f3a8c47cc190c05.webp",
+//         "price": 132455,
+//         "stock": 15,
+//         "category": "laptop",
+//         "createdAt": "2024-11-15T13:38:21.147Z",
+//         "updatedAt": "2025-01-16T12:19:24.524Z",
+//         "__v": 0
+//     },
+//     {
+//         "_id": "6788dc3cb7eec95383fbeca4",
+//         "name": "shoose",
+//         "photo": "uploads/5af98d8106f3a8c47cc190c04.jpeg",
+//         "price": 2342,
+//         "stock": 23,
+//         "category": "shoose",
+//         "createdAt": "2024-03-16T10:15:24.936Z",
+//         "updatedAt": "2025-01-16T10:15:24.936Z",
+//         "__v": 0
+//     },
+//     {
+//         "_id": "67890292b7eec95383fbf5d2",
+//         "name": "nike",
+//         "photo": "uploads/5af98d8106f3a8c47cc190c06.jpeg",
+//         "price": 1234,
+//         "stock": 10,
+//         "category": "shoose",
+//         "createdAt": "2024-11-16T12:58:58.852Z",
+//         "updatedAt": "2025-01-16T12:58:58.852Z",
+//         "__v": 0
+//     }
+// ]
+const home = ({ data: products })=>{
     const addToCartHandler = ()=>{};
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "p-2 flex flex-col m-auto w-full ",
@@ -685,7 +685,7 @@ const home = ()=>{
                 }
             }, void 0, false, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 50,
+                lineNumber: 54,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -698,13 +698,13 @@ const home = ()=>{
                         children: "More"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Home.tsx",
-                        lineNumber: 55,
+                        lineNumber: 59,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 53,
+                lineNumber: 57,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -718,18 +718,18 @@ const home = ()=>{
                         handler: addToCartHandler
                     }, product._id, false, {
                         fileName: "[project]/src/components/Home.tsx",
-                        lineNumber: 59,
+                        lineNumber: 63,
                         columnNumber: 21
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 57,
+                lineNumber: 61,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/Home.tsx",
-        lineNumber: 49,
+        lineNumber: 53,
         columnNumber: 9
     }, this);
 };
@@ -744,19 +744,23 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
 __turbopack_esm__({
+    "__N_SSP": (()=>__N_SSP),
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/Home.tsx [client] (ecmascript)");
 ;
 ;
-const index = ()=>{
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+const index = ({ data: products })=>{
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
+        data: products
+    }, void 0, false, {
         fileName: "[project]/src/pages/index.tsx",
-        lineNumber: 5,
+        lineNumber: 9,
         columnNumber: 5
     }, this);
 };
+var __N_SSP = true;
 const __TURBOPACK__default__export__ = index;
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_refresh__.registerExports(module, globalThis.$RefreshHelpers$);

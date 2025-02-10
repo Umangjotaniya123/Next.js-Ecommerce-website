@@ -2,18 +2,27 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaSearch, FaShoppingBag, FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import React, { useState } from 'react'
+import { useAuth } from '@/context/AuthContext';
+import Axios from '@/config/axios';
+import { responseToast } from '@/utilities/features';
 
-const user = {
-    _id: 'sfvbndfjkv',
-    role: 'admin'
-}
 
 const Header = () => {
+
+    const { user, setUser } = useAuth();
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const router = useRouter();
 
     const handleLogout = async() => {
+
+        const res = await Axios.post('/user/logout');
+
+        if(res.data.success){
+            setUser(null);
+        }
+
+        responseToast(res, router, '/');
 
     }
 

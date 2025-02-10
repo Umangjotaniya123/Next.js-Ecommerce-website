@@ -1,4 +1,5 @@
 import Axios from '@/config/axios';
+import { useAuth } from '@/context/AuthContext';
 import { responseToast } from '@/utilities/features';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,6 +9,7 @@ import { useForm } from 'react-hook-form';
 const login = () => {
 
     const router = useRouter();
+    const { user, setUser } = useAuth();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -25,11 +27,16 @@ const login = () => {
                 password: data.password
             });
 
+            if(res?.data?.success) {
+                setUser(res.data.user);
+            }
+
             responseToast(res, router, '/');
 
             
-        } catch (error) {
+        } catch (error:any) {
             console.log('Error...', error);
+            responseToast(error?.response);
         }
 
     }
@@ -43,7 +50,7 @@ const login = () => {
                     {/* Email */}
                     <div className="inputStyle w-full">
                         <label htmlFor="">Email</label>
-                        <input type="emai"
+                        <input type="email"
                             placeholder='Email'
                             {...register('email', { required: 'Email is required', pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/ })}
                         />

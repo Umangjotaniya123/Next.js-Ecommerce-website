@@ -3,36 +3,57 @@ import Axios from "@/config/axios";
 import "@/styles/globals.css";
 import App from "next/app";
 import { HeroUIProvider } from "@heroui/react";
-import type { AppContext, AppInitialProps, AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
+import { UserContextProvider } from "@/context/AuthContext";
+import { User } from "@/types/types";
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+interface AppOwnProps {
+  data: User | null;
+}
+ 
+// export async function getServerSideProps() {
+//   // let user = null;
+//   console.log('Server.........');
+  
+
+//   const res = await Axios.get('/user/verify');
+//   console.log(res);
+
+//   return {
+//     props: {
+//       data: res.data.user
+//     }
+//   }
+// }
+
+export default function MyApp({ Component, pageProps, data }: AppProps & AppOwnProps) {
   return (
     <>
       <HeroUIProvider>
-        <Header />
-        <Component {...pageProps} />
-        <Toaster position="bottom-center" />
+        <UserContextProvider>
+          <Header />
+          <Component {...pageProps} />
+          <Toaster position="bottom-center" />
+        </UserContextProvider>
       </HeroUIProvider>
     </>
   );
 }
 
-MyApp.getInitialProps = async ( context: AppContext): Promise<AppInitialProps> => {
+// MyApp.getInitialProps = async (context: AppContext): Promise<AppOwnProps & AppInitialProps> => {
 
-  const appProps = await App.getInitialProps(context);
-  console.log("cookies");
-  const cookies = context.ctx.req?.headers.cookie || '';
-  
+//   const appProps = await App.getInitialProps(context);
+//   // console.log("cookies");
+//   const cookies = context.ctx.req?.headers?.cookie || '';
 
-  const res = await Axios.get('/user/verify',{
-    headers: {
-      Cookie: cookies,
-    }
-  });
-  console.log('res---------------', res.data);
-  
-  return {
-    ...appProps,
-  }
-}
+
+//   const res = await Axios.get('/user/verify');
+
+//   console.log('res---------------', res.data);
+
+//   return {
+//     ...appProps,
+//     data: res.data.user
+//   }
+// }

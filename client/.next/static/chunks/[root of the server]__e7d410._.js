@@ -580,12 +580,12 @@ const TableHook = ({ columns, items })=>{
                         children: column.name
                     }, column.uid, false, {
                         fileName: "[project]/src/components/TableHook.tsx",
-                        lineNumber: 38,
+                        lineNumber: 53,
                         columnNumber: 30
                     }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/TableHook.tsx",
-                lineNumber: 35,
+                lineNumber: 50,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroui$2f$table$2f$dist$2f$chunk$2d$FKPXBCGS$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__$3c$export__table_body_default__as__TableBody$3e$__["TableBody"], {
@@ -595,23 +595,23 @@ const TableHook = ({ columns, items })=>{
                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroui$2f$shared$2d$utils$2f$dist$2f$chunk$2d$KARN4QIT$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__["getKeyValue"])(item, columnKey)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/TableHook.tsx",
-                                lineNumber: 44,
+                                lineNumber: 59,
                                 columnNumber: 29
                             }, this)
                     }, item._id, false, {
                         fileName: "[project]/src/components/TableHook.tsx",
-                        lineNumber: 42,
+                        lineNumber: 57,
                         columnNumber: 21
                     }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/TableHook.tsx",
-                lineNumber: 40,
+                lineNumber: 55,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/TableHook.tsx",
-        lineNumber: 34,
+        lineNumber: 49,
         columnNumber: 9
     }, this);
 };

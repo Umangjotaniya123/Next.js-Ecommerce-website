@@ -560,9 +560,9 @@ __turbopack_esm__({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [client] (ecmascript)");
 ;
 const Axios = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].create({
-    baseURL: 'http://localhost:4000/api/v1',
-    withCredentials: true
+    baseURL: 'http://localhost:4000/api/v1'
 });
+Axios.defaults.withCredentials = true;
 const __TURBOPACK__default__export__ = Axios;
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_refresh__.registerExports(module, globalThis.$RefreshHelpers$);
@@ -579,12 +579,12 @@ __turbopack_esm__({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react-hot-toast/dist/index.mjs [client] (ecmascript)");
 ;
 const responseToast = (res, router, url)=>{
-    if (res.data) {
+    if (res?.data?.success) {
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__["default"].success(res.data.message);
         router.push(url);
     } else {
-        const err = res.error;
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__["default"].error(err.data.message);
+        const error = res?.data;
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__["default"].error(error.message);
     }
 };
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
@@ -628,6 +628,9 @@ const login = ()=>{
                 email: data.email,
                 password: data.password
             });
+            // if(res?.data?.success) {
+            //     router.reload();
+            // }
             (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$client$5d$__$28$ecmascript$29$__["responseToast"])(res, router, '/');
         } catch (error) {
             console.log('Error...', error);
@@ -644,7 +647,7 @@ const login = ()=>{
                     children: "Login"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/login.tsx",
-                    lineNumber: 39,
+                    lineNumber: 44,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -658,11 +661,11 @@ const login = ()=>{
                                     children: "Email"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 44,
+                                    lineNumber: 49,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                    type: "emai",
+                                    type: "email",
                                     placeholder: "Email",
                                     ...register('email', {
                                         required: 'Email is required',
@@ -670,26 +673,26 @@ const login = ()=>{
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 45,
+                                    lineNumber: 50,
                                     columnNumber: 25
                                 }, this),
                                 errors.email && (errors.email.type === 'required' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                     children: errors.email.message
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 50,
+                                    lineNumber: 55,
                                     columnNumber: 31
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                     children: "Invalid Email"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 51,
+                                    lineNumber: 56,
                                     columnNumber: 31
                                 }, this))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/pages/login.tsx",
-                            lineNumber: 43,
+                            lineNumber: 48,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -699,7 +702,7 @@ const login = ()=>{
                                     children: "Password"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 57,
+                                    lineNumber: 62,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -712,32 +715,32 @@ const login = ()=>{
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 58,
+                                    lineNumber: 63,
                                     columnNumber: 25
                                 }, this),
                                 errors.password && (errors.password.type === 'required' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                     children: errors.password.message
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 64,
+                                    lineNumber: 69,
                                     columnNumber: 31
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("small", {
                                     children: "Minimum 6 characters required"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 65,
+                                    lineNumber: 70,
                                     columnNumber: 31
                                 }, this))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/pages/login.tsx",
-                            lineNumber: 56,
+                            lineNumber: 61,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/pages/login.tsx",
-                    lineNumber: 40,
+                    lineNumber: 45,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -748,7 +751,7 @@ const login = ()=>{
                             children: "Sign In"
                         }, void 0, false, {
                             fileName: "[project]/src/pages/login.tsx",
-                            lineNumber: 70,
+                            lineNumber: 75,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -761,30 +764,30 @@ const login = ()=>{
                                     children: "Sign Up"
                                 }, void 0, false, {
                                     fileName: "[project]/src/pages/login.tsx",
-                                    lineNumber: 72,
+                                    lineNumber: 77,
                                     columnNumber: 45
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/pages/login.tsx",
-                            lineNumber: 71,
+                            lineNumber: 76,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/pages/login.tsx",
-                    lineNumber: 69,
+                    lineNumber: 74,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/pages/login.tsx",
-            lineNumber: 38,
+            lineNumber: 43,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/pages/login.tsx",
-        lineNumber: 37,
+        lineNumber: 42,
         columnNumber: 9
     }, this);
 };

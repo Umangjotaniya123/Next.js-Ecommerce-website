@@ -17,6 +17,7 @@ export const registerUser = TryCatch(
         const { name, email, password, gender, dob } = req.body;
 
         let user = await User.findOne({ email });
+        console.log(user);
 
         if (user)
             return res.status(400).json({
@@ -36,8 +37,9 @@ export const registerUser = TryCatch(
         // setCookie(user, res, `welcome, ${user.name}`, 201);
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '10d'});
 
+        res.cookie("token", token, { path:'/', httpOnly: true });
+
         return res.status(201)
-            .cookie("token", token)
             .json({
                 success: true,
                 message: `welcome, ${user.name}`,
@@ -61,20 +63,25 @@ export const loginUser = TryCatch(async (req, res, next) => {
     if (!isMatch) return next(new ErrorHandler('Invalid Email or Password', 400));
 
     // sendCookie(user, res, `Welcom back, ${user.name}`, 200);
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: "10d" });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '10d'});
 
-    res.cookie("token", token);
+    res.cookie("token", token, { path:'/', httpOnly: true });
+
     return res.status(201)
         .json({
             success: true,
             message: `welcome back, ${user.name}`,
+            user,
         });
 });
 
 export const logoutUser = TryCatch(async (req, res, next) => {
 
+    // res.setHeader('Set-Cookie', `token=${''}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`);
+    
+
     return res.status(201)
-        .cookie('token', '', { expires: new Date(Date.now())})
+        .cookie('token', '', { expires: new Date(Date.now()) })
         .json({
             success: true,
             message: `User Logged out`,
@@ -136,7 +143,7 @@ export const updateUser = TryCatch(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Id", 400));
 
     if (photo) {
-        if(user.photo) rm(user.photo, () => {
+        if (user.photo) rm(user.photo, () => {
             console.log('Old Photo Deleted');
         })
         user.photo = photo.path;

@@ -1,67 +1,71 @@
 import Image from 'next/image';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { BiArrowBack } from 'react-icons/bi';
 import AddressList from '@/components/AddressList';
+import { useAuth } from '@/context/AuthContext';
+import { User } from '@/types/types';
 
-type User = {
-    _id: string;
-    name: string;
-    email: string;
-    role: string;
-    gender: string;
-    dob: string;
-    addressInfo: {
-        address: string;
-        city: string;
-        state: string;
-        country: string;
-        pincode: number;
-        addType: string;
-        _id: string;
-    }[];
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-    photo: string;
-}
+// type User = {
+//     _id: string;
+//     name: string;
+//     email: string;
+//     role: string;
+//     gender: string;
+//     dob: string;
+//     addressInfo: {
+//         address: string;
+//         city: string;
+//         state: string;
+//         country: string;
+//         pincode: number;
+//         addType: string;
+//         _id: string;
+//     }[];
+//     createdAt: string;
+//     updatedAt: string;
+//     __v: number;
+//     photo: string;
+// }
 
-const user =
-{
-    "_id": "677bcb2b119252e3a77cc29b",
-    "name": "Umang Jotaniya",
-    "email": "umang@gmail.com",
-    "role": "admin",
-    "gender": "male",
-    "dob": "2005-02-15T00:00:00.000Z",
-    "addressInfo": [
-        {
-            "address": "Madhuram, Udaybagar-1, st-15, mavadi chokadi",
-            "city": "Rajkot",
-            "state": "Gujarat",
-            "country": "India",
-            "pincode": 360000,
-            "addType": "Home",
-            "_id": "677e4b698a5f014ef1195ad5"
-        },
-        {
-            "address": "KamleshPark",
-            "city": "Nadiad",
-            "state": "Gujarat",
-            "country": "India",
-            "pincode": 387005,
-            "addType": "Work",
-            "_id": "677e4c3c8a5f014ef1195ade"
-        }
-    ],
-    "createdAt": "2025-01-06T12:23:07.008Z",
-    "updatedAt": "2025-01-21T06:11:58.389Z",
-    "__v": 30,
-    "photo": "uploads/05f9cfce37e05b7b66d13d000.jpeg"
-}
+// const user =
+// {
+//     "_id": "677bcb2b119252e3a77cc29b",
+//     "name": "Umang Jotaniya",
+//     "email": "umang@gmail.com",
+//     "role": "admin",
+//     "gender": "male",
+//     "dob": "2005-02-15T00:00:00.000Z",
+//     "addressInfo": [
+//         {
+//             "address": "Madhuram, Udaybagar-1, st-15, mavadi chokadi",
+//             "city": "Rajkot",
+//             "state": "Gujarat",
+//             "country": "India",
+//             "pincode": 360000,
+//             "addType": "Home",
+//             "_id": "677e4b698a5f014ef1195ad5"
+//         },
+//         {
+//             "address": "KamleshPark",
+//             "city": "Nadiad",
+//             "state": "Gujarat",
+//             "country": "India",
+//             "pincode": 387005,
+//             "addType": "Work",
+//             "_id": "677e4c3c8a5f014ef1195ade"
+//         }
+//     ],
+//     "createdAt": "2025-01-06T12:23:07.008Z",
+//     "updatedAt": "2025-01-21T06:11:58.389Z",
+//     "__v": 30,
+//     "photo": "uploads/05f9cfce37e05b7b66d13d000.jpeg"
+// }
 
 
 const profile = () => {
+
+    const { user, setUser } = useAuth();
 
     const methods = useForm<User>({
         defaultValues: {
@@ -84,6 +88,19 @@ const profile = () => {
         control
     })
 
+    useEffect(() => {
+        if (user) {
+            reset({
+                name: user?.name || "",
+                gender: user?.gender || "",
+                email: user?.email || "",
+                photo: user?.photo || "",
+                dob: user?.dob ? user.dob.split("T")[0] : "",
+                addressInfo: user?.addressInfo || []
+            });
+        }
+    }, [user, reset]);
+
     const [img, setImg] = useState(`/${user?.photo}`);
     const date = user?.dob.split('T')[0];
     const today = new Date();
@@ -93,9 +110,9 @@ const profile = () => {
         today.getDate()
     ).toISOString().split("T")[0];
     const profileObj = {
-        Name: user.name,
-        Email: user.email,
-        Gender: user.gender,
+        Name: user?.name,
+        Email: user?.email,
+        Gender: user?.gender,
         'Date of Birth': date
     }
 

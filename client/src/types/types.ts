@@ -1,5 +1,10 @@
 import { ReactElement } from "react";
 
+export type MessageResponse = {
+    success: boolean,
+    message: string;
+}
+
 export interface Address {
     address: string;
     city: string;
