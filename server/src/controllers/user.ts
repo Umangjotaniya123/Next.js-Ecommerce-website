@@ -35,9 +35,9 @@ export const registerUser = TryCatch(
         });
 
         // setCookie(user, res, `welcome, ${user.name}`, 201);
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '10d'});
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '10d' });
 
-        res.cookie("token", token, { path:'/', httpOnly: true });
+        res.cookie("token", token, { path: '/', httpOnly: true });
 
         return res.status(201)
             .json({
@@ -63,9 +63,9 @@ export const loginUser = TryCatch(async (req, res, next) => {
     if (!isMatch) return next(new ErrorHandler('Invalid Email or Password', 400));
 
     // sendCookie(user, res, `Welcom back, ${user.name}`, 200);
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '10d'});
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '10d' });
 
-    res.cookie("token", token, { path:'/', httpOnly: true });
+    res.cookie("token", token, { path: '/', httpOnly: true });
 
     return res.status(201)
         .json({
@@ -78,7 +78,7 @@ export const loginUser = TryCatch(async (req, res, next) => {
 export const logoutUser = TryCatch(async (req, res, next) => {
 
     // res.setHeader('Set-Cookie', `token=${''}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`);
-    
+
 
     return res.status(201)
         .cookie('token', '', { expires: new Date(Date.now()) })
@@ -130,11 +130,11 @@ export const deleteUser = TryCatch(async (req, res, next) => {
 
 export const updateUser = TryCatch(async (req, res, next) => {
 
-    const { name, email, gender, dob, addressInfo, index } = req.body;
+    const { name, email, gender, dob, addressInfo } = req.body;
     const id = req.params.id;
     const photo = req.file;
-    const seq: Number = index;
-    let b = 0;
+    // const seq: Number = index;
+    let flag = false;
 
     const user = await User.findById(id);
     // console.log('add', addressInfo);
@@ -147,56 +147,38 @@ export const updateUser = TryCatch(async (req, res, next) => {
             console.log('Old Photo Deleted');
         })
         user.photo = photo.path;
-        b = 1;
+        flag = true;
     }
 
 
     if ((!name || !gender || !email || !dob))
         return next(new ErrorHandler("Please fill all details", 400));
 
-    if (name && validation({ user, key: "name", value: name })) {
-        user.name = name;
-        b = 1;
-    }
-
-    if (email && validation({ user, key: 'email', value: email })) {
-        user.email = email;
-        b = 1;
-    }
-
-    if (gender && validation({ user, key: 'gender', value: gender })) {
-        user.gender = gender;
-        b = 1;
-    }
-
-    if (dob && validation({ user, key: 'dob', value: dob })) {
-        user.dob = dob;
-        b = 1;
-    }
-
-    if (
-        addressInfo &&
-        validation({ user, key: 'addressInfo', value: addressInfo })
+    if (user.name !== name ||
+        user.email !== email ||
+        user.dob.toISOString().split('T')[0] !== dob ||
+        user.gender !== gender
     ) {
+        user.name = name;
+        user.email = email;
+        user.dob = dob;
+        user.gender = gender;
+        flag = true;
+    }
+
+    if (addressInfo && JSON.stringify(user.addressInfo) !== addressInfo) {
         user.addressInfo = JSON.parse(addressInfo);
-        b = 1;
+        flag = true;
     }
 
-    // console.log(user.addressInfo);
 
-    if (seq) {
-        const add = user.addressInfo.filter((_, index) => index != seq)
-        user.addressInfo = add;
-        b = 1;
+    if (flag) {
+        console.log('Updated')
+        await user.save();
     }
-
-    // console.log('new -', user.addressInfo);
-
-    if (b == 1) await user.save();
-
     res.status(200).json({
         success: true,
-        message: b == 1 ? `User Updated Successfully` : 'No Changes',
+        message: `User Updated Successfully`,
     });
 })
 

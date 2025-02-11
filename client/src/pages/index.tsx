@@ -4,9 +4,9 @@ import { Product } from '@/types/types';
 import { decryptedData, encryptedData } from '@/utilities/features';
 import { GetServerSideProps } from 'next';
 
-const index = ({ data: products }: { data: Product[] }) => {
+const index = ({ data }: { data: string }) => {
   return (
-    <Home data={products}/>
+    <Home data={data}/>
   );
 };
 
@@ -26,14 +26,10 @@ export const getServerSideProps: GetServerSideProps = async() => {
       
     }
     const encryptData = encryptedData(datas);
-    console.log(encryptData);
-
-    const decryptData = decryptedData(encryptData);
-    console.log(decryptData);
     
   return {
       props: {
-          data: datas
+          data: encryptData,
       }
   }
 }

@@ -10,7 +10,7 @@ app.post("/register", registerUser);
 app.post("/login", loginUser);
 app.post("/logout", logoutUser);
 
-app.get("/all", adminOnly, getAllUsers);
+app.get("/all", getAllUsers);
 
 app.route('/:id')
 .get(getUsers)

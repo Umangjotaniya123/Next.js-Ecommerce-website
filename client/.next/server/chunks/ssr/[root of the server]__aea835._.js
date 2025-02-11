@@ -247,6 +247,7 @@ module.exports = mod;
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, a: __turbopack_async_module__, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
 __turbopack_async_module__(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 __turbopack_esm__({
+    "decryptedData": (()=>decryptedData),
     "encryptedData": (()=>encryptedData),
     "responseToast": (()=>responseToast)
 });
@@ -270,25 +271,53 @@ const responseToast = (res, router, url)=>{
     }
 };
 const encryptedData = (data)=>{
-    const key = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].randomBytes(32).toString('base64');
+    const key = process.env.KEY;
     const iv = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].randomBytes(12).toString('base64');
-    console.log(key);
+    // console.log('key-----', key);
+    // const strongKey = key.toString('base64');
+    // console.log('keyTOString-----', strongKey);
+    // console.log('key-----', Buffer.from(strongKey, 'base64'));
+    // console.log('iv---', iv);
+    const cipher = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].createCipheriv('aes-256-gcm', Buffer.from(key, 'base64'), iv, {
+        'authTagLength': 16
+    });
+    // let encryptData = cipher.update(JSON.stringify(data));
+    // encryptData = Buffer.concat([encryptData, cipher.final()]);
+    // encryptData = Buffer.concat([iv, encryptData, cipher.getAuthTag()]);
+    let c = cipher.update(JSON.stringify(data), 'utf8', 'base64');
+    // console.log('Before----', c);
+    c += cipher.final('base64');
+    // console.log('After----', c);
+    // console.log('FinalEncryption ---- ', `${iv}.${c}.${cipher.getAuthTag().toString('base64')}`);
+    // console.log(encryptData, "ENCRYPT");
+    return `${iv}.${c}.${cipher.getAuthTag().toString('base64')}`; //encryptData.toString('base64');
+};
+const decryptedData = (encryptData)=>{
+    const key = process.env.KEY;
     __TURBOPACK__imported__module__$5b$externals$5d2f$console__$5b$external$5d$__$28$console$2c$__cjs$29$__["log"];
-    const cipher = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].createCipheriv('aes-256-gcm', Buffer.from(key, 'base64'), Buffer.from(iv, 'base64'));
-    let encrypData = cipher.update(JSON.stringify(data), 'utf8', 'base64');
-    encrypData += cipher.final('base64');
-    return encrypData;
-} // export const decryptedData = (data: any) => {
- //     const decipher = crypto.createDecipheriv(
- //         'aes-256-gcm',
- //         Buffer.from(key, 'base64'),
- //         Buffer.from(iv, 'base64')
- //     );
- //     let decryptData = decipher.update(data, 'base64', 'utf8');
- //     decryptData += decipher.final('utf8');
- //     return decryptData;
- // }
-;
+    // const dataBuffer = Buffer.from(encryptData, 'base64');
+    // const authTag = dataBuffer.subarray(-16);
+    // const IV = dataBuffer.subarray(0, 12);
+    // const encryptedMessage = dataBuffer.subarray(12, -16);
+    // const decipher = crypto.createDecipheriv(
+    //     'aes-256-gcm', key, IV,
+    //     { 'authTagLength': 16 });
+    // decipher.setAuthTag(authTag);
+    // let messagetext = decipher.update(encryptedMessage);
+    // messagetext = Buffer.concat([messagetext, decipher.final()]);
+    // messagetext += decipher.final();
+    // console.log(messagetext.toString('utf8'), "DECRYPT");
+    const [iv, data, tag] = encryptData.split('.');
+    const decipher = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].createDecipheriv('aes-256-gcm', Buffer.from(key, 'base64'), iv, {
+        'authTagLength': 16
+    });
+    decipher.setAuthTag(Buffer.from(tag, 'base64'));
+    let decryptData = decipher.update(data, 'base64', 'utf8');
+    console.log('Decryption --- ', decryptData);
+    decryptData += decipher.final('utf8');
+    // console.log('Decryption --- ', decryptData);
+    return JSON.parse(decryptData); //messagetext.toString('utf8');
+};
 __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),
 "[project]/src/components/Header.tsx [ssr] (ecmascript)": ((__turbopack_context__) => {

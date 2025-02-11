@@ -5,6 +5,9 @@ import { BiArrowBack } from 'react-icons/bi';
 import AddressList from '@/components/AddressList';
 import { useAuth } from '@/context/AuthContext';
 import { User } from '@/types/types';
+import Axios from '@/config/axios';
+import { responseToast } from '@/utilities/features';
+import { Router, useRouter } from 'next/router';
 
 // type User = {
 //     _id: string;
@@ -65,28 +68,29 @@ import { User } from '@/types/types';
 
 const profile = () => {
 
-    const { user, setUser } = useAuth();
+    const { user } = useAuth();
 
     const methods = useForm<User>({
         defaultValues: {
-            name: user?.name,
-            gender: user?.gender,
-            email: user?.email,
-            photo: user?.photo,
-            dob: user?.dob.split("T")[0],
-            addressInfo: user?.addressInfo,
+            name: "",
+            gender: "",
+            email: "",
+            photo: "",
+            dob: "",
+            addressInfo: []
         }
     });
 
-
-    const [view, setView] = useState<boolean>(true);
-
     const { register, control, handleSubmit, formState: { errors }, reset, clearErrors } = methods;
-
+    
     const fieldsArray = useFieldArray({
         name: "addressInfo",
         control
     })
+    
+    const [view, setView] = useState<boolean>(true);
+    const [img, setImg] = useState('');
+    const router = useRouter();
 
     useEffect(() => {
         if (user) {
@@ -98,10 +102,11 @@ const profile = () => {
                 dob: user?.dob ? user.dob.split("T")[0] : "",
                 addressInfo: user?.addressInfo || []
             });
+            setImg(`${process.env.NEXT_PUBLIC_SERVER}/${user?.photo}`)
         }
     }, [user, reset]);
 
-    const [img, setImg] = useState(`/${user?.photo}`);
+
     const date = user?.dob.split('T')[0];
     const today = new Date();
     const maxDate = new Date(
@@ -109,6 +114,8 @@ const profile = () => {
         today.getMonth(),
         today.getDate()
     ).toISOString().split("T")[0];
+
+
     const profileObj = {
         Name: user?.name,
         Email: user?.email,
@@ -121,7 +128,45 @@ const profile = () => {
         clearErrors();
         reset();
     };
-    const onSubmit = () => { };
+    const onSubmit = async (data: any) => {
+        // console.log(data);
+
+        const formData = new FormData();
+        formData.set('name', data.name);
+        formData.set('gender', data.gender);
+        formData.set('email', data.email);
+        formData.set('dob', data.dob);
+        formData.set('addressInfo', JSON.stringify(data.addressInfo));
+
+        if (data.photo && (data.photo as unknown as FileList)[0] && typeof data.photo === 'object') {
+
+            const file: File | undefined = (data.photo as unknown as FileList)[0];
+            const reader: FileReader = new FileReader();
+            // console.log(file);
+            if (file) {
+                reader.readAsDataURL(file);
+                reader.onloadend = () => {
+                    if (typeof reader.result === "string") {
+                        setImg(reader.result);
+                    }
+                };
+            }
+            formData.append('photo', file);
+        }
+
+        try {
+            const res = await Axios.put(`/user/${user?._id}`, formData)
+
+            responseToast(res, router, '/profile');
+
+            if (res?.data) {
+                setView(true);
+                reset({ ...data });
+            }
+        } catch (error: any) {
+            responseToast(error?.response)
+        }
+    };
 
     return (
         <>
@@ -134,7 +179,7 @@ const profile = () => {
                                 {img &&
                                     <Image
                                         className='rounded-lg w-44 h-44 sm:w-72 sm:h-72'
-                                        src={'/download.jpeg'}
+                                        src={img}
                                         alt='Photo'
                                         width={1000}
                                         height={1000}
@@ -178,7 +223,7 @@ const profile = () => {
                                 <div className='w-full sm:w-[45%] lg:w-[30%]'>
                                     <label htmlFor="">Photo</label>
                                     <div className="inputStyle w-full flex flex-row justify-center items-center gap-2">
-                                        {img && <Image className='rounded-md' src={'/download.jpeg'} alt='Photo' width={60} height={60} />}
+                                        {img && <Image className='rounded-md' src={img} alt='Photo' width={60} height={60} />}
                                         {/* <img src={img} alt="Photo" /> */}
                                         <input
                                             type="file"

@@ -1,7 +1,12 @@
 {
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
   "/profile": "pages/profile.js",
-  "/_error": "pages/_error.js"
+  "/_error": "pages/_error.js",
+  "/": "pages/index.js",
+  "/search": "pages/search.js",
+  "/cart": "pages/cart.js",
+  "/login": "pages/login.js",
+  "/admin/dashboard": "pages/admin/dashboard.js",
+  "/admin/customers": "pages/admin/customers.js"
 }

@@ -153,7 +153,7 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ([__TURBOPACK__imported__module__$5b$externals$5d2f$axios__$5b$external$5d$__$28$axios$2c$__esm_import$29$__] = __turbopack_async_dependencies__.then ? (await __turbopack_async_dependencies__)() : __turbopack_async_dependencies__);
 ;
 const Axios = __TURBOPACK__imported__module__$5b$externals$5d2f$axios__$5b$external$5d$__$28$axios$2c$__esm_import$29$__["default"].create({
-    baseURL: 'http://localhost:4000/api/v1'
+    baseURL: `${("TURBOPACK compile-time value", "http://localhost:4000")}/api/v1`
 });
 Axios.defaults.withCredentials = true;
 const __TURBOPACK__default__export__ = Axios;
@@ -261,26 +261,25 @@ const responseToast = (res, router, url)=>{
     }
 };
 const encryptedData = (data)=>{
-    const key = process.env.KEY || '';
-    const iv = process.env.iv || '';
-    // console.log(key);
-    // console.log('iv---', iv);
-    const cipher = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].createCipheriv('aes-256-gcm', Buffer.from(key, 'base64'), iv);
-    let encrypData = cipher.update(JSON.stringify(data), 'utf8', 'base64');
-    encrypData += cipher.final('base64');
-    const tag = JSON.stringify(cipher.getAuthTag());
-    return `${iv}.${encrypData}.${tag}`;
+    const key = ("TURBOPACK compile-time value", "Xkm8jbJuGSPN+mh4Zbvd6qXJZyK/cEdPzXcS3ryqh0M=");
+    const iv = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].randomBytes(12).toString('base64');
+    const cipher = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].createCipheriv('aes-256-gcm', Buffer.from(key, 'base64'), iv, {
+        'authTagLength': 16
+    });
+    let encryptData = cipher.update(JSON.stringify(data), 'utf8', 'base64');
+    encryptData += cipher.final('base64');
+    return `${iv}.${encryptData}.${cipher.getAuthTag().toString('base64')}`; //encryptData.toString('base64');
 };
-const decryptedData = (data)=>{
-    const key = process.env.KEY || '';
-    const iv = process.env.iv || '';
-    const tag = JSON.parse(data.split('.')[2]);
-    console.log(tag);
-    const decipher = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].createDecipheriv('aes-256-gcm', Buffer.from(key, 'base64'), Buffer.from(iv, 'base64'));
-    decipher.setAuthTag(Buffer.from(tag.data, 'base64'));
+const decryptedData = (encryptData)=>{
+    const key = ("TURBOPACK compile-time value", "Xkm8jbJuGSPN+mh4Zbvd6qXJZyK/cEdPzXcS3ryqh0M=");
+    const [iv, data, tag] = encryptData.split('.');
+    const decipher = __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["default"].createDecipheriv('aes-256-gcm', Buffer.from(key, 'base64'), iv, {
+        'authTagLength': 16
+    });
+    decipher.setAuthTag(Buffer.from(tag, 'base64'));
     let decryptData = decipher.update(data, 'base64', 'utf8');
     decryptData += decipher.final('utf8');
-    return decryptData;
+    return JSON.parse(decryptData); //messagetext.toString('utf8');
 };
 __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),
@@ -621,14 +620,22 @@ const __TURBOPACK__default__export__ = ProductCard;
 "[project]/src/components/Home.tsx [ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
-var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
-{
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, a: __turbopack_async_module__, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
+__turbopack_async_module__(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 __turbopack_esm__({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__ = __turbopack_import__("[externals]/react/jsx-dev-runtime [external] (react/jsx-dev-runtime, cjs)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ProductCard$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/ProductCard.tsx [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/utilities/features.ts [ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/link.js [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__ = __turbopack_import__("[externals]/react [external] (react, cjs)");
+var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
+    __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__
+]);
+([__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__] = __turbopack_async_dependencies__.then ? (await __turbopack_async_dependencies__)() : __turbopack_async_dependencies__);
+;
+;
 ;
 ;
 ;
@@ -667,7 +674,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link
 //         "__v": 0
 //     }
 // ]
-const home = ({ data: products })=>{
+const home = ({ data })=>{
+    const [products, setProducts] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])([]);
+    (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
+        setProducts((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__["decryptedData"])(data));
+    }, [
+        data
+    ]);
     const addToCartHandler = ()=>{};
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
         className: "p-2 flex flex-col m-auto w-full ",
@@ -679,7 +692,7 @@ const home = ({ data: products })=>{
                 }
             }, void 0, false, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 54,
+                lineNumber: 62,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h1", {
@@ -692,13 +705,13 @@ const home = ({ data: products })=>{
                         children: "More"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Home.tsx",
-                        lineNumber: 59,
+                        lineNumber: 67,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 57,
+                lineNumber: 65,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("main", {
@@ -712,23 +725,24 @@ const home = ({ data: products })=>{
                         handler: addToCartHandler
                     }, product._id, false, {
                         fileName: "[project]/src/components/Home.tsx",
-                        lineNumber: 63,
+                        lineNumber: 71,
                         columnNumber: 21
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 61,
+                lineNumber: 69,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/Home.tsx",
-        lineNumber: 53,
+        lineNumber: 61,
         columnNumber: 9
     }, this);
 };
 const __TURBOPACK__default__export__ = home;
-}}),
+__turbopack_async_result__();
+} catch(e) { __turbopack_async_result__(e); } }, false);}),
 "[project]/src/pages/index.tsx [ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -743,17 +757,18 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$axios$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/config/axios.ts [ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/utilities/features.ts [ssr] (ecmascript)");
 var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
+    __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__,
     __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$axios$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__,
     __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__
 ]);
-([__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$axios$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__] = __turbopack_async_dependencies__.then ? (await __turbopack_async_dependencies__)() : __turbopack_async_dependencies__);
+([__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$axios$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__] = __turbopack_async_dependencies__.then ? (await __turbopack_async_dependencies__)() : __turbopack_async_dependencies__);
 ;
 ;
 ;
 ;
-const index = ({ data: products })=>{
+const index = ({ data })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
-        data: products
+        data: data
     }, void 0, false, {
         fileName: "[project]/src/pages/index.tsx",
         lineNumber: 9,
@@ -768,12 +783,9 @@ const getServerSideProps = async ()=>{
         if (data) datas = data.products;
     } catch (error) {}
     const encryptData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__["encryptedData"])(datas);
-    console.log(encryptData);
-    const decryptData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utilities$2f$features$2e$ts__$5b$ssr$5d$__$28$ecmascript$29$__["decryptedData"])(encryptData);
-    console.log(decryptData);
     return {
         props: {
-            data: datas
+            data: encryptData
         }
     };
 };

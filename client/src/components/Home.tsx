@@ -1,10 +1,11 @@
 import ProductCard from '@/components/ProductCard';
 import Axios from '@/config/axios';
 import { Product } from '@/types/types';
+import { decryptedData } from '@/utilities/features';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 // const products = [
 //     {
@@ -42,7 +43,14 @@ import React from 'react'
 //     }
 // ]
 
-const home = ({ data: products }: { data: Product[] }) => {
+const home = ({ data }: { data: string }) => {
+
+    const [products, setProducts] = useState<Product[] | []>([]);
+
+    useEffect(() => {
+        setProducts(decryptedData(data));
+
+    }, [data])
     
 
     const addToCartHandler = () => {

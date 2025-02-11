@@ -89,11 +89,11 @@ export const deleteUser = TryCatch(async (req, res, next) => {
     });
 });
 export const updateUser = TryCatch(async (req, res, next) => {
-    const { name, email, gender, dob, addressInfo, index } = req.body;
+    const { name, email, gender, dob, addressInfo } = req.body;
     const id = req.params.id;
     const photo = req.file;
-    const seq = index;
-    let b = 0;
+    // const seq: Number = index;
+    let flag = false;
     const user = await User.findById(id);
     // console.log('add', addressInfo);
     if (!user)
@@ -104,43 +104,31 @@ export const updateUser = TryCatch(async (req, res, next) => {
                 console.log('Old Photo Deleted');
             });
         user.photo = photo.path;
-        b = 1;
+        flag = true;
     }
     if ((!name || !gender || !email || !dob))
         return next(new ErrorHandler("Please fill all details", 400));
-    if (name && validation({ user, key: "name", value: name })) {
+    if (user.name !== name ||
+        user.email !== email ||
+        user.dob.toISOString().split('T')[0] !== dob ||
+        user.gender !== gender) {
         user.name = name;
-        b = 1;
-    }
-    if (email && validation({ user, key: 'email', value: email })) {
         user.email = email;
-        b = 1;
-    }
-    if (gender && validation({ user, key: 'gender', value: gender })) {
-        user.gender = gender;
-        b = 1;
-    }
-    if (dob && validation({ user, key: 'dob', value: dob })) {
         user.dob = dob;
-        b = 1;
+        user.gender = gender;
+        flag = true;
     }
-    if (addressInfo &&
-        validation({ user, key: 'addressInfo', value: addressInfo })) {
+    if (addressInfo && JSON.stringify(user.addressInfo) !== addressInfo) {
         user.addressInfo = JSON.parse(addressInfo);
-        b = 1;
+        flag = true;
     }
-    // console.log(user.addressInfo);
-    if (seq) {
-        const add = user.addressInfo.filter((_, index) => index != seq);
-        user.addressInfo = add;
-        b = 1;
-    }
-    // console.log('new -', user.addressInfo);
-    if (b == 1)
+    if (flag) {
+        console.log('Updated');
         await user.save();
+    }
     res.status(200).json({
         success: true,
-        message: b == 1 ? `User Updated Successfully` : 'No Changes',
+        message: `User Updated Successfully`,
     });
 });
 const validation = ({ user, key, value }) => {

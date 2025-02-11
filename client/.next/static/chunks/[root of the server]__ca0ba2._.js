@@ -558,9 +558,10 @@ __turbopack_esm__({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/build/polyfills/process.js [client] (ecmascript)");
 ;
 const Axios = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].create({
-    baseURL: 'http://localhost:4000/api/v1'
+    baseURL: `${("TURBOPACK compile-time value", "http://localhost:4000")}/api/v1`
 });
 Axios.defaults.withCredentials = true;
 const __TURBOPACK__default__export__ = Axios;
@@ -658,26 +659,25 @@ const responseToast = (res, router, url)=>{
     }
 };
 const encryptedData = (data)=>{
-    const key = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].env.KEY || '';
-    const iv = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].env.iv || '';
-    // console.log(key);
-    // console.log('iv---', iv);
-    const cipher = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$crypto$2d$browserify$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].createCipheriv('aes-256-gcm', __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Buffer"].from(key, 'base64'), iv);
-    let encrypData = cipher.update(JSON.stringify(data), 'utf8', 'base64');
-    encrypData += cipher.final('base64');
-    const tag = JSON.stringify(cipher.getAuthTag());
-    return `${iv}.${encrypData}.${tag}`;
+    const key = ("TURBOPACK compile-time value", "Xkm8jbJuGSPN+mh4Zbvd6qXJZyK/cEdPzXcS3ryqh0M=");
+    const iv = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$crypto$2d$browserify$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].randomBytes(12).toString('base64');
+    const cipher = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$crypto$2d$browserify$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].createCipheriv('aes-256-gcm', __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Buffer"].from(key, 'base64'), iv, {
+        'authTagLength': 16
+    });
+    let encryptData = cipher.update(JSON.stringify(data), 'utf8', 'base64');
+    encryptData += cipher.final('base64');
+    return `${iv}.${encryptData}.${cipher.getAuthTag().toString('base64')}`; //encryptData.toString('base64');
 };
-const decryptedData = (data)=>{
-    const key = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].env.KEY || '';
-    const iv = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].env.iv || '';
-    const tag = JSON.parse(data.split('.')[2]);
-    console.log(tag);
-    const decipher = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$crypto$2d$browserify$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].createDecipheriv('aes-256-gcm', __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Buffer"].from(key, 'base64'), __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Buffer"].from(iv, 'base64'));
-    decipher.setAuthTag(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Buffer"].from(tag.data, 'base64'));
+const decryptedData = (encryptData)=>{
+    const key = ("TURBOPACK compile-time value", "Xkm8jbJuGSPN+mh4Zbvd6qXJZyK/cEdPzXcS3ryqh0M=");
+    const [iv, data, tag] = encryptData.split('.');
+    const decipher = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$crypto$2d$browserify$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].createDecipheriv('aes-256-gcm', __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Buffer"].from(key, 'base64'), iv, {
+        'authTagLength': 16
+    });
+    decipher.setAuthTag(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$buffer$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Buffer"].from(tag, 'base64'));
     let decryptData = decipher.update(data, 'base64', 'utf8');
     decryptData += decipher.final('utf8');
-    return decryptData;
+    return JSON.parse(decryptData); //messagetext.toString('utf8');
 };
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_refresh__.registerExports(module, globalThis.$RefreshHelpers$);

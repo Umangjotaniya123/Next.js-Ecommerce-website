@@ -673,7 +673,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link
 //         "__v": 0
 //     }
 // ]
-const home = ({ data: products })=>{
+const home = ({ data })=>{
+    const products = [];
+    // decryptedData(data);
     const addToCartHandler = ()=>{};
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "p-2 flex flex-col m-auto w-full ",
@@ -685,7 +687,7 @@ const home = ({ data: products })=>{
                 }
             }, void 0, false, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 54,
+                lineNumber: 57,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -698,13 +700,13 @@ const home = ({ data: products })=>{
                         children: "More"
                     }, void 0, false, {
                         fileName: "[project]/src/components/Home.tsx",
-                        lineNumber: 59,
+                        lineNumber: 62,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 57,
+                lineNumber: 60,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -718,18 +720,18 @@ const home = ({ data: products })=>{
                         handler: addToCartHandler
                     }, product._id, false, {
                         fileName: "[project]/src/components/Home.tsx",
-                        lineNumber: 63,
+                        lineNumber: 66,
                         columnNumber: 21
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/components/Home.tsx",
-                lineNumber: 61,
+                lineNumber: 64,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/Home.tsx",
-        lineNumber: 53,
+        lineNumber: 56,
         columnNumber: 9
     }, this);
 };
@@ -751,9 +753,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/Home.tsx [client] (ecmascript)");
 ;
 ;
-const index = ({ data: products })=>{
+const index = ({ data })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
-        data: products
+        data: data
     }, void 0, false, {
         fileName: "[project]/src/pages/index.tsx",
         lineNumber: 9,

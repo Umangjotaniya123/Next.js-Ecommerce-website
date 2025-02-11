@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const Axios = axios.create({ baseURL: 'http://localhost:4000/api/v1'});
+const Axios = axios.create({ baseURL: `${process.env.NEXT_PUBLIC_SERVER}/api/v1`});
 
 Axios.defaults.withCredentials = true;
 

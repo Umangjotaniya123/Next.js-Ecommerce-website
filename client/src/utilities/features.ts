@@ -6,11 +6,11 @@ import crypto from 'crypto'
 import { log } from "console";
 
 
-export const responseToast = (res: any, router?: NextRouter, url?: string) =>{
+export const responseToast = (res: any, router?: NextRouter, url?: string) => {
 
-    if(res?.data?.success) {
+    if (res?.data?.success) {
         toast.success(res.data.message);
-        if(router && url)
+        if (router && url)
             router.push(url);
     }
 
@@ -22,48 +22,39 @@ export const responseToast = (res: any, router?: NextRouter, url?: string) =>{
 };
 
 export const encryptedData = (data: any) => {
-    
-    const key = process.env.KEY || '';
-    const iv = process.env.iv || '';
 
-    // console.log(key);
+    const key = process.env.NEXT_PUBLIC_KEY!
+    const iv = crypto.randomBytes(12).toString('base64');
 
-    // console.log('iv---', iv);
-    
-    
     const cipher = crypto.createCipheriv(
         'aes-256-gcm',
         Buffer.from(key, 'base64'),
-        iv
+        iv,
+        { 'authTagLength': 16 }
     );
-
-    let encrypData = cipher.update(JSON.stringify(data), 'utf8', 'base64');
-    encrypData += cipher.final('base64');
-
-    const tag = JSON.stringify(cipher.getAuthTag());
-
-    return `${iv}.${encrypData}.${tag}`;
+    
+    let encryptData = cipher.update(JSON.stringify(data), 'utf8', 'base64');
+    encryptData += cipher.final('base64');
+    
+    return `${iv}.${encryptData}.${cipher.getAuthTag().toString('base64')}`; //encryptData.toString('base64');
+    
 }
 
 
-export const decryptedData = (data: string) => {
+export const decryptedData = (encryptData: string) => {
 
-    const key = process.env.KEY || '';
-    const iv = process.env.iv || '';
+    const key = process.env.NEXT_PUBLIC_KEY!;
 
-    const tag = JSON.parse(data.split('.')[2]);
-    console.log(tag)
+    const [ iv, data, tag ] = encryptData.split('.');
 
     const decipher = crypto.createDecipheriv(
-        'aes-256-gcm',
-        Buffer.from(key, 'base64'),
-        Buffer.from(iv, 'base64')
+        'aes-256-gcm', Buffer.from(key, 'base64'), iv,
+        { 'authTagLength': 16 }
     );
 
-    decipher.setAuthTag(Buffer.from(tag.data, 'base64'));
-
+    decipher.setAuthTag(Buffer.from(tag, 'base64'));
     let decryptData = decipher.update(data, 'base64', 'utf8');
-    decryptData += decipher.final('utf8');
+    decryptData += decipher.final('utf8')
 
-    return decryptData;
+    return JSON.parse(decryptData); //messagetext.toString('utf8');
 }
