@@ -90,7 +90,6 @@ export const updateProduct = TryCatch(async (req, res, next) => {
     const { id } = req.params;
     const photo = req.file;
     const product = await Product.findById(id);
-    // console.log(req.body);
     if (!product)
         return next(new ErrorHandler("Invalid Product Id", 404));
     if (photo) {

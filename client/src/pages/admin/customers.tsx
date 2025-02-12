@@ -79,6 +79,7 @@ const Customers = ({ data }: Props) => {
 
   const [usersData, setUsersData] = useState<User[] | []>([]);
   const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     setUsersData(decryptedData(data));
@@ -94,12 +95,11 @@ const Customers = ({ data }: Props) => {
         _id: user._id,
         avatar: user.photo ? (
           <Image
-            className="rounded-full w-full h-full"
+            className="rounded-full"
             src={`${process.env.NEXT_PUBLIC_SERVER}/${user.photo}`}
             alt="avatar"
-            width={0}
-            height={0}
-            sizes={'100w'}
+            width={60}
+            height={60}
           />
         ) : <Image
           style={{
@@ -133,10 +133,9 @@ const Customers = ({ data }: Props) => {
     try {
       const res = await Axios.delete(`/user/${_id}?id=${user?._id}`);
 
-      responseToast(res, useRouter(), '/admin/customers');
+      responseToast(res, router, '/admin/customers');
 
     } catch (error: any) {
-      console.log(error)
       responseToast(error.response)
     }
   }

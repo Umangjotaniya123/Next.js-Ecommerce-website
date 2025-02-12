@@ -656,6 +656,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
 __turbopack_esm__({
+    "__N_SSP": (()=>__N_SSP),
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
@@ -664,8 +665,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$TableHook$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/TableHook.tsx [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/image.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$public$2f$shoose$2d$2$2e$jpeg$2e$mjs__$7b$__IMAGE__$3d3e$__$225b$project$5d2f$public$2f$shoose$2d$2$2e$jpeg__$5b$client$5d$__$28$static$2922$__$7d$__$5b$client$5d$__$28$structured__image__object$2c$__ecmascript$29$__ = __turbopack_import__('[project]/public/shoose-2.jpeg.mjs { IMAGE => "[project]/public/shoose-2.jpeg [client] (static)" } [client] (structured image object, ecmascript)');
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react/index.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroui$2f$tooltip$2f$dist$2f$chunk$2d$6LIX6LVT$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__$3c$export__tooltip_default__as__Tooltip$3e$__ = __turbopack_import__("[project]/node_modules/@heroui/tooltip/dist/chunk-6LIX6LVT.mjs [client] (ecmascript) <export tooltip_default as Tooltip>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react-icons/fa/index.mjs [client] (ecmascript)");
+;
+var _s = __turbopack_refresh__.signature();
 ;
 ;
 ;
@@ -714,7 +718,7 @@ const products = [
             height: 60
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 37,
+            lineNumber: 42,
             columnNumber: 16
         }, this),
         name: "Puma Shoes Air Jordan Cook Nigga 2023",
@@ -730,17 +734,17 @@ const products = [
                     children: "Manage"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/admin/products/index.tsx",
-                    lineNumber: 48,
+                    lineNumber: 53,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/admin/products/index.tsx",
-                lineNumber: 47,
+                lineNumber: 52,
                 columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 46,
+            lineNumber: 51,
             columnNumber: 17
         }, this)
     },
@@ -753,7 +757,7 @@ const products = [
             height: 60
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 57,
+            lineNumber: 62,
             columnNumber: 16
         }, this),
         name: "Macbook",
@@ -769,17 +773,17 @@ const products = [
                     children: "Manage"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/admin/products/index.tsx",
-                    lineNumber: 68,
+                    lineNumber: 73,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/admin/products/index.tsx",
-                lineNumber: 67,
+                lineNumber: 72,
                 columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 66,
+            lineNumber: 71,
             columnNumber: 17
         }, this)
     },
@@ -792,7 +796,7 @@ const products = [
             height: 60
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 76,
+            lineNumber: 81,
             columnNumber: 16
         }, this),
         name: "Puma Shoes Air Jordan Cook Nigga 2023",
@@ -808,17 +812,17 @@ const products = [
                     children: "Manage"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/admin/products/index.tsx",
-                    lineNumber: 87,
+                    lineNumber: 92,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/admin/products/index.tsx",
-                lineNumber: 86,
+                lineNumber: 91,
                 columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 85,
+            lineNumber: 90,
             columnNumber: 17
         }, this)
     },
@@ -831,7 +835,7 @@ const products = [
             height: 60
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 96,
+            lineNumber: 101,
             columnNumber: 16
         }, this),
         name: "Macbook",
@@ -847,17 +851,17 @@ const products = [
                     children: "Manage"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/admin/products/index.tsx",
-                    lineNumber: 107,
+                    lineNumber: 112,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/admin/products/index.tsx",
-                lineNumber: 106,
+                lineNumber: 111,
                 columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 105,
+            lineNumber: 110,
             columnNumber: 17
         }, this)
     },
@@ -870,7 +874,7 @@ const products = [
             height: 60
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 115,
+            lineNumber: 120,
             columnNumber: 16
         }, this),
         name: "Puma Shoes Air Jordan Cook Nigga 2023",
@@ -886,51 +890,78 @@ const products = [
                     children: "Manage"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/admin/products/index.tsx",
-                    lineNumber: 126,
+                    lineNumber: 131,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/admin/products/index.tsx",
-                lineNumber: 125,
+                lineNumber: 130,
                 columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/pages/admin/products/index.tsx",
-            lineNumber: 124,
+            lineNumber: 129,
             columnNumber: 17
         }, this)
     }
 ];
 const Products = ({ data })=>{
-    //   const products = productsData.map((product) => {
-    //     return {
-    //       _id: product._id,
-    //       photo: (
-    //         <Image
-    //           src={`/${product.photo}`}
-    //           alt={product.name}
-    //           width={70}
-    //           height={60}
-    //         />
-    //       ),
-    //       name: product.name,
-    //       price: product.price,
-    //       stock: product.stock,
-    //       action: <Link href={`/admin/products/${product._id}`}>
-    //         <Tooltip color="secondary" content='Edit Product'>
-    //           <span className="text-lg text-danger cursor-pointer active:opacity-50">
-    //             Manage
-    //           </span>
-    //         </Tooltip>
-    //       </Link>
-    //     }
-    //   })
+    _s();
+    const [productsData, setProductsData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Products.useEffect": ()=>{
+            setProductsData();
+        }
+    }["Products.useEffect"], [
+        data
+    ]);
+    const products = productsData.map((product)=>{
+        return {
+            _id: product._id,
+            photo: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
+                src: `/${product.photo}`,
+                alt: product.name,
+                width: 70,
+                height: 60
+            }, void 0, false, {
+                fileName: "[project]/src/pages/admin/products/index.tsx",
+                lineNumber: 156,
+                columnNumber: 13
+            }, this),
+            name: product.name,
+            price: product.price,
+            stock: product.stock,
+            action: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
+                href: `/admin/products/${product._id}`,
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroui$2f$tooltip$2f$dist$2f$chunk$2d$6LIX6LVT$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__$3c$export__tooltip_default__as__Tooltip$3e$__["Tooltip"], {
+                    color: "secondary",
+                    content: "Edit Product",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "text-lg text-danger cursor-pointer active:opacity-50",
+                        children: "Manage"
+                    }, void 0, false, {
+                        fileName: "[project]/src/pages/admin/products/index.tsx",
+                        lineNumber: 168,
+                        columnNumber: 15
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/pages/admin/products/index.tsx",
+                    lineNumber: 167,
+                    columnNumber: 13
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/pages/admin/products/index.tsx",
+                lineNumber: 166,
+                columnNumber: 19
+            }, this)
+        };
+    });
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "admin-container",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AdminSidebar, {}, void 0, false, {
                 fileName: "[project]/src/pages/admin/products/index.tsx",
-                lineNumber: 166,
+                lineNumber: 178,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -943,18 +974,18 @@ const Products = ({ data })=>{
                             items: products
                         }, void 0, false, {
                             fileName: "[project]/src/pages/admin/products/index.tsx",
-                            lineNumber: 170,
+                            lineNumber: 182,
                             columnNumber: 25
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                             children: "No any Products Available"
                         }, void 0, false, {
                             fileName: "[project]/src/pages/admin/products/index.tsx",
-                            lineNumber: 171,
+                            lineNumber: 183,
                             columnNumber: 25
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/admin/products/index.tsx",
-                        lineNumber: 168,
+                        lineNumber: 180,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -962,28 +993,30 @@ const Products = ({ data })=>{
                         href: "/admin/products/new",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$client$5d$__$28$ecmascript$29$__["FaPlus"], {}, void 0, false, {
                             fileName: "[project]/src/pages/admin/products/index.tsx",
-                            lineNumber: 177,
+                            lineNumber: 189,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/pages/admin/products/index.tsx",
-                        lineNumber: 173,
+                        lineNumber: 185,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/pages/admin/products/index.tsx",
-                lineNumber: 167,
+                lineNumber: 179,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/pages/admin/products/index.tsx",
-        lineNumber: 165,
+        lineNumber: 177,
         columnNumber: 9
     }, this);
 };
+_s(Products, "xZGj45aSWpfx8cT8zp8rjDofKxU=");
 _c1 = Products;
+var __N_SSP = true;
 const __TURBOPACK__default__export__ = Products;
 var _c, _c1;
 __turbopack_refresh__.register(_c, "AdminSidebar");

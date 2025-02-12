@@ -1,12 +1,9 @@
 {
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/profile": "pages/profile.js",
-  "/_error": "pages/_error.js",
   "/": "pages/index.js",
-  "/search": "pages/search.js",
-  "/cart": "pages/cart.js",
-  "/login": "pages/login.js",
-  "/admin/dashboard": "pages/admin/dashboard.js",
+  "/admin/products/[productId]": "pages/admin/products/[productId].js",
+  "/_error": "pages/_error.js",
+  "/admin/products": "pages/admin/products.js",
   "/admin/customers": "pages/admin/customers.js"
 }

@@ -120,6 +120,9 @@ export const deleteUser = TryCatch(async (req, res, next) => {
     if (!user)
         return next(new ErrorHandler("Invalid Id", 400));
 
+    if(user.role === 'admin')
+        return next(new ErrorHandler(`Can't Delete Admin User`, 400))
+
     await user.deleteOne();
 
     res.status(200).json({

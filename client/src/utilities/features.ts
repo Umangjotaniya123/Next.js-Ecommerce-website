@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import crypto from 'crypto'
 import { log } from "console";
 
+export const SERVER = process.env.NEXT_PUBLIC_SERVER;
 
 export const responseToast = (res: any, router?: NextRouter, url?: string) => {
 

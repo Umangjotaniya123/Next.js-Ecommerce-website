@@ -5,6 +5,11 @@ import TableHook from "@/components/TableHook";
 import Image from "next/image";
 import img from '../../../../public/shoose-2.jpeg'
 import { Tooltip } from "@heroui/react";
+import { GetServerSideProps } from "next";
+import Axios from "@/config/axios";
+import { decryptedData, encryptedData, SERVER } from "@/utilities/features";
+import { useEffect, useState } from "react";
+import { Product } from "@/types/types";
 
 const AdminSidebar = dynamic(() => import('@/components/AdminSidebar'));
 
@@ -31,135 +36,42 @@ const columns = [
     },
 ];
 
-const products = [
-    {
-        _id: 'bsdfhbisdjhbjsh',
-        photo: <Image
-            src={img}
-            alt={''}
-            width={70}
-            height={60}
-        />,
-        name: "Puma Shoes Air Jordan Cook Nigga 2023",
-        price: 690,
-        stock: 3,
-        action: <Link href={`/admin/products/nb`}>
-            <Tooltip color="primary" content='Edit Product'>
-                <span className="text-lg text-primary cursor-pointer active:opacity-50">
-                    Manage
-                </span>
-            </Tooltip>
-        </Link>
-    },
-
-    {
-        _id: 'dffffjkvuhvdfushuis',
-        photo: <Image
-            src={img}
-            alt={''}
-            width={70}
-            height={60}
-        />,
-        name: "Macbook",
-        price: 232223,
-        stock: 213,
-        action: <Link href={`/admin/products/nb`}>
-            <Tooltip color="primary" content='Edit Product'>
-                <span className="text-lg text-primary cursor-pointer active:opacity-50">
-                    Manage
-                </span>
-            </Tooltip>
-        </Link>
-    },
-    {
-        _id: 'sdgfyewbdhvbyc',
-        photo: <Image
-            src={img}
-            alt={''}
-            width={70}
-            height={60}
-        />,
-        name: "Puma Shoes Air Jordan Cook Nigga 2023",
-        price: 690,
-        stock: 3,
-        action: <Link href={`/admin/products/nb`}>
-            <Tooltip color="primary" content='Edit Product'>
-                <span className="text-lg text-primary cursor-pointer active:opacity-50">
-                    Manage
-                </span>
-            </Tooltip>
-        </Link>
-    },
-
-    {
-        _id: 'syuweuicndb',
-        photo: <Image
-            src={img}
-            alt={''}
-            width={70}
-            height={60}
-        />,
-        name: "Macbook",
-        price: 232223,
-        stock: 213,
-        action: <Link href={`/admin/products/nb`}>
-            <Tooltip color="primary" content='Edit Product'>
-                <span className="text-lg text-primary cursor-pointer active:opacity-50">
-                    Manage
-                </span>
-            </Tooltip>
-        </Link>
-    },
-    {
-        _id: 'uiiosdccygsuy',
-        photo: <Image
-            src={img}
-            alt={''}
-            width={70}
-            height={60}
-        />,
-        name: "Puma Shoes Air Jordan Cook Nigga 2023",
-        price: 690,
-        stock: 3,
-        action: <Link href={`/admin/products/nb`}>
-            <Tooltip color="primary" content='Edit Product'>
-                <span className="text-lg text-primary cursor-pointer active:opacity-50">
-                    Manage
-                </span>
-            </Tooltip>
-        </Link>
-    },
-];
-
 type Props = {
     data: string;
 }
 
 const Products = ({ data }: Props) => {
 
-    //   const products = productsData.map((product) => {
-    //     return {
-    //       _id: product._id,
-    //       photo: (
-    //         <Image
-    //           src={`/${product.photo}`}
-    //           alt={product.name}
-    //           width={70}
-    //           height={60}
-    //         />
-    //       ),
-    //       name: product.name,
-    //       price: product.price,
-    //       stock: product.stock,
-    //       action: <Link href={`/admin/products/${product._id}`}>
-    //         <Tooltip color="secondary" content='Edit Product'>
-    //           <span className="text-lg text-danger cursor-pointer active:opacity-50">
-    //             Manage
-    //           </span>
-    //         </Tooltip>
-    //       </Link>
-    //     }
-    //   })
+    const [productsData, setProductsData] = useState<Product[] | []>([]);
+
+    useEffect(() => {
+        setProductsData(decryptedData(data));
+    }, [data])
+    
+
+      const products = productsData.map((product) => {
+        return {
+          _id: product._id,
+          photo: (
+            <Image
+              src={`${SERVER}/${product.photo}`}
+              alt={product.name}
+              width={70}
+              height={60}
+            />
+          ),
+          name: product.name,
+          price: product.price,
+          stock: product.stock,
+          action: <Link href={`/admin/products/${product._id}`}>
+            <Tooltip color="primary" content='Edit Product'>
+              <span className="text-lg text-primary-500 cursor-pointer active:opacity-50">
+                Manage
+              </span>
+            </Tooltip>
+          </Link>
+        }
+      })
 
     return (
         <div className="admin-container">
@@ -182,3 +94,25 @@ const Products = ({ data }: Props) => {
 };
 
 export default Products;
+
+export const getServerSideProps: GetServerSideProps = async() => {
+
+    let products = null;
+
+  try {
+    const { data } = await Axios.get('/product/admin-products')
+
+    if (data) {
+      products = encryptedData(data.products);
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+
+  return {
+    props: {
+      data: products,
+    }
+  }
+}

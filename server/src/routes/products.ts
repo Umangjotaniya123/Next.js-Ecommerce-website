@@ -13,7 +13,7 @@ app.get('/latest', getLatestProduct);
 
 app.get('/categories', getAllCategories);
 
-app.get('/admin-products', adminOnly, getAdminProducts);
+app.get('/admin-products', getAdminProducts);
 
 app.route('/:id')
     .get(getSingleProduct)

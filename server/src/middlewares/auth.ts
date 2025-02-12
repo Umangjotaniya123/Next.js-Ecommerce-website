@@ -21,7 +21,15 @@ export const adminOnly = TryCatch(async (req, res, next) => {
 });
 
 export const verifyToken = TryCatch(async (req, res, next) => {
-    const { token } = req.cookies;
+
+    let token = null;
+
+    if(req.cookies?.token)
+        token  = req.cookies.token;
+
+    if(req.query?.token)
+        token = req.query.token;
+
     // console.log("token", token);
     
     if (!token)
