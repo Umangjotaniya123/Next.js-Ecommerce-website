@@ -1,8 +1,8 @@
 const CHUNK_PUBLIC_PATH = "server/pages/admin/products/[productId].js";
 const runtime = require("../../../chunks/ssr/[turbopack]_runtime.js");
 runtime.loadChunk("server/chunks/ssr/node_modules_next_bad354._.js");
-runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_fa_index_mjs_275a22._.js");
 runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_ri_index_mjs_93ab07._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_fa_index_mjs_275a22._.js");
 runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_io_index_mjs_0ae45a._.js");
 runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_ai_index_mjs_4adee0._.js");
 runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_hi_index_mjs_fae417._.js");

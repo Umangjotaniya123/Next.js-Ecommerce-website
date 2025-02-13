@@ -3,13 +3,18 @@ import {
     FaChartLine,
     FaChartPie,
     FaGamepad,
+    FaSearch,
+    FaShoppingBag,
     FaStopwatch,
+    FaUserEdit,
 } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { AiFillFileText } from "react-icons/ai";
 import {
+    RiBillFill,
     RiCoupon3Fill,
     RiDashboardFill,
+    RiHome5Fill,
     RiShoppingBag3Fill,
 } from "react-icons/ri";
 
@@ -64,4 +69,41 @@ export const sideBarData = {
         }
     ],
 
+}
+
+export const navbarData = {
+    nav: [
+        {
+            name: 'Home',
+            url: '/',
+            Icon: RiHome5Fill
+        },
+        {
+            name: 'search',
+            url: '/search',
+            Icon: FaSearch
+        },
+        {
+            name: 'Cart',
+            url: '/cart',
+            Icon: FaShoppingBag
+        },
+        {
+            name: 'My Orders',
+            url: '/order',
+            Icon: RiBillFill
+        }
+    ],
+    dialoag: [
+        {
+            name: 'Dashboard',
+            url: '/admin/dashboard',
+            Icon: RiDashboardFill
+        },
+        {
+            name: 'Profile',
+            url: '/profile',
+            Icon: FaUserEdit
+        },
+    ]
 }
