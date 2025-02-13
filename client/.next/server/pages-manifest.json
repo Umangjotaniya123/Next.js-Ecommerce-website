@@ -2,8 +2,12 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/admin/products/[productId]": "pages/admin/products/[productId].js",
-  "/_error": "pages/_error.js",
-  "/admin/products": "pages/admin/products.js",
-  "/admin/customers": "pages/admin/customers.js"
+  "/search": "pages/search.js",
+  "/cart": "pages/cart.js",
+  "/order": "pages/order.js",
+  "/profile": "pages/profile.js",
+  "/login": "pages/login.js",
+  "/admin/dashboard": "pages/admin/dashboard.js",
+  "/signUp": "pages/signUp.js",
+  "/_error": "pages/_error.js"
 }

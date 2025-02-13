@@ -1,6 +1,7 @@
 const CHUNK_PUBLIC_PATH = "server/pages/login.js";
 const runtime = require("../chunks/ssr/[turbopack]_runtime.js");
-runtime.loadChunk("server/chunks/ssr/node_modules_next_e65950._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_next_5d5159._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_ri_index_mjs_93ab07._.js");
 runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_fa_index_mjs_275a22._.js");
 runtime.loadChunk("server/chunks/ssr/node_modules_react-icons_lib_6322da._.js");
 runtime.loadChunk("server/chunks/ssr/node_modules_@swc_helpers_cjs_ac5ba3._.js");
