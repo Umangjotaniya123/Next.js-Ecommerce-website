@@ -30,7 +30,7 @@ const Header = () => {
 
     return (
         // <div className='flex flex-row w-full justify-end items-center gap-7 px-4 my-2 text-xl'>
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full flex justify-center items-center bg-orange-50">
             <div className='flex justify-center items-center gap-10 w-auto bg-indigo-100 px-8 py-2 text-black font-medium rounded-xl my-2'>
                 {navbarData && navbarData.nav.map((data, index) => {
                     const Icon = data.Icon;

@@ -10,7 +10,12 @@ const nextConfig: NextConfig = {
         hostname: 'localhost',
         port: '4000',
         pathname: '/uploads/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.pngall.com',
+        pathname: '**',
+      },
     ],
   }
 };
