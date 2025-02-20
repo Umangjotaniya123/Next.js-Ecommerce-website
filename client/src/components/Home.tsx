@@ -8,12 +8,23 @@ import {
     FaCouch, FaHome, FaBlender, FaGamepad,
     FaBox, FaBook, FaPaintBrush,
     FaShoppingBag,
-    FaTools
+    FaTools,
+    FaShoppingCart,
+    FaLock,
+    FaShippingFast
 } from "react-icons/fa";
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
+import Slider from '@/components/Slider';
+import { AiFillTrophy, AiOutlineLock, AiOutlineUndo } from 'react-icons/ai';
+import { TbAward } from 'react-icons/tb';
+import { MdOutlineReplay, MdOutlineReplay30 } from 'react-icons/md';
+import { RiSecurePaymentFill } from 'react-icons/ri';
+import { GiRibbonMedal } from 'react-icons/gi';
+import { LiaTrophySolid } from 'react-icons/lia';
+import { HiTrophy } from 'react-icons/hi2';
 
 const categoriesWithIcons = [
     { name: "Clothing", icon: <FaTshirt /> },
@@ -34,48 +45,56 @@ const categoriesWithIcons = [
 
 const latestProducts = [
     {
-      _id: "1",
-      name: "Wireless Earbuds",
-      price: 49.99,
-      discount: "20%",
-      stock: 25,
-      photo: "https://www.pngall.com/wp-content/uploads/5/Wireless-Earbuds-PNG.png"
+        _id: "1",
+        name: "Wireless Earbuds",
+        price: 49.99,
+        discount: "20%",
+        stock: 25,
+        photo: "https://www.pngall.com/wp-content/uploads/5/Wireless-Earbuds-PNG.png"
     },
     {
-      _id: "2",
-      name: "Smartwatch Pro",
-      price: 129.99,
-      discount: "15%",
-      stock: 18,
-      photo: "https://www.pngall.com/wp-content/uploads/5/Smartwatch-PNG.png"
+        _id: "2",
+        name: "Smartwatch Pro",
+        price: 129.99,
+        discount: "15%",
+        stock: 18,
+        photo: "https://www.pngall.com/wp-content/uploads/5/Smartwatch-PNG.png"
     },
     {
-      _id: "3",
-      name: "Gaming Mouse",
-      price: 39.99,
-      discount: "10%",
-      stock: 30,
-      photo: "https://www.pngall.com/wp-content/uploads/5/Gaming-Mouse-PNG.png"
+        _id: "3",
+        name: "Gaming Mouse",
+        price: 39.99,
+        discount: "10%",
+        stock: 30,
+        photo: "https://www.pngall.com/wp-content/uploads/5/Gaming-Mouse-PNG.png"
     },
     {
-      _id: "4",
-      name: "Bluetooth Speaker",
-      price: 59.99,
-      discount: "25%",
-      stock: 20,
-      photo: "https://www.pngall.com/wp-content/uploads/5/Bluetooth-Speaker-PNG-Image.png"
+        _id: "4",
+        name: "Bluetooth Speaker",
+        price: 59.99,
+        discount: "25%",
+        stock: 20,
+        photo: "https://www.pngall.com/wp-content/uploads/5/Bluetooth-Speaker-PNG-Image.png"
     },
     {
-      _id: "5",
-      name: "DSLR Camera",
-      price: 499.99,
-      discount: "18%",
-      stock: 12,
-      photo: "https://www.pngall.com/wp-content/uploads/5/DSLR-Camera-PNG-Clipart.png"
+        _id: "5",
+        name: "DSLR Camera",
+        price: 499.99,
+        discount: "18%",
+        stock: 12,
+        photo: "https://www.pngall.com/wp-content/uploads/5/DSLR-Camera-PNG-Clipart.png"
     }
-  ];
-  
-  
+];
+
+const sliders = [
+    '/images/slider-1',
+    '/images/slider-2',
+    '/images/slider-3',
+    '/images/slider-4',
+    '/images/slider-5',
+]
+
+
 const home = ({ data }: { data: string }) => {
 
     const [products, setProducts] = useState<Product[] | []>([]);
@@ -92,11 +111,68 @@ const home = ({ data }: { data: string }) => {
 
     return (
         <div className="p-2 flex flex-col m-auto w-full bg-orange-50">
-            {/* <section className='w-full h-96 m-auto bg-no-repeat bg-center bg-cover'
-                style={{ backgroundImage: "url('/cover.jpg')" }}
-            ></section> */}
+            {/* 
+            <div className="w-full max-w-7xl mx-auto grid grid-cols-3 gap-6 p-6 bg-[#f9efe3]">
+                <div className="col-span-2 flex justify-center">
+                    <Image
+                        className="w-full  rounded-lg shadow-lg"
+                        src="/banner-3.jpeg"
+                        alt="Xiaomi 13T PRO 5G"
+                        width={600}
+                        height={600}
+                    />
+                </div>
 
-            <main className='w-full shadow-lg'>
+                <div className="flex flex-col gap-6">
+                    <Image
+                        className="w-full h-auto rounded-lg shadow-lg"
+                        src="/banner-2.jpeg"
+                        alt="Nike Air Jordan 1"
+                        width={400}
+                        height={400}
+                    />
+                    <Image
+                        className="w-full h-auto rounded-lg shadow-lg"
+                        src="/banner-1.jpg"
+                        alt="Stylish Watch"
+                        width={400}
+                        height={400}
+                    />
+                </div>
+            </div> */}
+
+            <Slider />
+
+            <section className='w-full flex justify-center gap-28 p-12 text-lg my-6'>
+                <div className='flex items-center gap-2'>
+                    <FaShippingFast className='text-6xl text-yellow-800' />
+                    <div>
+                        <p className='font-medium'>Free Shipping</p>
+                        <span>When ordering over ₹500</span>
+                    </div>
+                </div>
+                <div className='flex items-center gap-2'>
+                    <MdOutlineReplay30 className='text-6xl text-yellow-800' />
+                    <div>
+                        <p className='font-medium'>Free Return</p>
+                        <span>Get Return within 30 days</span>
+                    </div>
+                </div><div className='flex items-center gap-2'>
+                    <AiOutlineLock className='text-6xl text-yellow-800' />
+                    <div>
+                        <p className='font-medium'>Secure Payment</p>
+                        <span>100% Secure Online Payment</span>
+                    </div>
+                </div><div className='flex items-center gap-2'>
+                    <HiTrophy className='text-6xl text-yellow-800' />
+                    <div>
+                        <p className='font-medium'>Best Quality</p>
+                        <span>Original Product Guaranteed</span>
+                    </div>
+                </div>
+            </section>
+
+            <main className='w-full'>
                 <h1 className='space-x-2 uppercase mx-3 mt-4 text-2xl flex flex-row justify-between items-center gap-1'>
                     Search With Categories
                     {/* <Link href="/search" className="text-md">More</Link> */}
@@ -113,23 +189,36 @@ const home = ({ data }: { data: string }) => {
                 </div>
             </main>
 
-            <h1 className='space-x-2 uppercase mx-3 mt-4 text-2xl flex flex-row justify-between items-center gap-1'>
-                Latest Product
-                <Link href="/search" className="text-md">More</Link>
-            </h1>
-            <main className='m-2 w-full flex gap-1 overflow-x-auto'>
-                {latestProducts?.map((product, index) => (
-                    <ProductCard
-                        key={index}
-                        productId={product._id}
-                        name={product.name}
-                        price={product.price}
-                        photo={product.photo}
-                        stock={product.stock}
-                        handler={addToCartHandler}
-                    />
-                ))}
-            </main>
+            <section>
+                <h1 className='space-x-2 uppercase mx-3 mt-4 text-2xl flex flex-row justify-between items-center gap-1'>
+                    Latest Product
+                    <Link href="/search" className="text-md">More</Link>
+                </h1>
+                <main className='m-2 w-full flex gap-3 overflow-x-auto'>
+                    {latestProducts?.map((product, index) => (
+                        <ProductCard
+                            key={index}
+                            productId={product._id}
+                            name={product.name}
+                            price={product.price}
+                            photo={product.photo}
+                            stock={product.stock}
+                            handler={addToCartHandler}
+                        />
+                    ))}
+                </main>
+            </section>
+
+            <section className='w-full p-20'>
+                <Image 
+                    src={'/images/shop.jpg'}
+                    alt='Shop Section'
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='w-full h-[44rem] object-cover object-left-top'
+                />
+            </section>
         </div>
     )
 }

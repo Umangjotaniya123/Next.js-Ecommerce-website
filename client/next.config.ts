@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'www.pngall.com',
-        pathname: '**',
+        pathname: '/wp-content/uploads/**',
       },
     ],
   }
