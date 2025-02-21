@@ -14,12 +14,14 @@ const ImageSlider = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        setInterval(() => {
+        const interval = setInterval(() => {
 
             if (currentIndex === 4) setCurrentIndex(0);
             else setCurrentIndex(currentIndex + 1);
 
         }, 3000);
+
+        return () => clearInterval(interval);
     }, [currentIndex])
 
     return (

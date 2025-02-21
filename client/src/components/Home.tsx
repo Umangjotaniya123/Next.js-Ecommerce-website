@@ -11,7 +11,8 @@ import {
     FaTools,
     FaShoppingCart,
     FaLock,
-    FaShippingFast
+    FaShippingFast,
+    FaArrowRight
 } from "react-icons/fa";
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
@@ -209,15 +210,22 @@ const home = ({ data }: { data: string }) => {
                 </main>
             </section>
 
-            <section className='w-full p-20'>
-                <Image 
+            <section className='m-20 relative'>
+                <Image
                     src={'/images/shop.jpg'}
                     alt='Shop Section'
                     width={0}
                     height={0}
                     sizes='100vw'
-                    className='w-full h-[44rem] object-cover object-left-top'
+                    className='w-[100%] h-[44rem] object-cover object-left-top'
                 />
+                <div className="absolute top-[30%] right-0 w-[50%] h-auto flex flex-col">
+                    <div className='uppercase text-gray-400 tracking-wider text-2xl'>Denim collection</div>
+                    <h1 className='text-6xl font-bold my-6'>The casual selection.</h1>
+                    <p className='w-[80%] text-lg'>Vel non viverra ligula odio ornare turpis mauris. Odio aliquam, tincidunt ut vitae elit risus. Tempor egestas condimentum et ac rutrum dui, odio.</p>
+                    <Link href={'/'} className='my-4 text-2xl font-semibold flex gap-6 items-center' >Shop collection <FaArrowRight /></Link>
+                </div>
+
             </section>
         </div>
     )
