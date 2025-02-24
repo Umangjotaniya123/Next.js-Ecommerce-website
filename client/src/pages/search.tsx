@@ -1,4 +1,8 @@
-import ProductCard from '@/components/ProductCard';
+import { SlideProductCard } from '@/components/ProductCard';
+import Axios from '@/config/axios';
+import { Product } from '@/types/types';
+import { decryptedData, encryptedData } from '@/utilities/features';
+import { GetServerSideProps } from 'next';
 import React, { useEffect, useState } from 'react'
 import { FaFilter } from 'react-icons/fa6';
 
@@ -38,7 +42,7 @@ const searchProducts = [
     }
 ]
 
-const search = () => {
+const search = ({ data }: { data: string }) => {
 
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("");
@@ -47,6 +51,12 @@ const search = () => {
     const [page, setPage] = useState(1);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [phoneActive, setPhoneActive] = useState<boolean>(false);
+    const [searchProducts, setSearchProducts] = useState<Product[] | []>([])
+
+    useEffect(() => {
+        if(data)
+            setSearchProducts(decryptedData(data));
+    }, [data])
 
     useEffect(() => {
         const resizeHandler = () => {
@@ -77,13 +87,13 @@ const search = () => {
     };
 
     return (
-        <div className="flex flex-col sm:flex-row gap-2 justify-start items-stretch mx-1 sm:mx-4 p-1 sm:p-2 sm:max-h-[calc(100vh - 6.5vh)]">
+        <div className="w-full h-[100vh] border flex gap-2">
             {phoneActive && (
                 <button className='fixed' id="hamburger" onClick={() => setShowModal(!showModal)}>
                     <FaFilter />
                 </button>
             )}
-            {showModal && <aside className={`${phoneActive ? 'fixed transition-all duration-300 w-[80%] h-96 top-12 left-8 mr-4 ring-2 ring-gray-600' : ''} flex flex-col justify-start items-stretch gap-2 sm:gap-4 sm:min-w-80 px-4 py-4 sm:p-8 shadow-lg shadow-gray-500/50 sm:min-h-[80vh] bg-white rounded-lg`}>
+            {showModal && <aside className={`${phoneActive ? 'fixed transition-all duration-300 w-[80%] h-96 top-12 left-8 mr-4 ring-2 ring-gray-600' : ''} w-[20%] h-full border flex flex-col justify-start items-stretch gap-2 sm:gap-4 sm:min-w-80 px-4 py-4 sm:p-8 shadow-gray-500/50 rounded-lg`}>
                 <h2 className='heading text-lg sm:text-xl flex justify-center mb-2'>Filters</h2>
                 <div className='inputStyle'>
                     <h4>Sort</h4>
@@ -113,35 +123,28 @@ const search = () => {
                             ))
                         } */}
                     </select>
-                </div>
+                </div>  
             </aside>}
-            <main className='mt-6 mb-2'>
-                <h1 className='heading text-xl sm:text-2xl mx-4'>Products</h1>
+            <main className='w-[80%] h-full p-4 border border-red-500'>
+                {/* <h1 className='heading text-xl sm:text-2xl mx-4'>Products</h1> */}
                 <input
-                    className='w-1/2 border-none sm:p-4 bg-inherit outline-none rounded-md m-4 text-lg sm:text-xl block'
+                    className='border mx-8 p-1 rounded-lg'
                     type="text"
                     placeholder="Search by name..."
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                 />
-                <div className="flex flex-col sm:flex-row justify-center sm:justify-start items-center sm:items-stretch gap-y-2 sm:gap-x-12 flex-wrap "
+                <div className="w-full grid grid-cols-4 gap-4 py-4 overflow-y-scroll"
                 >
                     {//loadingSearchProducts ? <Skeleton length={10} /> :
-                        searchProducts?.map((product) => (
-                            <ProductCard
-                                key={product._id}
-                                productId={product._id}
-                                name={product.name}
-                                price={product.price}
-                                photo={product.photo}
-                                stock={product.stock}
-                                handler={addToCartHandler}
-                            />
+                        searchProducts?.map((product, index) => (
+                            
+                            <SlideProductCard key={index} product={product} latest />
                         ))
                     }
                 </div>
 
-                <article className='flex felx-row justify-center items-center gap-2 sm:gap-4'>
+                {/* <article className='flex felx-row justify-center items-center gap-2 sm:gap-4'>
                     <button className='flex felx-row justify-center items-center rounded-md cursor-pointer px-2 py-1 sm:p-2 bg-teal-400 text-sm '
                         disabled={!isPrevPage}
                         onClick={() => setPage((prev) => prev - 1)}
@@ -151,10 +154,28 @@ const search = () => {
                         disabled={!isNextPage}
                         onClick={() => setPage((prev) => prev + 1)}
                     >Next</button>
-                </article>
+                </article> */}
             </main>
         </div>
     )
 }
 
 export default search;
+
+export const getServerSideProps: GetServerSideProps = async() => {
+
+    let searchProducts = null;
+
+    try {
+        const { data } = await Axios.get('/product/all');
+
+        if(data) 
+            searchProducts = encryptedData(data.products);
+    } catch (error) {
+        
+    }
+
+    return {
+        props: { data: searchProducts }
+    }
+}

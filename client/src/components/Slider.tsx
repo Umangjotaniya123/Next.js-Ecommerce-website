@@ -1,6 +1,12 @@
-// "use client";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import index from '@/pages';
+import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-creative';
+import Image from 'next/image';
+import { Autoplay, EffectCreative, Navigation, Pagination } from 'swiper/modules';
 
 const sliders = [
     '/images/slider-1.jpeg',
@@ -10,52 +16,48 @@ const sliders = [
     '/images/slider-5.jpeg',
 ]
 
-const ImageSlider = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-
-            if (currentIndex === 4) setCurrentIndex(0);
-            else setCurrentIndex(currentIndex + 1);
-
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [currentIndex])
-
+const Slider = () => {
     return (
-        <div className="relative w-full mx-auto px-24">
-            {/* Image Display */}
-            <div className="overflow-hidden relative w-full h-[40rem] rounded-lg">
-                {sliders.map((src, index) => (
-                    <Image
-                        key={index}
-                        src={src}
-                        alt={`Slide ${index + 1}`}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className={`absolute top-0 left-0 w-full h-full transition-transform duration-1000 ${index === currentIndex ? "translate-x-0" : "translate-x-full opacity-0"}`}
-                    />
-                ))}
-            </div>
+            <Swiper
+                spaceBetween={10}
+                slidesPerView={1}
+                loop={true}
+                navigation={true}
+                pagination={{ clickable: true }}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                }}
+                effect={'creative'}
+                creativeEffect={{
+                    prev: {
+                        shadow: true,
+                        translate: [0, 0, -400],
+                    },
+                    next: {
+                        translate: ['100%', 0, 400],
+                    },
+                }}
+                modules={[Navigation, Autoplay, Pagination, EffectCreative]}
+                className="rounded-lg shadow-lg h-full"
+            >
+                {sliders.map((src, index) => {
+                    return (
+                        <SwiperSlide key={index}>
+                            <Image
+                                key={index}
+                                src={src}
+                                alt={`Slide ${index + 1}`}
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className={`w-full h-full`}
+                            />
+                        </SwiperSlide>
+                    )
+                })}
+            </Swiper>
+    )
+}
 
-            {/* Dots Navigation */}
-            <div className="flex justify-center mt-4">
-                {sliders.map((_, index) => (
-                    <div
-                        key={index}
-                        className={`w-3 h-3 mx-1 rounded-full transition-all ${index === currentIndex ? "bg-black" : "bg-gray-400"
-                            }`}
-                        onClick={() => setCurrentIndex(index)}
-                    ></div>
-                ))}
-            </div>
-        </div>
-
-
-    );
-};
-
-export default ImageSlider;
+export default Slider;

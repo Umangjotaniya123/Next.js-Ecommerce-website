@@ -1,6 +1,4 @@
-import ProductCard from '@/components/ProductCard';
-import Axios from '@/config/axios';
-import index from '@/pages';
+import { SlideProductCard } from '@/components/ProductCard';
 import { Product } from '@/types/types';
 import { decryptedData } from '@/utilities/features';
 import {
@@ -9,23 +7,21 @@ import {
     FaBox, FaBook, FaPaintBrush,
     FaShoppingBag,
     FaTools,
-    FaShoppingCart,
-    FaLock,
     FaShippingFast,
     FaArrowRight
 } from "react-icons/fa";
-import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import Slider from '@/components/Slider';
-import { AiFillTrophy, AiOutlineLock, AiOutlineUndo } from 'react-icons/ai';
-import { TbAward } from 'react-icons/tb';
-import { MdOutlineReplay, MdOutlineReplay30 } from 'react-icons/md';
-import { RiSecurePaymentFill } from 'react-icons/ri';
-import { GiRibbonMedal } from 'react-icons/gi';
-import { LiaTrophySolid } from 'react-icons/lia';
+import { AiOutlineLock } from 'react-icons/ai';
+import { MdOutlineReplay30 } from 'react-icons/md';
 import { HiTrophy } from 'react-icons/hi2';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation'
 
 const categoriesWithIcons = [
     { name: "Clothing", icon: <FaTshirt /> },
@@ -142,7 +138,10 @@ const home = ({ data }: { data: string }) => {
                 </div>
             </div> */}
 
-            <Slider />
+            {/* Sliders */}
+            <div className="w-full h-[40rem] px-20">
+                <Slider />
+            </div>
 
             <section className='w-full flex justify-center gap-28 p-12 text-lg my-6'>
                 <div className='flex items-center gap-2'>
@@ -190,23 +189,27 @@ const home = ({ data }: { data: string }) => {
                 </div>
             </main>
 
-            <section>
+            <section className='w-full'>
                 <h1 className='space-x-2 uppercase mx-3 mt-4 text-2xl flex flex-row justify-between items-center gap-1'>
-                    Latest Product
+                    Latest Products
                     <Link href="/search" className="text-md">More</Link>
                 </h1>
-                <main className='m-2 w-full flex gap-3 overflow-x-auto'>
-                    {latestProducts?.map((product, index) => (
-                        <ProductCard
-                            key={index}
-                            productId={product._id}
-                            name={product.name}
-                            price={product.price}
-                            photo={product.photo}
-                            stock={product.stock}
-                            handler={addToCartHandler}
-                        />
-                    ))}
+                <main className='py-4 w-full'>
+                    <Swiper
+                        slidesPerView={6}
+                        spaceBetween={30}
+                        navigation
+                        freeMode={true}
+                        modules={[FreeMode, Navigation]}
+                        className='w-full'
+                        style={{ padding: '2.25rem' }}
+                    >
+                        {Array.isArray(products) && products.map((product, index) => (
+                            <SwiperSlide>
+                                <SlideProductCard key={index} product={product} latest />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </main>
             </section>
 
@@ -223,9 +226,33 @@ const home = ({ data }: { data: string }) => {
                     <div className='uppercase text-gray-400 tracking-wider text-2xl'>Denim collection</div>
                     <h1 className='text-6xl font-bold my-6'>The casual selection.</h1>
                     <p className='w-[80%] text-lg'>Vel non viverra ligula odio ornare turpis mauris. Odio aliquam, tincidunt ut vitae elit risus. Tempor egestas condimentum et ac rutrum dui, odio.</p>
-                    <Link href={'/'} className='my-4 text-2xl font-semibold flex gap-6 items-center' >Shop collection <FaArrowRight /></Link>
+                    <Link href={'/'} className='w-fit my-4 text-2xl font-semibold flex gap-6 items-center' >Shop collection <FaArrowRight /></Link>
                 </div>
 
+            </section>
+
+            <section className='w-full'>
+                <h1 className='space-x-2 uppercase mx-3 mt-4 text-2xl flex flex-row justify-between items-center gap-1'>
+                    Best Selling Products
+                    <Link href="/search" className="text-md">More</Link>
+                </h1>
+                <main className='py-4 w-full'>
+                    <Swiper
+                        slidesPerView={5}
+                        spaceBetween={30}
+                        navigation
+                        freeMode={true}
+                        modules={[FreeMode, Navigation]}
+                        className='w-full'
+                        style={{ padding: '2.25rem' }}
+                    >
+                        {Array.isArray(products) && products.map((product, index) => (
+                            <SwiperSlide>
+                                <SlideProductCard key={index} product={product} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </main>
             </section>
         </div>
     )
