@@ -6,8 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import Axios from '@/config/axios';
 import { responseToast, SERVER } from '@/utilities/features';
 import Image from 'next/image';
-import { navbarData } from '../../public/temp';
-
+import { navbarData } from '@/utilities/data';
 
 const Header = () => {
 

@@ -1,11 +1,23 @@
 import {
+    FaBlender,
+    FaBook,
+    FaBox,
     FaChartBar,
     FaChartLine,
     FaChartPie,
+    FaClock,
+    FaCouch,
     FaGamepad,
+    FaHome,
+    FaLaptop,
+    FaMobileAlt,
+    FaPaintBrush,
     FaSearch,
+    FaShoePrints,
     FaShoppingBag,
     FaStopwatch,
+    FaTools,
+    FaTshirt,
     FaUserEdit,
 } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
@@ -107,3 +119,20 @@ export const navbarData = {
         },
     ]
 }
+
+export const categoriesWithIcons = [
+    { name: "Clothing", icon: FaTshirt  },
+    { name: "Footwear", icon: FaShoePrints },
+    { name: "Mobile Phones", icon: FaMobileAlt },
+    { name: "Laptops", icon: FaLaptop },
+    { name: "Smartwatches", icon: FaClock },
+    { name: "Furniture", icon: FaCouch },
+    { name: "Home Decor", icon: FaHome },
+    { name: "Kitchen Appliances", icon: FaBlender },
+    { name: "Toys", icon: FaGamepad },
+    { name: "Packaged Food", icon: FaBox },
+    { name: "E-books", icon: FaBook },
+    { name: "Makeup", icon: FaPaintBrush },
+    { name: "Accessories", icon: FaShoppingBag },
+    { name: "Hardware Tools", icon: FaTools }
+];

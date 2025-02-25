@@ -1,61 +1,33 @@
-import { SlideProductCard } from '@/components/ProductCard';
+import { ProductCard } from '@/components/ProductCard';
 import Axios from '@/config/axios';
 import { Product } from '@/types/types';
 import { decryptedData, encryptedData } from '@/utilities/features';
 import { GetServerSideProps } from 'next';
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { FaFilter } from 'react-icons/fa6';
-
-const searchProducts = [
-    {
-        "_id": "6787ba4de88165bff1ae82d6",
-        "name": "Laptop - 3",
-        "photo": "uploads/5af98d8106f3a8c47cc190c05.webp",
-        "price": 132455,
-        "stock": 15,
-        "category": "laptop",
-        "createdAt": "2024-11-15T13:38:21.147Z",
-        "updatedAt": "2025-01-16T12:19:24.524Z",
-        "__v": 0
-    },
-    {
-        "_id": "6788dc3cb7eec95383fbeca4",
-        "name": "shoose",
-        "photo": "uploads/5af98d8106f3a8c47cc190c04.jpeg",
-        "price": 2342,
-        "stock": 23,
-        "category": "shoose",
-        "createdAt": "2024-03-16T10:15:24.936Z",
-        "updatedAt": "2025-01-16T10:15:24.936Z",
-        "__v": 0
-    },
-    {
-        "_id": "67890292b7eec95383fbf5d2",
-        "name": "nike",
-        "photo": "uploads/5af98d8106f3a8c47cc190c06.jpeg",
-        "price": 1234,
-        "stock": 10,
-        "category": "shoose",
-        "createdAt": "2024-11-16T12:58:58.852Z",
-        "updatedAt": "2025-01-16T12:58:58.852Z",
-        "__v": 0
-    }
-]
 
 const search = ({ data }: { data: string }) => {
 
+    const divRef = useRef<HTMLElement>(null);
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("");
     const [maxPrice, setMaxPrice] = useState(200000);
     const [category, setCategory] = useState("");
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
+    const [maxPage, setMaxPage] = useState(1);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [phoneActive, setPhoneActive] = useState<boolean>(false);
+    const [searchAllProducts, setSearchAllProducts] = useState<Product[] | []>([])
     const [searchProducts, setSearchProducts] = useState<Product[] | []>([])
 
+
     useEffect(() => {
-        if(data)
-            setSearchProducts(decryptedData(data));
+        if(data){
+            const products = decryptedData(data);
+            setSearchAllProducts(products.products);
+            setPage(1);
+            setMaxPage(products.totalPage);
+        }
     }, [data])
 
     useEffect(() => {
@@ -79,21 +51,21 @@ const search = ({ data }: { data: string }) => {
             setShowModal(false);
     }, [phoneActive])
 
-    const isPrevPage = page > 1;
-    const isNextPage = page < page;
-
-    const addToCartHandler = () => {
-
-    };
+    useEffect(() => {
+        const si = 20 * page - 20;
+        const products = searchAllProducts.slice(si, si + 20);
+        setSearchProducts(products);
+        divRef.current?.scroll(0, 0);
+    }, [page])
 
     return (
-        <div className="w-full h-[100vh] border flex gap-2">
+        <div className="w-full h-[calc(100vh-5rem)] pt-8 flex gap-2">
             {phoneActive && (
                 <button className='fixed' id="hamburger" onClick={() => setShowModal(!showModal)}>
                     <FaFilter />
                 </button>
             )}
-            {showModal && <aside className={`${phoneActive ? 'fixed transition-all duration-300 w-[80%] h-96 top-12 left-8 mr-4 ring-2 ring-gray-600' : ''} w-[20%] h-full border flex flex-col justify-start items-stretch gap-2 sm:gap-4 sm:min-w-80 px-4 py-4 sm:p-8 shadow-gray-500/50 rounded-lg`}>
+            {showModal && <aside className={`${phoneActive ? 'fixed transition-all duration-300 w-[80%] h-96 top-12 left-8 mr-4 ring-2 ring-gray-600' : ''} w-[20%] h-full flex flex-col justify-start items-stretch gap-2 sm:gap-4 sm:min-w-80 px-4 py-4 sm:p-8 shadow-gray-500/50 rounded-lg`}>
                 <h2 className='heading text-lg sm:text-xl flex justify-center mb-2'>Filters</h2>
                 <div className='inputStyle'>
                     <h4>Sort</h4>
@@ -125,36 +97,35 @@ const search = ({ data }: { data: string }) => {
                     </select>
                 </div>  
             </aside>}
-            <main className='w-[80%] h-full p-4 border border-red-500'>
+            <main ref={divRef} className='w-[80%] p-8 border-l-2 border-black overflow-y-scroll'>
                 {/* <h1 className='heading text-xl sm:text-2xl mx-4'>Products</h1> */}
                 <input
-                    className='border mx-8 p-1 rounded-lg'
+                    className='border mx-8  p-1 rounded-lg'
                     type="text"
                     placeholder="Search by name..."
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                 />
-                <div className="w-full grid grid-cols-4 gap-4 py-4 overflow-y-scroll"
+                <div className="w-full grid grid-cols-4 gap-8 py-8"
                 >
                     {//loadingSearchProducts ? <Skeleton length={10} /> :
                         searchProducts?.map((product, index) => (
-                            
-                            <SlideProductCard key={index} product={product} latest />
+                            <ProductCard key={index} product={product} latest />
                         ))
                     }
                 </div>
 
-                {/* <article className='flex felx-row justify-center items-center gap-2 sm:gap-4'>
-                    <button className='flex felx-row justify-center items-center rounded-md cursor-pointer px-2 py-1 sm:p-2 bg-teal-400 text-sm '
-                        disabled={!isPrevPage}
+                <article className='flex felx-row justify-center items-center gap-2 sm:gap-4'>
+                    <button className={`font-semibold rounded-3xl cursor-pointer px-8 py-2 bg-orange-900 text-white text-sm ${page == 1 ? 'disabled:cursor-not-allowed opacity-50' : ''}`}
+                        disabled={page == 1}
                         onClick={() => setPage((prev) => prev - 1)}
                     >Prev</button>
                     <span className='font-semibold'>{page}</span>
-                    <button className='flex felx-row justify-center items-center rounded-md cursor-pointer px-2 py-1 sm:p-2 bg-teal-400 text-sm '
-                        disabled={!isNextPage}
+                    <button className={`font-semibold rounded-3xl cursor-pointer px-8 py-2 bg-orange-900 text-white text-sm ${page == maxPage ? 'disabled:cursor-not-allowed opacity-50' : ''}`}
+                        disabled={page == maxPage}
                         onClick={() => setPage((prev) => prev + 1)}
                     >Next</button>
-                </article> */}
+                </article>
             </main>
         </div>
     )
@@ -170,11 +141,10 @@ export const getServerSideProps: GetServerSideProps = async() => {
         const { data } = await Axios.get('/product/all');
 
         if(data) 
-            searchProducts = encryptedData(data.products);
+            searchProducts = encryptedData(data);
     } catch (error) {
-        
+        console.log("Error - ", error);
     }
-
     return {
         props: { data: searchProducts }
     }

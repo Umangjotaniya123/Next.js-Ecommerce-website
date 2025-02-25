@@ -1,12 +1,7 @@
-import { SlideProductCard } from '@/components/ProductCard';
+import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/types/types';
 import { decryptedData } from '@/utilities/features';
 import {
-    FaTshirt, FaShoePrints, FaMobileAlt, FaLaptop, FaClock,
-    FaCouch, FaHome, FaBlender, FaGamepad,
-    FaBox, FaBook, FaPaintBrush,
-    FaShoppingBag,
-    FaTools,
     FaShippingFast,
     FaArrowRight
 } from "react-icons/fa";
@@ -22,75 +17,7 @@ import { FreeMode, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation'
-
-const categoriesWithIcons = [
-    { name: "Clothing", icon: <FaTshirt /> },
-    { name: "Footwear", icon: <FaShoePrints /> },
-    { name: "Mobile Phones", icon: <FaMobileAlt /> },
-    { name: "Laptops", icon: <FaLaptop /> },
-    { name: "Smartwatches", icon: <FaClock /> },
-    { name: "Furniture", icon: <FaCouch /> },
-    { name: "Home Decor", icon: <FaHome /> },
-    { name: "Kitchen Appliances", icon: <FaBlender /> },
-    { name: "Toys", icon: <FaGamepad /> },
-    { name: "Packaged Food", icon: <FaBox /> },
-    { name: "E-books", icon: <FaBook /> },
-    { name: "Makeup", icon: <FaPaintBrush /> },
-    { name: "Accessories", icon: <FaShoppingBag /> },
-    { name: "Hardware Tools", icon: <FaTools /> }
-];
-
-const latestProducts = [
-    {
-        _id: "1",
-        name: "Wireless Earbuds",
-        price: 49.99,
-        discount: "20%",
-        stock: 25,
-        photo: "https://www.pngall.com/wp-content/uploads/5/Wireless-Earbuds-PNG.png"
-    },
-    {
-        _id: "2",
-        name: "Smartwatch Pro",
-        price: 129.99,
-        discount: "15%",
-        stock: 18,
-        photo: "https://www.pngall.com/wp-content/uploads/5/Smartwatch-PNG.png"
-    },
-    {
-        _id: "3",
-        name: "Gaming Mouse",
-        price: 39.99,
-        discount: "10%",
-        stock: 30,
-        photo: "https://www.pngall.com/wp-content/uploads/5/Gaming-Mouse-PNG.png"
-    },
-    {
-        _id: "4",
-        name: "Bluetooth Speaker",
-        price: 59.99,
-        discount: "25%",
-        stock: 20,
-        photo: "https://www.pngall.com/wp-content/uploads/5/Bluetooth-Speaker-PNG-Image.png"
-    },
-    {
-        _id: "5",
-        name: "DSLR Camera",
-        price: 499.99,
-        discount: "18%",
-        stock: 12,
-        photo: "https://www.pngall.com/wp-content/uploads/5/DSLR-Camera-PNG-Clipart.png"
-    }
-];
-
-const sliders = [
-    '/images/slider-1',
-    '/images/slider-2',
-    '/images/slider-3',
-    '/images/slider-4',
-    '/images/slider-5',
-]
-
+import { categoriesWithIcons } from '@/utilities/data';
 
 const home = ({ data }: { data: string }) => {
 
@@ -101,43 +28,8 @@ const home = ({ data }: { data: string }) => {
 
     }, [data])
 
-
-    const addToCartHandler = () => {
-
-    };
-
     return (
         <div className="p-2 flex flex-col m-auto w-full bg-orange-50">
-            {/* 
-            <div className="w-full max-w-7xl mx-auto grid grid-cols-3 gap-6 p-6 bg-[#f9efe3]">
-                <div className="col-span-2 flex justify-center">
-                    <Image
-                        className="w-full  rounded-lg shadow-lg"
-                        src="/banner-3.jpeg"
-                        alt="Xiaomi 13T PRO 5G"
-                        width={600}
-                        height={600}
-                    />
-                </div>
-
-                <div className="flex flex-col gap-6">
-                    <Image
-                        className="w-full h-auto rounded-lg shadow-lg"
-                        src="/banner-2.jpeg"
-                        alt="Nike Air Jordan 1"
-                        width={400}
-                        height={400}
-                    />
-                    <Image
-                        className="w-full h-auto rounded-lg shadow-lg"
-                        src="/banner-1.jpg"
-                        alt="Stylish Watch"
-                        width={400}
-                        height={400}
-                    />
-                </div>
-            </div> */}
-
             {/* Sliders */}
             <div className="w-full h-[40rem] px-20">
                 <Slider />
@@ -172,6 +64,7 @@ const home = ({ data }: { data: string }) => {
                 </div>
             </section>
 
+            {/* All Categories */}
             <main className='w-full'>
                 <h1 className='space-x-2 uppercase mx-3 mt-4 text-2xl flex flex-row justify-between items-center gap-1'>
                     Search With Categories
@@ -179,9 +72,10 @@ const home = ({ data }: { data: string }) => {
                 </h1>
                 <div className='w-full grid grid-cols-7 py-6 px-12 gap-7'>
                     {categoriesWithIcons.map((cat, index) => {
+                        const Icon = cat.icon;
                         return (
                             <div key={index} className='h-32 text-md font-semibold flex flex-col justify-center items-center gap-2 cursor-pointer'>
-                                <div className='bg-orange-200 p-4 text-2xl rounded-full'>{cat.icon}</div>
+                                <div className='bg-orange-200 p-4 text-2xl rounded-full'><Icon /></div>
                                 <span>{cat.name}</span>
                             </div>
                         )
@@ -189,6 +83,7 @@ const home = ({ data }: { data: string }) => {
                 </div>
             </main>
 
+            {/* Latest Products */}
             <section className='w-full'>
                 <h1 className='space-x-2 uppercase mx-3 mt-4 text-2xl flex flex-row justify-between items-center gap-1'>
                     Latest Products
@@ -206,13 +101,14 @@ const home = ({ data }: { data: string }) => {
                     >
                         {Array.isArray(products) && products.map((product, index) => (
                             <SwiperSlide>
-                                <SlideProductCard key={index} product={product} latest />
+                                <ProductCard key={index} product={product} latest />
                             </SwiperSlide>
                         ))}
                     </Swiper>
                 </main>
             </section>
 
+            {/* casual selection */}
             <section className='m-20 relative'>
                 <Image
                     src={'/images/shop.jpg'}
@@ -231,6 +127,7 @@ const home = ({ data }: { data: string }) => {
 
             </section>
 
+            {/* Best Selling Products */}
             <section className='w-full'>
                 <h1 className='space-x-2 uppercase mx-3 mt-4 text-2xl flex flex-row justify-between items-center gap-1'>
                     Best Selling Products
@@ -248,7 +145,7 @@ const home = ({ data }: { data: string }) => {
                     >
                         {Array.isArray(products) && products.map((product, index) => (
                             <SwiperSlide>
-                                <SlideProductCard key={index} product={product} />
+                                <ProductCard key={index} product={product} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
