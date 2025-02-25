@@ -1,4 +1,7 @@
+import Axios from '@/config/axios';
+import { useAuth } from '@/context/AuthContext';
 import { Product } from '@/types/types';
+import { responseToast } from '@/utilities/features';
 import Image from 'next/image';
 import React from 'react'
 import { FaArrowDown } from 'react-icons/fa';
@@ -54,15 +57,30 @@ interface PageProps {
 
 export const ProductCard = ({ product, latest }: PageProps) => {
 
+    const { user } = useAuth(); 
+    const { name, price, photo, stock } = product;
 
-    const { name, price } = product;
+    const addToCartHandler = async() => {
+        try {
+            const res = await Axios.post('/cartItems/new', {
+                productId: product._id,
+                price, name, photo, stock, quantity: 1,
+                userId: user?._id
+            })
+
+            responseToast(res)
+        } catch (error: any) {
+            responseToast(error?.response)
+        }
+    }
+
 
     return (
         <>
             <div className='border flex flex-col justify-center items-center p-4 shadow-sm rounded-2xl group bg-orange-50 hover:bg-orange-100 break-inside-avoid-column'>
                 <Image
                     className='rounded-xl w-full h-full'
-                    // src={process.env.NEXT_PUBLIC_SERVER + '/' + photo}
+                    // src={process.env.NEXT_PUBLIC_SERVER + '/' + photo || '/download.jpeg'}
                     src={'/download.jpeg'}
                     alt={name}
                     width={0}
@@ -72,7 +90,7 @@ export const ProductCard = ({ product, latest }: PageProps) => {
                 <div className='w-full flex mt-3 relative'>
                     <div className='absolute left-0 bottom-0 rounded-2xl'>
                         <button className='bg-yellow-800 text-white rounded-md text-sm p-2 font-semibold flex items-center justify-center border-none group-hover:opacity-100'
-                        //onClick={() => handler({ productId, price, name, photo, stock, quantity: 1 })}
+                        onClick={addToCartHandler}
                         >
                             Add To Cart
                         </button>

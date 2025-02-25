@@ -6,7 +6,7 @@ const app = express.Router();
 
 app.post('/new', isUserLogin, newCartItems);
 
-app.get('/all', allCartItems);
+app.get('/all', isUserLogin, allCartItems);
 
 app.route('/:id')
     .put(updateCartItemQuantity)

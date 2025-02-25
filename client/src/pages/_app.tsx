@@ -7,6 +7,8 @@ import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { UserContextProvider } from "@/context/AuthContext";
 import { User } from "@/types/types";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
 interface AppOwnProps {
   data: User | null;
@@ -32,9 +34,11 @@ export default function MyApp({ Component, pageProps, data }: AppProps & AppOwnP
     <>
       <HeroUIProvider>
         <UserContextProvider>
+          <Provider store={store}>
           <Header />
           <Component {...pageProps} />
           <Toaster position="bottom-center" />
+          </Provider>
         </UserContextProvider>
       </HeroUIProvider>
     </>

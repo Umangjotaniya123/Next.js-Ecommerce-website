@@ -10,19 +10,19 @@ type CartItemProps = {
     removeHandler: (id: string, productId: string) => void;
 }
 
-const buttonStyle = 'w-6 h-6 flex justify-center items-center rounded-md text-xl bg-slate-300 hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-60'
+const buttonStyle = 'w-6 h-6 flex justify-center items-center rounded-md text-xl bg-slate-300 hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-50'
 
 const CartItemCard = ({ cartItem, incrementHandler, decrementHandler, removeHandler }: CartItemProps) => {
     const { photo, productId, name, price, quantity } = cartItem;
 
     return (
-        <div className="cart-item p-3 mx-3 w-[90%] flex flex-col justify-center items-center gap-2 border border-b-2 rounded-lg bg-white sm:flex-row sm:justify-start sm:gap-10 sm:px-7 sm:py-4">
-            <Image className='w-28 h-20 rounded-md' src='/shoose-2.jpeg' alt={name} width={200} height={200} />
-            <article className='flex flex-row justify-center items-center gap-3 font-medium text-base sm:flex-col sm:gap-0'>
-                <Link className='hover:text-blue-700' href={`/product/${productId}`}>{name}</Link>
-                <span>₹{price}</span>
-            </article>
-            <div className='flex felx-row justify-between items-center gap-2 sm:w-full sm:justify-end'>
+        <div className="cart-item p-3 mx-3 w-[80%] flex flex-col justify-center items-center gap-2 border-b border-l border-yellow-900 rounded-bl-lg sm:flex-row sm:justify-start sm:gap-10 sm:px-7 sm:py-4">
+            <Image className='w-full h-24 rounded-md' src={`${process.env.NEXT_PUBLIC_SERVER}/${photo}`} alt={name} width={200} height={200} />
+            {/* <article className='flex flex-row justify-center items-center gap-3 font-medium text-base sm:flex-col sm:gap-0'> */}
+                <Link className='text-amber-950 hover:text-blue-600  w-[90%] font-medium text-base' href={`/product/${productId}`}>{name}</Link>
+                <span className='font-semibold text-base px-2'>₹{price}</span>
+            {/* </article> */}
+            <div className='flex felx-row justify-between items-center gap-6 font-medium sm:w-full sm:justify-end'>
                 <button className={`${buttonStyle}`} disabled={quantity == 1} onClick={() => decrementHandler()} >-</button>
                 <p>{quantity}</p>
                 <button className={`${buttonStyle}`} onClick={() => incrementHandler()} >+</button>
@@ -35,4 +35,4 @@ const CartItemCard = ({ cartItem, incrementHandler, decrementHandler, removeHand
     )
 }
 
-export default CartItemCard;
+export default CartItemCard;    
