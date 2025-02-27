@@ -48,9 +48,9 @@ const cart = ({ data }: { data: string }) => {
                         cartItems.length > 0 ? (
                             cartItems.map((i, idx) => (
                                 <CartItemCard
-                                    incrementHandler={incrementHandler}
-                                    decrementHandler={decrementHandler}
-                                    removeHandler={removeHandler}
+                                    // incrementHandler={incrementHandler}
+                                    // decrementHandler={decrementHandler}
+                                    // removeHandler={removeHandler}
                                     key={idx}
                                     cartItem={i}
                                 />

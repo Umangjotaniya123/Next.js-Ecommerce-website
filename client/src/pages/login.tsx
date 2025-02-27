@@ -1,10 +1,12 @@
 import Axios from '@/config/axios';
 import { useAuth } from '@/context/AuthContext';
 import { responseToast } from '@/utilities/features';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { FaKey, FaUser } from 'react-icons/fa6';
 
 const login = () => {
 
@@ -27,14 +29,14 @@ const login = () => {
                 password: data.password
             });
 
-            if(res?.data?.success) {
+            if (res?.data?.success) {
                 setUser(res.data.user);
             }
 
             responseToast(res, router, '/');
 
-            
-        } catch (error:any) {
+
+        } catch (error: any) {
             console.log('Error...', error);
             responseToast(error?.response);
         }
@@ -42,18 +44,31 @@ const login = () => {
     }
 
     return (
-        <div className="login flex flex-col justify-center items-center mt-24 text-sm">
-            <form className='p-6 m-2 w-[80%] flex flex-col justify-center items-center shadow-xl rounded-lg sm:mx-24 sm:w-[60%] lg:w-[40%] lg:px-8' onSubmit={handleSubmit(onSubmit)}>
-                <h1 className="heading text-xl sm:text-2xl">Login</h1>
-                <div className="box flex flex-col flex-wrap justify-center items-start gap-4 w-full py-3 sm:px-8 lg:gap-8">
+        <div className="login w-full h-[calc(100vh-5rem)] flex flex-col justify-center items-center text-sm">
+            <form
+                className='p-6 m-2 w-[80%] bg-orange-200 border border-yellow-900 flex flex-col justify-center items-center shadow-xl rounded-lg sm:mx-24 sm:w-[60%] lg:w-[35%] lg:px-8'
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <Image
+                    src={'/logo1.png'}
+                    alt='Logo'
+                    width={150}
+                    height={150}
+                />
+                <h1 className="heading mt-2 text-xl sm:text-2xl">Sign In</h1>
+                <h4 className='text-xs sm:font-medium sm:text-sm'>Get access to your account</h4>
+                <div className="box flex flex-col flex-wrap justify-center items-start mt-10 gap-4 w-full py-3 sm:px-8 lg:gap-8">
 
                     {/* Email */}
                     <div className="inputStyle w-full">
-                        <label htmlFor="">Email</label>
-                        <input type="email"
-                            placeholder='Email'
-                            {...register('email', { required: 'Email is required', pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/ })}
-                        />
+                        <label htmlFor="">Email Address</label>
+                        <div className='flex justify-start items-center gap-2'>
+                            <FaUser />
+                            <input type="email"
+                                placeholder='name@example.com'
+                                {...register('email', { required: 'Email is required', pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/ })}
+                            />
+                        </div>
                         {errors.email && (errors.email.type === 'required'
                             ? <small>{errors.email.message}</small>
                             : <small>Invalid Email</small>
@@ -63,22 +78,23 @@ const login = () => {
                     {/* Password */}
                     <div className="inputStyle w-full">
                         <label>Password</label>
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            {...register('password', { required: 'Enter Password', minLength: 6, maxLength: 6 })}
-                        />
+                        <div className='flex justify-start items-center gap-2'>
+                            <FaKey />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                {...register('password', { required: 'Enter Password', minLength: 6, maxLength: 6 })}
+                            />
+                        </div>
                         {errors.password && (errors.password.type === 'required'
                             ? <small>{errors.password.message}</small>
                             : <small>Minimum 6 characters required</small>
                         )}
                     </div>
                 </div>
-                <div className="buttons w-full flex flex-col justify-center items-center gap-4 pt-4">
-                    <button className="w-32 bg-blue-500 rounded-2xl text-white font-semibold px-3 py-2 sm:w-44 lg:w-60 lg:py-3 lg:rounded-3xl">Sign In</button>
-                    <p className='text-gray-600'>
-                        Create new account? <Link href={'/signUp'} className="text-base text-black hover:underline hover:text-blue-500">Sign Up</Link>
-                    </p>
+                <div className="buttons w-full flex flex-col justify-center items-center gap-4 pt-4 sm:p-8">
+                    <button className="w-32 bg-indigo-950 rounded-2xl text-white font-semibold px-3 py-2 sm:w-44 lg:w-full lg:py-3 lg:rounded-lg">Sign In</button>
+                    <Link href={'/signUp'} className="text-base font-semibold text-violet-950 hover:underline">Create an account</Link>
                 </div>
             </form>
         </div>

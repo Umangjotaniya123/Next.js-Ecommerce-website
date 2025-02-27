@@ -1,5 +1,6 @@
 import Axios from '@/config/axios';
 import { responseToast } from '@/utilities/features';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react'
@@ -23,9 +24,9 @@ const SignUp = () => {
 
         try {
             const res = await Axios.post('/user/register', data);
-    
+
             responseToast(res, router, '/');
-            
+
         } catch (error: any) {
             responseToast(error?.response)
         }
@@ -39,17 +40,25 @@ const SignUp = () => {
         today.getDate()
     ).toISOString().split("T")[0]
     // console.log(maxDate);
-    
+
 
     return (
-        <div className="register flex flex-col justify-center items-center mt-24 w-full text-sm">
-            <form className='p-6 m-2 min-w-[70%] flex flex-col justify-center items-center shadow-xl rounded-md sm:max-w-[80%] lg:max-w-[75%]'
+        <div className="register w-full h-[calc(100vh-5rem)] flex flex-col justify-center items-center text-sm">
+            <form className='p-6 m-2 bg-orange-200 border border-yellow-900 flex flex-col justify-center items-center shadow-xl rounded-md sm:max-w-[80%] lg:max-w-[35%]'
                 onSubmit={handleSubmit(onSubmit)}>
-                <h1 className="heading text-xl sm:text-2xl">Register</h1>
-                <div className="box flex flex-col flex-wrap justify-center items-start gap-4 w-full py-3 sm:flex-row sm:justify-between sm:p-8 lg:justify-start lg:gap-8">
+
+                <Image
+                    src={'/logo1.png'}
+                    alt='Logo'
+                    width={150}
+                    height={150}
+                />
+                <h1 className="heading text-xl sm:text-2xl">Sign Up</h1>
+                <h4 className='text-xs sm:font-medium sm:text-sm'>Create your account today</h4>
+                <div className="box grid grid-cols-1 gap-4 w-full mt-10 py-3 sm:justify-between sm:p-8 lg:grid-cols-2 lg:gap-8">
 
                     {/* Profile name */}
-                    <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
+                    <div className="inputStyle w-full sm:w-[95%]">
                         <label htmlFor="">Name</label>
                         <input
                             type="text"
@@ -60,7 +69,7 @@ const SignUp = () => {
                     </div>
 
                     {/* Email */}
-                    <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
+                    <div className="inputStyle w-full sm:w-[95%]">
                         <label htmlFor="">Email</label>
                         <input
                             type="email"
@@ -73,7 +82,7 @@ const SignUp = () => {
                         )}
                     </div>
 
-                    <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
+                    <div className="inputStyle w-full sm:w-[95%]">
                         <label>Password</label>
                         <input
                             type="password"
@@ -87,7 +96,7 @@ const SignUp = () => {
                     </div>
 
                     {/* Gender */}
-                    <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
+                    <div className="inputStyle w-full sm:w-[95%]">
                         <label htmlFor="">Gender</label>
                         <select
                             {...register('gender', { required: 'Gender is required' })}
@@ -100,7 +109,7 @@ const SignUp = () => {
                     </div>
 
                     {/* Date of Birth */}
-                    <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
+                    <div className="inputStyle w-full sm:w-[95%]">
                         <label htmlFor="">Date of Birth</label>
                         <input
                             type="date"
@@ -110,11 +119,9 @@ const SignUp = () => {
                         {errors.dob && <small>{errors.dob.message}</small>}
                     </div>
                 </div>
-                <div className="buttons w-full flex flex-col justify-center items-center gap-4 pt-4">
-                    <button className="w-32 bg-blue-500 rounded-2xl text-white text-base font-semibold px-3 py-2 sm:w-44 lg:w-60 lg:py-3 lg:rounded-3xl">Sign Up</button>
-                    <p className='text-gray-600'>
-                        You have an account? <Link href='/login' className="text-base text-black hover:underline hover:text-blue-500">Login</Link>
-                    </p>
+                <div className="buttons w-full flex flex-col justify-center items-center gap-4 pt-4 sm:p-8">
+                    <button className="w-32 bg-indigo-950 rounded-2xl text-white font-semibold px-3 py-2 sm:w-44 lg:w-full lg:py-3 lg:rounded-lg">Sign Up</button>
+                    <Link href={'/login'} className="text-base font-semibold text-violet-950 hover:underline">Sign in to an existing account</Link>
                 </div>
             </form>
         </div>

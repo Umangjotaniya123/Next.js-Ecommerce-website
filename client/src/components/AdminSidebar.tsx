@@ -1,3 +1,4 @@
+import { sideBarData } from "@/utilities/data";
 import { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,7 +6,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons";
 import { HiMenuAlt4 } from "react-icons/hi";
-import { sideBarData } from '../../public/temp';
 
 type dataProps = {
   data: [name: string, value: {
