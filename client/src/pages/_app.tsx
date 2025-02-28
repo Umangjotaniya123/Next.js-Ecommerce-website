@@ -1,7 +1,5 @@
-import Header from "@/components/Header";
-import Axios from "@/config/axios";
+import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
-import App from "next/app";
 import { HeroUIProvider } from "@heroui/react";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
@@ -36,7 +34,7 @@ export default function MyApp({ Component, pageProps, data }: AppProps & AppOwnP
       <HeroUIProvider>
         <UserContextProvider>
           <Provider store={store}>
-          <Header />
+          <Navbar />
           <Component {...pageProps} />
           <Footer />
           <Toaster position="bottom-center" />

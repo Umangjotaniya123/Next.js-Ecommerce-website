@@ -13,6 +13,7 @@ import {
     FaMobileAlt,
     FaPaintBrush,
     FaSearch,
+    FaShippingFast,
     FaShoePrints,
     FaShoppingBag,
     FaStopwatch,
@@ -21,7 +22,7 @@ import {
     FaUserEdit,
 } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
-import { AiFillFileText } from "react-icons/ai";
+import { AiFillFileText, AiFillProduct } from "react-icons/ai";
 import {
     RiBillFill,
     RiCoupon3Fill,
@@ -29,6 +30,8 @@ import {
     RiHome5Fill,
     RiShoppingBag3Fill,
 } from "react-icons/ri";
+import { FaStore } from "react-icons/fa6";
+import { LiaShippingFastSolid } from "react-icons/lia";
 
 export const sideBarData = {
     dashboard: [
@@ -91,20 +94,20 @@ export const navbarData = {
             Icon: RiHome5Fill
         },
         {
-            name: 'search',
+            name: 'Over Products',
             url: '/search',
-            Icon: FaSearch
+            Icon: AiFillProduct
         },
         {
-            name: 'Cart',
-            url: '/cart',
-            Icon: FaShoppingBag
+            name: 'Favorite Store',
+            url: '/#',
+            Icon: FaStore
         },
         {
-            name: 'My Orders',
-            url: '/order',
-            Icon: RiBillFill
-        }
+            name: 'Shipping Info',
+            url: '/shipping',
+            Icon: FaShippingFast
+        },
     ],
     dialoag: [
         {
@@ -117,6 +120,11 @@ export const navbarData = {
             url: '/profile',
             Icon: FaUserEdit
         },
+        {
+            name: 'My Orders',
+            url: '/order',
+            Icon: RiBillFill
+        }
     ]
 }
 

@@ -2,11 +2,9 @@ import Axios from '@/config/axios';
 import { useAuth } from '@/context/AuthContext';
 import { User } from '@/types/types';
 import { responseToast } from '@/utilities/features';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import AddressList from './AddressInfo';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 const EditPersonalInfo = () => {
 
