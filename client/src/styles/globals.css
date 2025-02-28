@@ -17,6 +17,7 @@
 body {
   background-color: #fff7ed;
   padding-top: 6rem;
+  min-height: 100vh;
 }
 
 .heading {
