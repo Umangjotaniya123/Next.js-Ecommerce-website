@@ -100,8 +100,8 @@ const home = ({ data }: { data: string }) => {
                         style={{ padding: '2.25rem' }}
                     >
                         {Array.isArray(products) && products.map((product, index) => (
-                            <SwiperSlide>
-                                <ProductCard key={index} product={product} latest />
+                            <SwiperSlide key={index}>
+                                <ProductCard product={product} latest />
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -144,8 +144,8 @@ const home = ({ data }: { data: string }) => {
                         style={{ padding: '2.25rem' }}
                     >
                         {Array.isArray(products) && products.map((product, index) => (
-                            <SwiperSlide>
-                                <ProductCard key={index} product={product} />
+                            <SwiperSlide key={index}>
+                                <ProductCard product={product} />
                             </SwiperSlide>
                         ))}
                     </Swiper>

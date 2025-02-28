@@ -9,6 +9,7 @@ import { UserContextProvider } from "@/context/AuthContext";
 import { User } from "@/types/types";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import Footer from "@/components/Footer";
 
 interface AppOwnProps {
   data: User | null;
@@ -37,6 +38,7 @@ export default function MyApp({ Component, pageProps, data }: AppProps & AppOwnP
           <Provider store={store}>
           <Header />
           <Component {...pageProps} />
+          <Footer />
           <Toaster position="bottom-center" />
           </Provider>
         </UserContextProvider>

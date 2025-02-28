@@ -94,10 +94,8 @@ export const updateUser = TryCatch(async (req, res, next) => {
     const { name, email, gender, dob, addressInfo } = req.body;
     const id = req.params.id;
     const photo = req.file;
-    // const seq: Number = index;
     let flag = false;
     const user = await User.findById(id);
-    // console.log('add', addressInfo);
     if (!user)
         return next(new ErrorHandler("Invalid Id", 400));
     if (photo) {
@@ -108,12 +106,12 @@ export const updateUser = TryCatch(async (req, res, next) => {
         user.photo = photo.path;
         flag = true;
     }
-    if ((!name || !gender || !email || !dob))
+    if (!addressInfo && (!name || !gender || !email || !dob))
         return next(new ErrorHandler("Please fill all details", 400));
-    if (user.name !== name ||
+    if (!addressInfo && (user.name !== name ||
         user.email !== email ||
         user.dob.toISOString().split('T')[0] !== dob ||
-        user.gender !== gender) {
+        user.gender !== gender)) {
         user.name = name;
         user.email = email;
         user.dob = dob;

@@ -2,12 +2,16 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { BiArrowBack } from 'react-icons/bi';
-import AddressList from '@/components/AddressList';
+import AddressInfo from '@/components/AddressInfo';
+import EditProfileInfo from '@/components/EditPersonalInfo';
+import Order from '@/pages/order'
 import { useAuth } from '@/context/AuthContext';
-import { User } from '@/types/types';
+import { Address, User } from '@/types/types';
 import Axios from '@/config/axios';
 import { responseToast } from '@/utilities/features';
 import { Router, useRouter } from 'next/router';
+import { FaAddressBook, FaUserAlt } from 'react-icons/fa';
+import { RiBillFill } from 'react-icons/ri';
 
 // type User = {
 //     _id: string;
@@ -69,236 +73,131 @@ import { Router, useRouter } from 'next/router';
 const profile = () => {
 
     const { user } = useAuth();
+    const [addressInfo, setAddresInfo] = useState<Address | null>(null)
 
-    const methods = useForm<User>({
-        defaultValues: {
-            name: "",
-            gender: "",
-            email: "",
-            photo: "",
-            dob: "",
-            addressInfo: []
-        }
-    });
-
-    const { register, control, handleSubmit, formState: { errors }, reset, clearErrors } = methods;
-    
-    const fieldsArray = useFieldArray({
-        name: "addressInfo",
-        control
-    })
-    
-    const [view, setView] = useState<boolean>(true);
     const [img, setImg] = useState('');
-    const router = useRouter();
+    const [showOrders, setShowOrders] = useState<boolean>(true);
+    const [showProfileInfo, setShowProfileInfo] = useState<boolean>(false);
+    const [showAddressInfo, setShowAddressInfo] = useState<boolean>(false);
 
     useEffect(() => {
         if (user) {
-            reset({
-                name: user?.name || "",
-                gender: user?.gender || "",
-                email: user?.email || "",
-                photo: user?.photo || "",
-                dob: user?.dob ? user.dob.split("T")[0] : "",
-                addressInfo: user?.addressInfo || []
-            });
+
+            if (user.addressInfo && user.addressInfo.length)
+                setAddresInfo(user.addressInfo[0]);
+
             setImg(`${process.env.NEXT_PUBLIC_SERVER}/${user?.photo}`)
         }
-    }, [user, reset]);
-
+    }, [user]);
 
     const date = user?.dob.split('T')[0];
-    const today = new Date();
-    const maxDate = new Date(
-        today.getFullYear() - 18,
-        today.getMonth(),
-        today.getDate()
-    ).toISOString().split("T")[0];
-
-
-    const profileObj = {
-        Name: user?.name,
-        Email: user?.email,
-        Gender: user?.gender,
-        'Date of Birth': date
-    }
-
-    const handleBack = () => {
-        setView(true);
-        clearErrors();
-        reset();
-    };
-    const onSubmit = async (data: any) => {
-        // console.log(data);
-
-        const formData = new FormData();
-        formData.set('name', data.name);
-        formData.set('gender', data.gender);
-        formData.set('email', data.email);
-        formData.set('dob', data.dob);
-        formData.set('addressInfo', JSON.stringify(data.addressInfo));
-
-        if (data.photo && (data.photo as unknown as FileList)[0] && typeof data.photo === 'object') {
-
-            const file: File | undefined = (data.photo as unknown as FileList)[0];
-            const reader: FileReader = new FileReader();
-            // console.log(file);
-            if (file) {
-                reader.readAsDataURL(file);
-                reader.onloadend = () => {
-                    if (typeof reader.result === "string") {
-                        setImg(reader.result);
-                    }
-                };
-            }
-            formData.append('photo', file);
-        }
-
-        try {
-            const res = await Axios.put(`/user/${user?._id}`, formData)
-
-            responseToast(res, router, '/profile');
-
-            if (res?.data) {
-                setView(true);
-                reset({ ...data });
-            }
-        } catch (error: any) {
-            responseToast(error?.response)
-        }
-    };
 
     return (
-        <>
-            {view ? (
-                <div className="profile flex flex-col justify-center items-center w-full">
-                    <main className='w-[90%] py-8 flex flex-col justify-center items-center shadow-xl md:w-[80%] lg:w-[60%]'>
-                        <h1 className="heading text-xl sm:text-2xl">Profile</h1>
-                        <div className="box flex flex-col justify-center items-center gap-4 w-full sm:flex-row sm:p-4">
-                            <div className="box_left flex flex-col justify-center items-center gap-2 my-4 sm:w-1/3">
-                                {img &&
-                                    <Image
-                                        className='rounded-lg w-44 h-44 sm:w-72 sm:h-72'
-                                        src={img}
-                                        alt='Photo'
-                                        width={1000}
-                                        height={1000}
-                                    />}
-                                <p className='text-lg font-medium sm:text-xl'>{user?.name}</p>
+        <div className="profile flex flex-col items-center gap-5 w-full h-full min-h-[calc(100vh-5rem)]">
+
+            <h1 className="heading w-[60%] my-10 text-start text-xl sm:text-2xl">Profile</h1>
+
+            <div className="w-full h-fit flex justify-center gap-5">
+
+                <div className="flex justify-start w-[40%] p-6 border border-yellow-900 bg-orange-100 rounded-lg">
+                    {img && <Image
+                        className="w-32 h-32 rounded-full border shadow-md"
+                        src={img}
+                        alt="User Profile"
+                        width={100}
+                        height={100}
+                    />}
+                    <div className="text-center w-full p-6">
+                        <h2 className="text-2xl font-semibold text-gray-800">{user?.name}</h2>
+                        <p className="text-gray-500 text-sm">Joined 3 months ago</p>
+
+                        <div className="grid grid-cols-3 gap-4 mt-4">
+                            <div>
+                                <p className="text-xl font-bold">₹89400</p>
+                                <p className="text-gray-500 text-sm">Total Spent</p>
                             </div>
-                            <div className="box_right flex flex-col justify-start gap-4 w-full px-4 text-sm sm:w-2/3 sm:text-lg">
-                                {profileObj &&
-                                    Object.entries(profileObj).map((obj, index) => {
-                                        const [key, value] = obj;
-                                        return (
-                                            <div
-                                                className='flex flex-row justify-start items-center gap-4 border-b border-gray-500 px-1 w-full'
-                                                key={index}
-                                            >
-                                                <h5 className='font-semibold w-[43%] sm:w-[40%]'>{key} :</h5>
-                                                <p className='space-x-3'>{value}</p>
-                                            </div>
-                                        )
-                                    })
-                                }
+                            <div>
+                                <p className="text-xl font-bold">1 week ago</p>
+                                <p className="text-gray-500 text-sm">Last Order</p>
+                            </div>
+                            <div>
+                                <p className="text-xl font-bold">97</p>
+                                <p className="text-gray-500 text-sm">Total Orders</p>
                             </div>
                         </div>
-                    </main>
-                    <button className='w-1/2 my-3 bg-blue-600 text-white p-3 rounded-lg text-lg font-semibold max-w-[400px]' onClick={() => setView(false)}>Edit Profile</button>
+                    </div>
                 </div>
-            ) : (
-                <div className="editProfile flex flex-col justify-center items-center w-full mt-12 text-sm">
-                    <button
-                        className="back-btn w-8 h-8 bg-slate-800 text-white flex justify-center items-center rounded-full fixed top-10 left-4 sm:w-10 sm:h-10 sm:left-6 lg:left-[5%]"
-                        onClick={handleBack}
-                    ><BiArrowBack /></button>
-                    <FormProvider {...methods}>
-                        <form
-                            className='p-6 m-2 min-w-[70%] flex flex-col justify-center items-center shadow-xl rounded-md sm:max-w-[80%] lg:max-w-[75%]'
-                            onSubmit={handleSubmit(onSubmit)}
-                        >
-                            <h1 className="heading text-xl sm:text-2xl">Edit Profile</h1>
-                            <div className="box flex flex-col flex-wrap justify-center items-start gap-4 w-full py-3 sm:flex-row sm:justify-between sm:px-8 lg:justify-start lg:gap-8">
-                                {/* Profile Photo */}
-                                <div className='w-full sm:w-[45%] lg:w-[30%]'>
-                                    <label htmlFor="">Photo</label>
-                                    <div className="inputStyle w-full flex flex-row justify-center items-center gap-2">
-                                        {img && <Image className='rounded-md' src={img} alt='Photo' width={60} height={60} />}
-                                        {/* <img src={img} alt="Photo" /> */}
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            {...register('photo')}
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Profile name */}
-                                <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
-                                    <label htmlFor="">Name</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Name"
-                                        {...register('name', { required: 'Name is required' })}
-                                    />
-                                    {errors.name && <small>{errors?.name.message}</small>}
-                                </div>
-
-                                {/* Email */}
-                                <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
-                                    <label htmlFor="">Email</label>
-                                    <input
-                                        type="email"
-                                        placeholder="Email"
-                                        {...register('email', { required: 'Email is required', pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/ })}
-                                    />
-                                    {errors.email && (errors.email.type === 'required'
-                                        ? <small>{errors.email.message}</small>
-                                        : <small>Invalid Email</small>
-                                    )}
-                                </div>
-
-                                {/* Gender */}
-                                <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
-                                    <label htmlFor="">Gender</label>
-                                    <select
-                                        {...register('gender', { required: 'Gender is required' })}
-                                    >
-                                        <option value="">Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                    {errors.gender && <small>{errors.gender.message}</small>}
-                                </div>
-
-                                {/* Date of Birth */}
-                                <div className="inputStyle w-full sm:w-[45%] lg:w-[30%]">
-                                    <label htmlFor="">Date of Birth</label>
-                                    <input
-                                        defaultValue={date}
-                                        type="date"
-                                        max={maxDate}
-                                        {...register('dob', { required: 'Enter valid date', max: maxDate })}
-                                    />
-                                    {errors.dob && <small>{errors.dob.message}</small>}
-                                </div>
-                            </div>
-
-                            {/* Address_Information */}
-                            <div className='w-full flex flex-col gap-4 my-4'>
-                                <AddressList fieldsArray={fieldsArray} />
-                            </div>
 
 
-                            <div className="buttons w-full flex flex-row justify-center items-center gap-2 pt-4 lg:gap-4">
-                                <button className="w-32 bg-gray-500 rounded-2xl text-white font-semibold px-3 py-2 lg:w-40 lg:py-3 lg:rounded-3xl" onClick={handleBack}>Cancel</button>
-                                <button className="w-32 bg-blue-500 rounded-2xl text-white font-semibold px-3 py-2 lg:w-40 lg:py-3 lg:rounded-3xl">Save Changes</button>
-                            </div>
-                        </form>
-                    </FormProvider>
+                <div className="bg-orange-100 border border-yellow-900 p-6 -tracking-tighter rounded-lg shadow-md w-[20%] max-w-md">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-bold">Personal Info</h2>
+                    </div>
+                    <div className="flex justify-between py-1">
+                        <span>Email :</span> <span className="font-semibold">{user?.email}</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                        <span>Date of Birth :</span> <span className="font-semibold">{date}</span>
+                    </div>
+                    {addressInfo &&
+                        <div className="flex justify-between py-1">
+                            <span>Address :</span> <span className="font-semibold">{`${addressInfo?.city},${addressInfo?.state},${addressInfo?.country}`}</span>
+                        </div>
+                    }
                 </div>
-            )}
-        </>
+            </div>
+
+            <div className='w-[60%] mt-10 flex items-center gap-8 font-semibold cursor-pointer'>
+                <div
+                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
+                                ${showOrders ? 'border-b-2 border-violet-950 text-violet-950' : ''}`}
+                    onClick={() => {
+                        setShowOrders(true)
+                        setShowProfileInfo(false)
+                        setShowAddressInfo(false)
+                    }}
+                >
+                    <RiBillFill />
+                    <span>Orders</span>
+                </div>
+                <div
+                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
+                                ${showProfileInfo ? 'border-b-2 border-violet-950 text-violet-950' : ''}`}
+                    onClick={() => {
+                        setShowOrders(false)
+                        setShowProfileInfo(true)
+                        setShowAddressInfo(false)
+                    }}
+                >
+                    <FaUserAlt />
+                    <span>Personal Info</span>
+                </div>
+                <div
+                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
+                                ${showAddressInfo ? 'border-b-2 border-violet-950 text-violet-950' : ''}`}
+                    onClick={() => {
+                        setShowOrders(false)
+                        setShowProfileInfo(false)
+                        setShowAddressInfo(true)
+                    }}
+                >
+                    <FaAddressBook />
+                    <span>Address Info</span>
+                </div>
+            </div>
+
+            <div className='w-[60%]'>
+                {showOrders && 
+                    <Order />
+                }
+                {showProfileInfo &&
+                    <EditProfileInfo />
+                }
+                {showAddressInfo &&
+                    <AddressInfo />
+                }
+            </div>
+        </div>
     )
 }
 
