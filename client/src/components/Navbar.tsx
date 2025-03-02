@@ -119,14 +119,12 @@ import { responseToast } from '@/utilities/features';
 import { FaBagShopping } from 'react-icons/fa6';
 
 const Navbar = () => {
-
     const { user, setUser } = useAuth();
     const router = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const handleLogout = async () => {
-
         const res = await Axios.post('/user/logout');
 
         if (res.data.success) {
@@ -135,20 +133,19 @@ const Navbar = () => {
         }
 
         responseToast(res, router, '/');
-
-    }
+    };
 
     return (
         <nav className="fixed top-3 left-0 w-full flex justify-center z-50">
-            <div className="w-[93%] bg-orange-200/30 backdrop-blur-lg shadow-md rounded-3xl  flex items-center justify-between px-8">
+            <div className="w-[93%] bg-orange-200/30 backdrop-blur-lg shadow-md rounded-3xl flex items-center justify-between px-6 lg:px-8 py-2">
 
                 {/* Logo */}
                 <Link href="/">
-                    <Image src="/logo1.png" alt="Logo" width={60} height={60} className="cursor-pointer" />
+                    <Image src="/logo1.png" alt="Logo" width={50} height={50} className="cursor-pointer" />
                 </Link>
 
-                {/* Navigation Links */}
-                <div className="hidden md:flex space-x-8">
+                {/* Navigation Links (Hidden in mobile, visible in md+) */}
+                <div className="hidden md:flex space-x-6 lg:space-x-8">
                     {navbarData && navbarData.nav.map((data, index) => {
                         const Icon = data.Icon;
                         return (
@@ -157,28 +154,18 @@ const Navbar = () => {
                                 onClick={() => setDropdownOpen(false)}
                             >
                                 <Icon className='text-xl' />
-                                {<span>{data.name}</span>}
+                                <span>{data.name}</span>
                             </Link>
                         )
                     })}
                 </div>
 
-                {/* Search Bar
-                <div className="hidden md:flex items-center bg-gray-200 rounded-full px-3 py-1">
-                    <input 
-                        type="text" 
-                        placeholder="Search..." 
-                        className="bg-transparent outline-none text-sm px-2"
-                    />
-                    <FaSearch className="text-gray-600" />
-                </div> */}
-
                 {/* User Profile Dropdown */}
                 <div className="relative flex items-center gap-4">
-                    {user?._id ?
+                    {user?._id ? (
                         <>
                             <Link href={'/cart'}
-                                className={`flex items-center gap-2 rounded-md hover:text-orange-900 relative`}
+                                className="relative flex items-center gap-2 rounded-md hover:text-orange-900"
                                 onClick={() => setDropdownOpen(false)}
                             >
                                 <FaShoppingCart className='text-2xl' />
@@ -186,17 +173,19 @@ const Navbar = () => {
                                     {3}
                                 </span>
                             </Link>
+
                             <FaUser
                                 className="text-xl cursor-pointer hover:text-orange-900"
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
                             />
+
                             {dropdownOpen && (
                                 <div className="absolute top-[2rem] -right-7 mt-3 w-72 bg-gray-800 rounded-lg shadow-lg text-white p-4 z-50">
-
                                     <div className="absolute -top-2 right-6 w-7 h-7 bg-gray-800 rotate-45"></div>
+
                                     {/* User Info */}
                                     <div className="flex flex-col items-center text-center border-b border-gray-700 pb-4">
-                                        <Image src="/user-profile.jpg" alt="User" width={60} height={60} className="rounded-full" />
+                                        <Image src="/user-profile.jpg" alt="User" width={50} height={50} className="rounded-full" />
                                         <h3 className="text-lg font-semibold mt-2">{user?.name}</h3>
                                     </div>
 
@@ -214,12 +203,6 @@ const Navbar = () => {
                                                 </Link>
                                             )
                                         })}
-                                        {/* <Link
-                                            href={link}
-                                            className="flex items-center gap-3 px-4 py-2 hover:bg-gray-700 rounded-md"
-                                        >
-                                            {icon} <span>{text}</span>
-                                        </Link> */}
                                     </ul>
 
                                     {/* Logout Button */}
@@ -231,12 +214,18 @@ const Navbar = () => {
                                     </button>
                                 </div>
                             )}
-                        </> :
-                        <div className="buttons w-full px-3 flex flex-row gap-2 lg:gap-4">
-                            <Link href={'/login'} className="w-28 bg-indigo-950 hover:bg-indigo-800 text-center text-white  rounded-2xl font-semibold py-2">Sign In</Link>
-                            <Link href={'/signUp'} className="w-28 bg-gray-500 hover:bg-gray-700 text-center rounded-2xl text-white font-semibold py-2">Sign Up</Link>
+                        </>
+                    ) : (
+                        <div className="flex flex-row gap-2 lg:gap-4">
+                            <Link href="/login" className="w-20 sm:w-24 md:w-28 bg-indigo-950 hover:bg-indigo-800 text-center text-white rounded-2xl font-semibold py-2">
+                                Sign In
+                            </Link>
+                            <Link href="/signUp" className="w-20 sm:w-24 md:w-28 bg-gray-500 hover:bg-gray-700 text-center rounded-2xl text-white font-semibold py-2">
+                                Sign Up
+                            </Link>
                         </div>
-                    }
+
+                    )}
                 </div>
 
                 {/* Mobile Menu Icon */}
@@ -245,30 +234,29 @@ const Navbar = () => {
                         {menuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
                     </button>
                 </div>
-            </div >
+            </div>
 
             {/* Mobile Menu */}
-            {
-                menuOpen && (
-                    <div className="md:hidden bg-white shadow-md p-4 absolute right-0 w-[30%]">
-                        {navbarData && navbarData.nav.map((data, index) => {
-                            const Icon = data.Icon;
-                            return (
-                                <Link href={data.url} key={index}
-                                    className={`flex items-center justify-start gap-2 px-4 py-1 rounded-md hover:bg-violet-200 ${router.pathname === data.url ? 'shadow shadow-content4-foreground text-orange-950' : ''}`}
-                                // onClick={() => setIsOpen(false)}
-                                >
-                                    <Icon className='text-xl' />
-                                    {<span>{data.name}</span>}
-                                </Link>
-                            )
-                        })}
-                    </div>
-                )
-            }
-        </nav >
+            {menuOpen && (
+                <div className="md:hidden bg-gray-900 text-white shadow-md p-4 absolute right-0 w-[60%] sm:w-[50%] md:w-[40%] top-16 rounded-lg">
+                    {navbarData && navbarData.nav.map((data, index) => {
+                        const Icon = data.Icon;
+                        return (
+                            <Link href={data.url} key={index}
+                                className={`flex items-center justify-start gap-2 px-4 py-2 rounded-md hover:bg-gray-700 ${router.pathname === data.url ? 'shadow shadow-content4-foreground text-orange-300' : ''}`}
+                                onClick={() => setMenuOpen(false)}
+                            >
+                                <Icon className='text-xl' />
+                                <span>{data.name}</span>
+                            </Link>
+                        )
+                    })}
+                </div>
+            )}
+        </nav>
     );
 };
+
 
 export default Navbar;
 

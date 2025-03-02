@@ -205,14 +205,15 @@ const order = () => {
     }) || [];
 
     return (
-
-        <div className="flex flex-col justify-center items-center gap-8 m-8 text-lg">
-        <h1 className='heading text-xl sm:text-2xl'>My Prders</h1>
-        {//isLoading ? <Skeleton length={20} /> : 
+        <div className="flex flex-col justify-center items-center gap-6 px-4 py-8 text-lg">
+          <h1 className="heading text-xl sm:text-2xl font-semibold">My Orders</h1>
+          {
+            // isLoading ? <Skeleton length={20} /> : 
             <TableHook columns={columns} items={orders} />
-        }
-    </div>
-    )
+          }
+        </div>
+      );
+      
 }
 
 export default order;
