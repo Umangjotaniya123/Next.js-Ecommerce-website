@@ -106,21 +106,25 @@ export const updateUser = TryCatch(async (req, res, next) => {
         user.photo = photo.path;
         flag = true;
     }
-    if (!addressInfo && (!name || !gender || !email || !dob))
-        return next(new ErrorHandler("Please fill all details", 400));
-    if (!addressInfo && (user.name !== name ||
-        user.email !== email ||
-        user.dob.toISOString().split('T')[0] !== dob ||
-        user.gender !== gender)) {
-        user.name = name;
-        user.email = email;
-        user.dob = dob;
-        user.gender = gender;
-        flag = true;
+    else if (addressInfo) {
+        if (addressInfo && JSON.stringify(user.addressInfo) !== addressInfo) {
+            user.addressInfo = JSON.parse(addressInfo);
+            flag = true;
+        }
     }
-    if (addressInfo && JSON.stringify(user.addressInfo) !== addressInfo) {
-        user.addressInfo = JSON.parse(addressInfo);
-        flag = true;
+    else {
+        if (!name || !gender || !email || !dob)
+            return next(new ErrorHandler("Please fill all details", 400));
+        if (user.name !== name ||
+            user.email !== email ||
+            user.dob.toISOString().split('T')[0] !== dob ||
+            user.gender !== gender) {
+            user.name = name;
+            user.email = email;
+            user.dob = dob;
+            user.gender = gender;
+            flag = true;
+        }
     }
     if (flag) {
         console.log('Updated');
@@ -128,7 +132,7 @@ export const updateUser = TryCatch(async (req, res, next) => {
     }
     res.status(200).json({
         success: true,
-        message: `User Updated Successfully`,
+        message: `User ${photo ? 'photo' : ''} Updated Successfully`,
     });
 });
 const validation = ({ user, key, value }) => {

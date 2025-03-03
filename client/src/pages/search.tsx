@@ -1,38 +1,74 @@
 import { ProductCard } from '@/components/ProductCard';
 import Axios from '@/config/axios';
-import { Product } from '@/types/types';
+import { Product, SearchRequestQuery } from '@/types/types';
 import { decryptedData, encryptedData } from '@/utilities/features';
 import { GetServerSideProps } from 'next';
-import React, { ReactElement, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router';
+import React, { useEffect, useRef, useState } from 'react'
 import { FaFilter } from 'react-icons/fa6';
 
 const search = ({ data }: { data: string }) => {
+
+    const router = useRouter();
+
     const divRef = useRef<HTMLElement>(null);
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("");
     const [maxPrice, setMaxPrice] = useState(200000);
-    const [category, setCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [allCategory, setAllCategory] = useState<string[] | []>([]);
     const [page, setPage] = useState(1);
     const [maxPage, setMaxPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [searchAllProducts, setSearchAllProducts] = useState<Product[]>([]);
     const [searchProducts, setSearchProducts] = useState<Product[]>([]);
 
-    useEffect(() => {
+    useEffect(() => {        
+
         if (data) {
-            const products = decryptedData(data);
-            setSearchAllProducts(products.products);
+            const decryptData = decryptedData(data);
+            setAllCategory(decryptData.categories);
             setPage(1);
-            setMaxPage(products.totalPage);
+            setSearchAllProducts(decryptData.products);
+            setMaxPage(decryptData.totalPage);
         }
     }, [data]);
-
+    
     useEffect(() => {
-        const si = 20 * (page - 1);
-        const products = searchAllProducts.slice(si, si + 20);
+        const startIndex = 20 * (page - 1);
+        const products = searchAllProducts?.slice(startIndex, startIndex + 20);
         setSearchProducts(products);
         divRef.current?.scroll(0, 0);
     }, [page, searchAllProducts]);
+    
+    
+    useEffect(() => {
+        
+        // const getSearchProducts = async() => {
+            
+        //     try {
+        //         const { data } = await Axios.get(url);
+                
+        //         if(data) {
+        //         }
+                
+        //     } catch (error) {
+        //         console.log('Error - ', error);
+        //     }
+        // }
+        
+        const query: SearchRequestQuery = {}
+
+        query.price = `${maxPrice}`;
+        if(search) query.search = `${search}`; 
+        if(selectedCategory) query.category = `${selectedCategory}`; 
+        if(sort) query.sort = `${sort}`; 
+        
+        router.query = { ...query }
+        router.replace(router);
+        // getSearchProducts();
+
+    }, [search, maxPrice, selectedCategory, sort]);
 
     return (
         <div className="w-full h-[calc(100vh-5rem)] pt-8 flex flex-col md:flex-row gap-2">
@@ -81,7 +117,7 @@ const search = ({ data }: { data: string }) => {
                     {/* Category */}
                     <div className="inputStyle">
                         <h4>Category</h4>
-                        <select value={category} onChange={e => setCategory(e.target.value)} className="border p-2 rounded-lg">
+                        <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)} className="border p-2 rounded-lg">
                             <option value="">ALL</option>
                         </select>
                     </div>
@@ -115,8 +151,11 @@ const search = ({ data }: { data: string }) => {
                 {/* Category */}
                 <div className="inputStyle">
                     <h4>Category</h4>
-                    <select value={category} onChange={e => setCategory(e.target.value)} className="border p-2 rounded-lg">
+                    <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)} className="border p-2 rounded-lg">
                         <option value="">ALL</option>
+                        {Array.isArray(allCategory) && allCategory.map((cat, index) => (
+                            <option key={index} value={cat}>{cat.toUpperCase()}</option>
+                        ))}
                     </select>
                 </div>
             </aside>
@@ -144,9 +183,8 @@ const search = ({ data }: { data: string }) => {
                 {/* Pagination */}
                 <article className="flex justify-center items-center gap-2 sm:gap-4">
                     <button
-                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${
-                            page === 1 ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page === 1 ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                         disabled={page === 1}
                         onClick={() => setPage((prev) => prev - 1)}
                     >
@@ -154,9 +192,8 @@ const search = ({ data }: { data: string }) => {
                     </button>
                     <span className="font-semibold">{page}</span>
                     <button
-                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${
-                            page === maxPage ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page === maxPage ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                         disabled={page === maxPage}
                         onClick={() => setPage((prev) => prev + 1)}
                     >
@@ -171,19 +208,29 @@ const search = ({ data }: { data: string }) => {
 
 export default search;
 
-export const getServerSideProps: GetServerSideProps = async() => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 
-    let searchProducts = null;
+    let products = [];
 
+    const { category, search, price, sort } = context.query;
+    
+    let url = `/product/all?price=${price}`;
+    if(search) url += `&search=${search}`; 
+    if(category) url += `&category=${category}`; 
+    if(sort) url += `&sort=${sort}`; 
+    
     try {
-        const { data } = await Axios.get('/product/all');
-
-        if(data) 
-            searchProducts = encryptedData(data);
+        const { data } = await Axios.get(url)
+        
+        if (data)
+            products = data;
     } catch (error) {
         console.log("Error - ", error);
     }
+    
+    const encryptData = encryptedData(products);
+
     return {
-        props: { data: searchProducts }
+        props: { data: encryptData }
     }
 }

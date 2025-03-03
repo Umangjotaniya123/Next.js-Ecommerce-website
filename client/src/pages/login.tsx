@@ -11,7 +11,7 @@ import { FaKey, FaUser } from 'react-icons/fa6';
 const login = () => {
 
     const router = useRouter();
-    const { user, setUser } = useAuth();
+    const { getUser } = useAuth();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -29,10 +29,7 @@ const login = () => {
                 password: data.password
             });
 
-            if (res?.data?.success) {
-                setUser(res.data.user);
-            }
-
+            getUser();
             responseToast(res, router, '/');
 
 

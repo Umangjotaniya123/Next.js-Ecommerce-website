@@ -177,6 +177,15 @@ export const getAllProducts = TryCatch(
         const limit = Number(process.env.PRODUCT_PER_PAGE) || 20;
         const skip = (page - 1) * limit;
 
+        let categories;
+
+        if (myCache.has("categories"))
+            categories = JSON.parse(myCache.get("categories") as string);
+        else {
+            categories = await Product.distinct("category");
+            myCache.set("categories", JSON.stringify(categories));
+        }
+
         const baseQuery: BaseQuery = {};
 
         if (search)
@@ -192,8 +201,8 @@ export const getAllProducts = TryCatch(
 
         const productsPromise = Product.find(baseQuery)
             .sort(sort && { price: sort === 'asc' ? 1 : -1 })
-            // .limit(limit)
-            // .skip(skip);
+        // .limit(limit)
+        // .skip(skip);
 
         const [products, filteredOnlyProduct] = await Promise.all([
             productsPromise,
@@ -206,30 +215,31 @@ export const getAllProducts = TryCatch(
             success: true,
             products,
             totalPage,
+            categories
         });
     });
 
 const generateRandomProducts = async (count: number = 10) => {
-  const products = [];
+    const products = [];
 
-  for (let i = 0; i < count; i++) {
-    const product = {
-      name: faker.commerce.productName(),
-      photo: "uploads\\5ba9bd91-b89c-40c2-bb8a-66703408f986.png",
-      price: faker.commerce.price({ min: 1500, max: 80000, dec: 0 }),
-      stock: faker.commerce.price({ min: 0, max: 100, dec: 0 }),
-      category: faker.commerce.department(),
-      createdAt: new Date(faker.date.past()),
-      updatedAt: new Date(faker.date.recent()),
-      __v: 0,
-    };
+    for (let i = 0; i < count; i++) {
+        const product = {
+            name: faker.commerce.productName(),
+            photo: "uploads\\5ba9bd91-b89c-40c2-bb8a-66703408f986.png",
+            price: faker.commerce.price({ min: 1500, max: 80000, dec: 0 }),
+            stock: faker.commerce.price({ min: 0, max: 100, dec: 0 }),
+            category: faker.commerce.department(),
+            createdAt: new Date(faker.date.past()),
+            updatedAt: new Date(faker.date.recent()),
+            __v: 0,
+        };
 
-    products.push(product);
-  }
+        products.push(product);
+    }
 
-  await Product.create(products);
+    await Product.create(products);
 
-  console.log({ succecss: true });
+    console.log({ succecss: true });
 };
 
 // generateRandomProducts(50);

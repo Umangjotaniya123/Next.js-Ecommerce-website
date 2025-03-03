@@ -18,9 +18,9 @@ const initialAddressValue = {
 }
 const options = ["Home", "Work", "Other"];
 
-const AddressList = () => {
+const AddressInfo = () => {
 
-    const { user } = useAuth();
+    const { user, getUser } = useAuth();
     const router = useRouter();
 
     const { register, control, handleSubmit, formState: { errors }, reset, clearErrors } = useForm<User>({
@@ -57,6 +57,7 @@ const AddressList = () => {
         clearErrors();
         reset();
     };
+
     const onSubmit = async (data: any) => {
         // console.log(data);
 
@@ -70,6 +71,7 @@ const AddressList = () => {
 
             if (res?.data) {
                 reset({ ...data });
+                getUser();
             }
         } catch (error: any) {
             responseToast(error?.response)
@@ -200,4 +202,4 @@ const AddressList = () => {
     )
 }
 
-export default AddressList;
+export default AddressInfo;

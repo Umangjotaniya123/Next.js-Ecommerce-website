@@ -1,78 +1,18 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import { BiArrowBack } from 'react-icons/bi';
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import AddressInfo from '@/components/AddressInfo';
 import EditProfileInfo from '@/components/EditPersonalInfo';
 import Order from '@/pages/order'
 import { useAuth } from '@/context/AuthContext';
-import { Address, User } from '@/types/types';
+import { Address } from '@/types/types';
 import Axios from '@/config/axios';
 import { responseToast } from '@/utilities/features';
-import { Router, useRouter } from 'next/router';
 import { FaAddressBook, FaUserAlt } from 'react-icons/fa';
 import { RiBillFill } from 'react-icons/ri';
 
-// type User = {
-//     _id: string;
-//     name: string;
-//     email: string;
-//     role: string;
-//     gender: string;
-//     dob: string;
-//     addressInfo: {
-//         address: string;
-//         city: string;
-//         state: string;
-//         country: string;
-//         pincode: number;
-//         addType: string;
-//         _id: string;
-//     }[];
-//     createdAt: string;
-//     updatedAt: string;
-//     __v: number;
-//     photo: string;
-// }
-
-// const user =
-// {
-//     "_id": "677bcb2b119252e3a77cc29b",
-//     "name": "Umang Jotaniya",
-//     "email": "umang@gmail.com",
-//     "role": "admin",
-//     "gender": "male",
-//     "dob": "2005-02-15T00:00:00.000Z",
-//     "addressInfo": [
-//         {
-//             "address": "Madhuram, Udaybagar-1, st-15, mavadi chokadi",
-//             "city": "Rajkot",
-//             "state": "Gujarat",
-//             "country": "India",
-//             "pincode": 360000,
-//             "addType": "Home",
-//             "_id": "677e4b698a5f014ef1195ad5"
-//         },
-//         {
-//             "address": "KamleshPark",
-//             "city": "Nadiad",
-//             "state": "Gujarat",
-//             "country": "India",
-//             "pincode": 387005,
-//             "addType": "Work",
-//             "_id": "677e4c3c8a5f014ef1195ade"
-//         }
-//     ],
-//     "createdAt": "2025-01-06T12:23:07.008Z",
-//     "updatedAt": "2025-01-21T06:11:58.389Z",
-//     "__v": 30,
-//     "photo": "uploads/05f9cfce37e05b7b66d13d000.jpeg"
-// }
-
-
 const profile = () => {
 
-    const { user } = useAuth();
+    const { user, getUser } = useAuth();
     const [addressInfo, setAddresInfo] = useState<Address | null>(null)
 
     const [img, setImg] = useState('');
@@ -90,6 +30,35 @@ const profile = () => {
         }
     }, [user]);
 
+    const changeImageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+        const file: File | undefined = e.target.files?.[0];
+
+        const reader: FileReader = new FileReader();
+        const formData = new FormData();
+
+        if (file) {
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                if (typeof reader.result === "string") {
+                    setImg(reader.result);
+                }
+            };
+            formData.set('photo', file);
+        }
+        try {
+            const res = await Axios.put(`/user/${user?._id}`, formData)
+
+            responseToast(res);
+
+            if(res.data){
+                getUser();
+            }
+
+        } catch (error: any) {
+            responseToast(error?.response)
+        }
+    };
+
     const date = user?.dob.split('T')[0];
 
     return (
@@ -100,13 +69,24 @@ const profile = () => {
             <div className="w-full h-fit flex justify-center gap-5">
 
                 <div className="flex justify-start w-[40%] p-6 border border-yellow-900 bg-orange-100 rounded-lg">
-                    {img && <Image
-                        className="w-32 h-32 rounded-full border shadow-md"
-                        src={img}
-                        alt="User Profile"
-                        width={100}
-                        height={100}
-                    />}
+                    <input
+                        type="file"
+                        accept="image/*"
+                        className='hidden'
+                        id='imageRef'
+                        onChange={changeImageHandler}
+                    />
+                    {img &&
+                        <label htmlFor='imageRef' className='w-40 h-32 '>
+                            <Image
+                                className="w-32 h-32 rounded-full border shadow-md cursor-pointer"
+                                src={img}
+                                alt="User Profile"
+                                width={100}
+                                height={100}
+                            />
+                        </label>
+                    }
                     <div className="text-center w-full p-6">
                         <h2 className="text-2xl font-semibold text-gray-800">{user?.name}</h2>
                         <p className="text-gray-500 text-sm">Joined 3 months ago</p>
@@ -187,7 +167,7 @@ const profile = () => {
             </div>
 
             <div className='w-[60%]'>
-                {showOrders && 
+                {showOrders &&
                     <Order />
                 }
                 {showProfileInfo &&

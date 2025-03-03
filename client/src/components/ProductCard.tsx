@@ -57,7 +57,7 @@ interface PageProps {
 
 export const ProductCard = ({ product, latest }: PageProps) => {
 
-    const { user } = useAuth(); 
+    const { user, getCartItems } = useAuth(); 
     const { name, price, photo, stock } = product;
 
     const addToCartHandler = async() => {
@@ -72,6 +72,7 @@ export const ProductCard = ({ product, latest }: PageProps) => {
         } catch (error: any) {
             responseToast(error?.response)
         }
+        getCartItems();
     }
 
 
@@ -80,7 +81,6 @@ export const ProductCard = ({ product, latest }: PageProps) => {
             <div className='border flex flex-col justify-center items-center p-4 shadow-sm rounded-2xl group bg-orange-50 hover:bg-orange-100 break-inside-avoid-column'>
                 <Image
                     className='rounded-xl w-full h-full'
-                    // src={process.env.NEXT_PUBLIC_SERVER + '/' + photo || '/download.jpeg'}
                     src={'/download.jpeg'}
                     alt={name}
                     width={0}

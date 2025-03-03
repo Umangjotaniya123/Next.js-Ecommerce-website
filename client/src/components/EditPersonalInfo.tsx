@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 
 const EditPersonalInfo = () => {
 
-    const { user } = useAuth();
+    const { user, setUser, getUser } = useAuth();
     const router = useRouter();
 
     const methods = useForm<User>({
@@ -60,7 +60,7 @@ const EditPersonalInfo = () => {
             if (res?.data) {
                 responseToast(res, router, '/profile');
                 reset({ ...data });
-
+                getUser();
             }
         } catch (error: any) {
             responseToast(error?.response)

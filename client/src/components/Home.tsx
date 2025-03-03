@@ -105,7 +105,7 @@ const Home = ({ data }: { data: string }) => {
                     width={0}
                     height={0}
                     sizes="100vw"
-                    className="w-full h-[26rem] md:h-[40rem] object-cover object-center"
+                    className="w-full h-[26rem] md:h-[40rem] object-cover object-left-top"
                 />
                 <div className="absolute top-[50%] left-4 md:right-16 md:left-auto transform -translate-y-1/2 w-[90%] md:w-[45%] bg-white/60 md:bg-transparent p-4 md:p-0 rounded-lg">
                     <div className="uppercase text-gray-600 tracking-wide text-base md:text-2xl">Denim collection</div>

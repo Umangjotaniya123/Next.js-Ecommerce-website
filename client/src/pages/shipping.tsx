@@ -223,21 +223,3 @@ const Shipping = ({ data }: { data: string }) => {
 }
 
 export default Shipping;
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-
-  const { token } = req.cookies;
-  let cartItems = null;
-
-  try {
-    const { data } = await Axios.get(`/cartItems/all?token=${token}`);
-
-    if (data)
-      cartItems = encryptedData(data.cartItems);
-  } catch (error) {
-    console.log("Error - ", error);
-  }
-  return {
-    props: { data: cartItems }
-  }
-}
