@@ -14,7 +14,7 @@ const search = ({ data }: { data: string }) => {
     const divRef = useRef<HTMLElement>(null);
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("");
-    const [maxPrice, setMaxPrice] = useState(200000);
+    const [maxPrice, setMaxPrice] = useState<number>(0);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [allCategory, setAllCategory] = useState<string[] | []>([]);
     const [page, setPage] = useState(1);
@@ -23,7 +23,7 @@ const search = ({ data }: { data: string }) => {
     const [searchAllProducts, setSearchAllProducts] = useState<Product[]>([]);
     const [searchProducts, setSearchProducts] = useState<Product[]>([]);
 
-    useEffect(() => {        
+    useEffect(() => {
 
         if (data) {
             const decryptData = decryptedData(data);
@@ -33,37 +33,37 @@ const search = ({ data }: { data: string }) => {
             setMaxPage(decryptData.totalPage);
         }
     }, [data]);
-    
+
     useEffect(() => {
         const startIndex = 20 * (page - 1);
         const products = searchAllProducts?.slice(startIndex, startIndex + 20);
         setSearchProducts(products);
         divRef.current?.scroll(0, 0);
     }, [page, searchAllProducts]);
-    
-    
+
+
     useEffect(() => {
-        
+
         // const getSearchProducts = async() => {
-            
+
         //     try {
         //         const { data } = await Axios.get(url);
-                
+
         //         if(data) {
         //         }
-                
+
         //     } catch (error) {
         //         console.log('Error - ', error);
         //     }
         // }
-        
+
         const query: SearchRequestQuery = {}
 
-        query.price = `${maxPrice}`;
-        if(search) query.search = `${search}`; 
-        if(selectedCategory) query.category = `${selectedCategory}`; 
-        if(sort) query.sort = `${sort}`; 
-        
+        if (maxPrice) query.price = `${maxPrice}`;
+        if (search) query.search = `${search}`;
+        if (selectedCategory) query.category = `${selectedCategory}`;
+        if (sort) query.sort = `${sort}`;
+
         router.query = { ...query }
         router.replace(router);
         // getSearchProducts();
@@ -104,12 +104,12 @@ const search = ({ data }: { data: string }) => {
                     </div>
                     {/* Max Price */}
                     <div className="inputStyle">
-                        <h4>Max Price: {maxPrice || ""}</h4>
+                        <h4>Max Price: {maxPrice ? maxPrice : 200000}</h4>
                         <input
                             type="range"
                             min={100}
                             max={200000}
-                            value={maxPrice}
+                            value={maxPrice ? maxPrice : 200000}
                             onChange={e => setMaxPrice(Number(e.target.value))}
                             className="w-full"
                         />
@@ -138,12 +138,12 @@ const search = ({ data }: { data: string }) => {
                 </div>
                 {/* Max Price */}
                 <div className="inputStyle">
-                    <h4>Max Price: {maxPrice || ""}</h4>
+                    <h4>Max Price: {maxPrice ? maxPrice : 200000}</h4>
                     <input
                         type="range"
                         min={100}
                         max={200000}
-                        value={maxPrice}
+                        value={maxPrice ? maxPrice : 200000}
                         onChange={e => setMaxPrice(Number(e.target.value))}
                         className="w-full"
                     />
@@ -213,21 +213,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     let products = [];
 
     const { category, search, price, sort } = context.query;
-    
-    let url = `/product/all?price=${price}`;
-    if(search) url += `&search=${search}`; 
-    if(category) url += `&category=${category}`; 
-    if(sort) url += `&sort=${sort}`; 
-    
+
+    let url = `/product/all?price=${price ? price : 200000}`;
+    if (search) url += `&search=${search}`;
+    if (category) url += `&category=${category}`;
+    if (sort) url += `&sort=${sort}`;
+
     try {
         const { data } = await Axios.get(url)
-        
+
         if (data)
             products = data;
     } catch (error) {
         console.log("Error - ", error);
     }
-    
+
     const encryptData = encryptedData(products);
 
     return {

@@ -1,15 +1,17 @@
+import CartSummary from '@/components/CartSummary';
 import Axios from '@/config/axios';
 import { useAuth } from '@/context/AuthContext';
-import { addToCart, calculatePrice } from '@/redux/reducer/cartReducer';
+import { addToCart, calculatePrice, saveShippingInfo } from '@/redux/reducer/cartReducer';
 import { CartReducerInitialState } from '@/types/reducer-types';
 import { Address, CartItem, User } from '@/types/types';
-import { decryptedData, encryptedData } from '@/utilities/features';
+import { decryptedData, encryptedData, responseToast } from '@/utilities/features';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 const initialAddress = {
@@ -21,12 +23,13 @@ const initialAddress = {
   addType: "",
 };
 
-const Shipping = ({ data }: { data: string }) => {
+const Shipping = () => {
 
   const { user } = useAuth();
   const router = useRouter();
   const dispatch = useDispatch();
   const [addressInfo, setAddressInfo] = useState<Address[] | []>([]);
+  const [newAddressInfo, setNewAddressInfo] = useState<Address | null>(null);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>(0);
 
   const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<Address>({
@@ -36,14 +39,6 @@ const Shipping = ({ data }: { data: string }) => {
   const { cartItems, subTotal, tax, total, shippingCharges, discount } = useSelector(
     (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
   );
-
-  useEffect(() => {
-    if (data) {
-      const items: CartItem[] | [] = decryptedData(data);
-      // setCartItems(cartItems);
-      items.map(item => dispatch(addToCart(item)));
-    }
-  }, [data])
 
   useEffect(() => {
     if (user) {
@@ -57,21 +52,44 @@ const Shipping = ({ data }: { data: string }) => {
     }
   }, [addressInfo, reset, setValue]);
 
-  useEffect(() => {
-    dispatch(calculatePrice());
-  }, [cartItems])
 
   const handleSelect = (index: number) => {
-    reset(initialAddress);
+    // reset(initialAddress);
     setSelectedAddressIndex(index);
   };
 
-  const handleNewAddress = () => {
+  const onSubmit = async (data: any) => {
     setSelectedAddressIndex(-1);
-    reset(initialAddress);
+    setNewAddressInfo(data);
   }
 
-  const onSubmit = async () => { }
+  const handleCheckout = async () => {
+    let selectAddress;
+    if (selectedAddressIndex == -1) {
+      selectAddress = newAddressInfo;
+    }
+    else if (addressInfo.length && addressInfo[selectedAddressIndex]) {
+      selectAddress = addressInfo[selectedAddressIndex];
+    }
+    else {
+      toast.error('Please Select or add Address');
+    }
+
+    if (!selectAddress) return;
+
+    dispatch(saveShippingInfo(selectAddress));
+
+    try {
+      const { data } = await Axios.post('/payment/create', { amount: total });
+
+      router.push({
+        pathname: '/checkout',
+        query: { clientSecret: data.clientSecret }
+      });
+    } catch (error: any) {
+      responseToast(error.response);
+    }
+  }
 
   return (
     <div className="w-full min-h-screen flex flex-col lg:flex-row justify-center items-start gap-10 p-6">
@@ -96,7 +114,7 @@ const Shipping = ({ data }: { data: string }) => {
             </div>
           ))}
         <hr className="border-gray-700" />
-  
+
         <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <h1 className="text-lg font-semibold">New Address</h1>
           <div className="grid grid-cols-1 gap-4 w-full mt-10 py-3 sm:grid-cols-2 sm:gap-6">
@@ -141,24 +159,28 @@ const Shipping = ({ data }: { data: string }) => {
             </div>
           </div>
           <div className="w-full flex flex-row gap-2 text-sm lg:gap-4">
-            <button type="submit" className="w-28 bg-indigo-950 hover:bg-zinc-800 text-white rounded-2xl font-semibold py-2">
-              Save
+            <button type="submit" className={`w-28 bg-indigo-950 hover:bg-zinc-800 text-white rounded-2xl font-semibold py-2 ${selectedAddressIndex == -1 ? 'bg-orange-800' : ''}`}>
+              {selectedAddressIndex !== -1 ? 'Select' : 'Selected'}
             </button>
-            <button type="button" className="w-28 bg-gray-500 hover:bg-gray-700 rounded-2xl text-white font-semibold py-2">
+            <button
+              type="button"
+              className="w-28 bg-gray-500 hover:bg-gray-700 rounded-2xl text-white font-semibold py-2"
+              onClick={() => setSelectedAddressIndex(0)}
+            >
               Cancel
             </button>
           </div>
         </form>
       </div>
-  
+
       <div className="w-full max-w-lg sm:max-w-full bg-orange-100 p-6 h-fit m-2 rounded-lg shadow-md lg:max-w-[35%]">
-        <div className="flex justify-between items-center mb-4 font-bold text-xl">
+        {/* <div className="flex justify-between items-center mb-4 font-bold text-xl">
           <h2>Summary</h2>
           <Link href={"/cart"} className="text-blue-500 text-medium">
             Edit Cart
           </Link>
         </div>
-  
+
         <section className="my-8 space-y-4">
           {cartItems.length > 0 ? (
             cartItems.map((item, index) => (
@@ -181,9 +203,9 @@ const Shipping = ({ data }: { data: string }) => {
             <h1 className="text-lg font-semibold text-center">No Items Added</h1>
           )}
         </section>
-  
+
         <hr className="border-gray-700 my-3" />
-  
+
         <div className="tracking-tighter my-8">
           <div className="flex justify-between py-1">
             <span>Items subtotal :</span> <span className="font-semibold">₹{subTotal}</span>
@@ -201,25 +223,30 @@ const Shipping = ({ data }: { data: string }) => {
             <span>Subtotal :</span> <span className="font-semibold">₹{subTotal}</span>
           </div>
         </div>
-  
+
         <hr className="border-gray-700 my-3" />
-  
+
         <div className="flex my-8 border-1 border-yellow-950 rounded-md p-2">
           <input type="text" placeholder="Voucher" className="w-full px-2 border-none bg-transparent focus:ring-0 outline-none" />
           <button className="text-indigo-800 px-2 font-semibold">Apply</button>
         </div>
-  
+
         <div className="flex justify-between font-bold text-lg my-4">
           <span>Total :</span> <span>₹{total}</span>
-        </div>
-  
-        <button className="w-full bg-indigo-950 font-semibold text-white py-2 rounded-lg mt-4 hover:bg-zinc-700">
+        </div> */}
+
+        <CartSummary />
+        <button
+          className="w-full bg-indigo-950 font-semibold text-white py-2 rounded-lg mt-4 hover:bg-zinc-700"
+          onClick={handleCheckout}
+        >
           Proceed to check out
         </button>
       </div>
+
     </div>
   );
-  
+
 }
 
 export default Shipping;

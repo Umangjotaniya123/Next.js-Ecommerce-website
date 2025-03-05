@@ -19,7 +19,7 @@ config({
 });
 const port = process.env.PORT || 4000;
 const mongoURI = process.env.MONGO_URI || "";
-const stripeKey = process.env.STRIPE_KEY || "";
+const stripeKey = process.env.STRIPE_SECRET_KEY || "";
 connectDB(mongoURI);
 export const stripe = new Stripe(stripeKey);
 export const myCache = new NodeCache();

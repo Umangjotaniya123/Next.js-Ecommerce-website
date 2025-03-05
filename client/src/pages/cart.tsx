@@ -47,9 +47,11 @@ const cart = () => {
           <div className="flex justify-between">
             <span>Shipping Cost :</span> <span className="font-semibold">₹{shippingCharges}</span>
           </div>
-          <div className="flex justify-between">
-            <span>Subtotal :</span> <span className="font-semibold">₹{subTotal}</span>
-          </div>
+        </div>
+
+        <div className="flex my-8 border-1 border-yellow-950 rounded-md p-2">
+          <input type="text" placeholder="Voucher" className="w-full px-2 border-none bg-transparent focus:ring-0 outline-none" />
+          <button className="text-indigo-800 px-2 font-semibold">Apply</button>
         </div>
 
         <div className="flex justify-between font-bold text-lg mt-4">

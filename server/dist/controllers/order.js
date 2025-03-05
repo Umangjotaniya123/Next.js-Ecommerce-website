@@ -5,12 +5,11 @@ import ErrorHandler from "../utils/utility-class.js";
 import { myCache } from "../app.js";
 export const newOrder = TryCatch(async (req, res, next) => {
     const { shippingInfo, user, subTotal, tax, shippingCharges, discount, total, orderItems, } = req.body;
+    console.log(req.body);
     if (!shippingInfo ||
         !user ||
         !subTotal ||
         !tax ||
-        !shippingCharges ||
-        !discount ||
         !total ||
         !orderItems)
         return next(new ErrorHandler("Please enter All Fields", 400));

@@ -19,13 +19,14 @@ export const newOrder = TryCatch(
             orderItems,
         } = req.body;
 
+        console.log(req.body);
+        
+
         if (
             !shippingInfo ||
             !user ||
             !subTotal ||
             !tax ||
-            !shippingCharges ||
-            !discount ||
             !total ||
             !orderItems
         ) return next(new ErrorHandler("Please enter All Fields", 400));
