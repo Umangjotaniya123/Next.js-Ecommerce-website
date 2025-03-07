@@ -10,4 +10,4 @@ const storage = multer.diskStorage({
         callback(null, `${id}.${extName}`);
     },
 });
-export const singleUpload = multer({ storage }).single("photo");
+export const singleUpload = multer({ storage }).array("photo");

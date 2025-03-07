@@ -10,15 +10,14 @@ import { invalidateCache } from "../utils/features.js";
 
 export const newProduct = TryCatch(
     async (req: Request<{}, {}, NewProductRequestBody>, res, next) => {
-        const { name, price, stock, category } = req.body;
-        const photo = req.file;
-
-        if (!photo)
-            return next(new ErrorHandler("Please add Photo", 400));
+        const { name, price, stock, category, discription, specification, discount } = req.body;
+        const photos = (req.files as Express.Multer.File[]).map((file) => file.path);
 
         if (!name || !price || !stock || !category) {
-            rm(photo.path, () => {
-                console.log('Deleted');
+            photos.forEach((photo) => {
+                rm(photo, () => {
+                    console.log('Deleted');
+                })
             })
             return next(new ErrorHandler("Please enter All Fields", 400));
         }
@@ -26,7 +25,10 @@ export const newProduct = TryCatch(
         await Product.create({
             name, price, stock,
             category: category.toLowerCase(),
-            photo: photo?.path,
+            photos,
+            discription,
+            specification: JSON.parse(specification), 
+            discount,
         });
 
         // Remove the Cache || Revalidate cache
@@ -124,12 +126,12 @@ export const updateProduct = TryCatch(async (req, res, next) => {
     if (!product)
         return next(new ErrorHandler("Invalid Product Id", 404));
 
-    if (photo) {
-        rm(product.photo, () => {
-            console.log('Old Photo Deleted');
-        })
-        product.photo = photo.path;
-    }
+    // if (photo) {
+    //     rm(product.photo, () => {
+    //         console.log('Old Photo Deleted');
+    //     })
+    //     product.photo = photo.path;
+    // }
 
     if (name) product.name = name;
     if (price) product.price = price;
@@ -154,9 +156,9 @@ export const deleteProduct = TryCatch(async (req, res, next) => {
     if (!product)
         return next(new ErrorHandler("Product Not Found", 404));
 
-    rm(product.photo, () => {
-        console.log('Product Photo Deleted');
-    })
+    // rm(product.photo, () => {
+    //     console.log('Product Photo Deleted');
+    // })
 
     await product.deleteOne();
 

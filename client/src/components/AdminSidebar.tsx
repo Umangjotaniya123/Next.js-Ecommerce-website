@@ -71,18 +71,13 @@ const AdminSidebar = () => {
 
   const Li = ({ data: { url, text, Icon }, router }: LiProps) => (
     <li
-      className="px-4 py-2 rounded-md w-full"
-      style={{
-        backgroundColor: router.pathname.includes(url)
-          ? "rgba(0,115,255,0.1)"
-          : "white",
-      }}
+      className={`px-4 py-2 rounded-md text-black w-full ${router.pathname.includes(url) ? 'bg-orange-200': 'bg-orange-50'}`}
     >
       <Link
         className="flex flex-row justify-start items-center gap-4"
         href={url}
         style={{
-          color: router.pathname.includes(url) ? "rgb(0,115,255)" : "black",
+          // color: router.pathname.includes(url) ? "white" : "black",
         }}
         onClick={() => setShowModal(phoneActive ? false : true)}
       >
@@ -101,9 +96,9 @@ const AdminSidebar = () => {
 
       {showModal && <aside
         className={ `${phoneActive ? 
-          'absolute transition-all duration-600 w-[90%] max-w-[360px] z-20 h-[calc(100vh-5rem)]' :
+          'absolute transition-all duration-600 w-[90%] max-w-[360px] z-20 h-[calc(100vh-6rem)]' :
           'w-[360px]'
-        } rounded-lg flex flex-col items-center gap-2 bg-green-200`}
+        } rounded-lg flex flex-col bg-gray-500 text-white items-center gap-2 `}
       >
         <h2 className="heading m-4 flex justify-center items-center">LOGO</h2>
 

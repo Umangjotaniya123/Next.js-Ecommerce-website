@@ -17,13 +17,13 @@ interface PageProps {
 export const ProductCard = ({ product, latest }: PageProps) => {
 
     const { user, getCartItems } = useAuth(); 
-    const { _id, name, price, photo, stock } = product;
+    const { _id, name, price, photos, stock, discount } = product;
 
     const addToCartHandler = async() => {
         try {
             const res = await Axios.post('/cartItems/new', {
                 productId: product._id,
-                price, name, photo, stock, quantity: 1,
+                price, name, photos, stock, quantity: 1,
             })
 
             responseToast(res)
@@ -36,10 +36,10 @@ export const ProductCard = ({ product, latest }: PageProps) => {
 
     return (
         <>
-            <div className='border flex flex-col justify-center items-center p-4 shadow-sm rounded-2xl group bg-orange-50 hover:bg-orange-100 break-inside-avoid-column'>
+            <div className='border h-[400px] flex flex-col justify-between items-center p-4 shadow-sm rounded-2xl group bg-orange-50 hover:bg-orange-100 break-inside-avoid-column'>
                 <Image
                     className='rounded-xl w-full h-full'
-                    src={'/download.jpeg'}
+                    src={(photos && photos.length) ? `${process.env.NEXT_PUBLIC_SERVER}/${photos[0]}` : 'download.jpg'}
                     alt={name}
                     width={0}
                     height={0}
@@ -53,9 +53,9 @@ export const ProductCard = ({ product, latest }: PageProps) => {
                             Add To Cart
                         </button>
                     </div>
-                    <div className='w-full text-end'>
+                    <div className='w-full text-end flex flex-col'>
                         <Link href={`/product/${_id}`}>{name}</Link>
-                        {latest && <p className='flex justify-end items-center text-green-500'><FaArrowDown />30%</p>}
+                        {latest && <p className='flex justify-end items-center text-green-500'><FaArrowDown />{discount}%</p>}
                         <span className='font-bold text-lg'>₹{price}</span>
                     </div>
                 </div>

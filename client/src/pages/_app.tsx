@@ -7,8 +7,12 @@ import { UserContextProvider } from "@/context/AuthContext";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 import Footer from "@/components/Footer";
+import { useRouter } from "next/router";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
+
+  const router = useRouter();
+
   return (
     <>
       <HeroUIProvider>
@@ -16,7 +20,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <UserContextProvider>
             <Navbar />
             <Component {...pageProps} />
-            <Footer />
+            {router.pathname.includes('/admin') ? <></> : <Footer />}
             <Toaster position="bottom-center" />
           </UserContextProvider>
         </Provider>

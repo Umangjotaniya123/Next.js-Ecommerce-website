@@ -28,11 +28,14 @@ export interface User {
 
 export interface Product {
     _id: string;
-    photo: string;
+    photos: string;
     name: string;
     price: number;
     stock: number;
     category: string;
+    discription: string;
+    specification: string;
+    discount: number;
 }
 
 export type ShippingInfo = {

@@ -24,10 +24,10 @@ const productId = ({ data }: { data: string }) => {
         try {
             const res = await Axios.post('/cartItems/new', {
                 productId: product?._id,
-                price: product?.price, 
-                name: product?.name, 
-                photo: product?.photo, 
-                stock: product?.stock, 
+                price: product?.price,
+                name: product?.name,
+                photo: product?.photos[0],
+                stock: product?.stock,
                 quantity: quantity,
             })
 
@@ -44,10 +44,10 @@ const productId = ({ data }: { data: string }) => {
             <div className="w-full h-fit flex justify-center gap-5">
 
                 <div className="flex justify-start w-[30%] px-6">
-                    {product?.photo &&
+                    {product?.photos &&
                         <Image
                             className="w-full max-h-full object-contain rounded-md cursor-pointer"
-                            src={`${process.env.NEXT_PUBLIC_SERVER}/${product.photo}`}
+                            src={`${process.env.NEXT_PUBLIC_SERVER}/${product.photos[0]}`}
                             alt={product.name}
                             width={0}
                             height={0}
@@ -67,7 +67,7 @@ const productId = ({ data }: { data: string }) => {
 
                     <div className='flex items-center mt-3 gap-6'>
                         <h2 className="text-3xl font-semibold">₹{product?.price}</h2>
-                        <span className="font-semibold text-xl text-green-600">₹{1000} off</span>
+                        {product?.discount && <span className="font-semibold text-xl text-green-600">₹{(product?.price! * product?.discount) / 100} off</span>}
                     </div>
 
                     {product?.stock && product.stock > 0 ?
@@ -113,7 +113,7 @@ const productId = ({ data }: { data: string }) => {
                         setSpecification(false);
                     }}
                 >
-                    <span>Decription</span>
+                    <span>Description</span>
                 </div>
                 <div
                     className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
@@ -128,12 +128,24 @@ const productId = ({ data }: { data: string }) => {
             </div>
 
             <div className='w-[70%]'>
-                {description &&
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque ipsam obcaecati ab unde quos autem quaerat iste amet maxime reprehenderit error, numquam officiis sint eveniet quisquam iusto voluptas doloribus? Fuga, ipsa delectus quo ab quaerat consequuntur, tempora, accusamus necessitatibus reiciendis illo dicta voluptate! Consequatur unde esse consequuntur ratione provident iste inventore accusantium illum deleniti eius temporibus tempore culpa, nihil ab vel porro nostrum excepturi maiores quaerat aspernatur! Aliquid fuga earum debitis possimus nemo error delectus, sint, dolorum consequuntur recusandae hic magnam esse ipsa excepturi atque cumque ducimus, soluta dolore! Sint, doloremque eaque officiis unde vero temporibus facere eum nam reprehenderit.</p>
-                }
-                {specification &&
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, quaerat! Earum magnam blanditiis sunt tenetur tempore, odio, repellendus omnis voluptatibus voluptatem itaque eius voluptatum quaerat quis repudiandae labore corrupti quisquam?</p>
-                }
+                {description && (product?.discription ?
+                    <p>{product.discription}</p> : 
+                    <p>No discription available</p>
+                )}
+                {specification && (product?.specification ? 
+                    <div className='w-full flex flex-col my-3'>
+                        {specification && Object.entries(product.specification).map(([key, value]: any, index) => (
+                            <div
+                                key={index}
+                                className='w-full flex justify-between items-center gap-4'
+                            >
+                                <span className='w-[30%] text-center p-2 '>{key}</span>
+                                <span className='text-start border-b border-gray-500 p-2 px-5 bg-orange-50 w-full'>{value}</span>
+                            </div>
+                        ))}
+                    </div> : 
+                    <p>No specification available</p>
+                )}
             </div>
         </div>
     )
@@ -156,7 +168,6 @@ export const getServerSideProps = async (context: any) => {
     } catch (error) {
         console.log(error);
     }
-
 
     return {
         props: { data: product },

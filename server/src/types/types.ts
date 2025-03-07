@@ -26,6 +26,9 @@ export interface NewProductRequestBody {
     category: string;
     price: number;
     stock: number;
+    discount: number;
+    discription: string;
+    specification: string; 
 }
 
 export type ControllerType = (

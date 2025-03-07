@@ -4,10 +4,9 @@ const schema = new mongoose.Schema({
         type: String,
         required: [true, "Please add Name"],
     },
-    photo: {
-        type: String,
-        required: [true, "Please add Photo"],
-    },
+    photos: [{
+            type: String,
+        }],
     price: {
         type: Number,
         required: [true, "Please add Price"],
@@ -20,6 +19,15 @@ const schema = new mongoose.Schema({
         type: String,
         required: [true, "Please add Category"],
         trim: true,
+    },
+    discount: {
+        type: Number,
+    },
+    discription: {
+        type: String,
+    },
+    specification: {
+        type: {},
     },
 }, {
     timestamps: true,
