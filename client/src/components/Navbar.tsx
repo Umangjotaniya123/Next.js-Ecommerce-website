@@ -82,7 +82,13 @@ const Navbar = () => {
 
                                     {/* User Info */}
                                     <div className="flex flex-col items-center text-center border-b border-gray-700 pb-4">
-                                        <Image src={user.photo ? `${process.env.NEXT_PUBLIC_SERVER}/${user.photo}` : '/download.jpeg'} alt="User" width={50} height={50} className="rounded-full" />
+                                        <Image 
+                                            src={user.photo ? `${process.env.NEXT_PUBLIC_SERVER}/${user.photo}` : '/download.jpeg'} 
+                                            alt="User" 
+                                            width={0} 
+                                            height={0} 
+                                            sizes='100vw'
+                                            className="rounded-full w-16 h-16" />
                                         <h3 className="text-lg font-semibold mt-2">{user?.name}</h3>
                                     </div>
 

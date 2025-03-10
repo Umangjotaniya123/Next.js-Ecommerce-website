@@ -1,3 +1,4 @@
+import { columnsType, ItemsType } from '@/types/types';
 import { Table, 
     TableHeader, 
     TableColumn,
@@ -9,39 +10,8 @@ import { Table,
 import React, { JSX } from 'react'
 
 type Props = {
-    columns: {
-        name: string;
-        uid: string;
-    }[];
-    items: {
-        _id: string;
-        amount: number;
-        discount: number;
-        quantity: number;
-        status: React.JSX.Element;
-        action: React.JSX.Element;
-    }[] | {
-        _id: string;
-        amount: number;
-        quantity: number;
-        discount: number;
-        status: string;
-    }[] | {
-        _id: string;
-        avatar: React.JSX.Element;
-        name: string;
-        email: string;
-        gender: string;
-        role: string;
-        action: React.JSX.Element;
-    }[] | {
-        _id: string;
-        photo: JSX.Element;
-        name: string;
-        price: number;
-        stock: number;
-        action: JSX.Element;
-    }[]
+    columns: columnsType[];
+    items: ItemsType[]
 }
 
 const TableHook = ({ columns, items }: Props) => {

@@ -10,7 +10,7 @@ import { invalidateCache } from "../utils/features.js";
 
 export const newProduct = TryCatch(
     async (req: Request<{}, {}, NewProductRequestBody>, res, next) => {
-        const { name, price, stock, category, discription, specification, discount } = req.body;
+        const { name, price, stock, category, description, specification, discount } = req.body;
         const photos = (req.files as Express.Multer.File[]).map((file) => file.path);
 
         if (!name || !price || !stock || !category) {
@@ -26,7 +26,7 @@ export const newProduct = TryCatch(
             name, price, stock,
             category: category.toLowerCase(),
             photos,
-            discription,
+            description,
             specification: JSON.parse(specification), 
             discount,
         });
@@ -118,25 +118,35 @@ export const getSingleProduct = TryCatch(async (req, res, next) => {
 });
 
 export const updateProduct = TryCatch(async (req, res, next) => {
-    const { name, price, stock, category } = req.body;
+    const { name, price, stock, category, removePhoto, discount, description, specification } = req.body;
     const { id } = req.params;
-    const photo = req.file;
+    const photos = (req.files as Express.Multer.File[]).map((file) => file.path);
     const product = await Product.findById(id);
 
     if (!product)
         return next(new ErrorHandler("Invalid Product Id", 404));
 
-    // if (photo) {
-    //     rm(product.photo, () => {
-    //         console.log('Old Photo Deleted');
-    //     })
-    //     product.photo = photo.path;
-    // }
+    if (removePhoto && JSON.parse(removePhoto).length > 0) {
+        JSON.parse(removePhoto).map((photo: string) => {
+            rm(photo, () => {
+            console.log('Old Photo Deleted');
+            })
+        });
+
+        product.photos = product.photos.filter((photo) => !removePhoto.includes(photo))
+    }
+
+    if(photos && photos.length > 0) {
+        product.photos = [...product.photos, ...photos];
+    }
 
     if (name) product.name = name;
     if (price) product.price = price;
     if (stock) product.stock = stock;
     if (category) product.category = category;
+    if (discount) product.discount = discount;
+    if (description) product.description = description;
+    if (specification) product.specification = JSON.parse(specification);
 
     await product.save();
 

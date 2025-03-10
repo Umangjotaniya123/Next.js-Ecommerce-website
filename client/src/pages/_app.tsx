@@ -21,7 +21,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <Navbar />
             <Component {...pageProps} />
             {router.pathname.includes('/admin') ? <></> : <Footer />}
-            <Toaster position="bottom-center" />
+            <Toaster position="bottom-center" gutter={4} />
           </UserContextProvider>
         </Provider>
       </HeroUIProvider>

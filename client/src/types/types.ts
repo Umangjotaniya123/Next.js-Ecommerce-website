@@ -28,14 +28,14 @@ export interface User {
 
 export interface Product {
     _id: string;
-    photos: string;
+    photos: string[];
     name: string;
-    price: number;
-    stock: number;
+    price: number | null;
+    stock: number | null;
     category: string;
-    discription: string;
+    description: string;
     specification: string;
-    discount: number;
+    discount: number | null;
 }
 
 export type ShippingInfo = {
@@ -189,9 +189,10 @@ export interface TUserType {
 export interface TProductType {
     _id: string;
     photo: React.JSX.Element;
-    name: string;
-    price: number;
-    stock: number;
+    name: React.JSX.Element;
+    price: number | null;
+    discount: React.JSX.Element;
+    stock: number | null;
     action: React.JSX.Element;
 }
 

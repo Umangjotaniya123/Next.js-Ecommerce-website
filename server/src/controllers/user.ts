@@ -120,7 +120,7 @@ export const deleteUser = TryCatch(async (req, res, next) => {
     if (!user)
         return next(new ErrorHandler("Invalid Id", 400));
 
-    if(user.role === 'admin')
+    if (user.role === 'admin')
         return next(new ErrorHandler(`Can't Delete Admin User`, 400))
 
     await user.deleteOne();
@@ -135,7 +135,7 @@ export const updateUser = TryCatch(async (req, res, next) => {
 
     const { name, email, gender, dob, addressInfo } = req.body;
     const id = req.params.id;
-    const photo = req.file;
+    const photo = (req.files as Express.Multer.File[]).map((file) => file.path);
     let flag = false;
 
     const user = await User.findById(id);
@@ -143,15 +143,16 @@ export const updateUser = TryCatch(async (req, res, next) => {
     if (!user)
         return next(new ErrorHandler("Invalid Id", 400));
 
-    if (photo) {
-        if (user.photo) rm(user.photo, () => {
-            console.log('Old Photo Deleted');
-        })
-        user.photo = photo.path;
+    if (photo && photo.length) {
+        if (user.photo)
+            rm(user.photo, () => {
+                console.log('Old Photo Deleted');
+            })
+        user.photo = photo[0];
         flag = true;
     }
 
-    else if(addressInfo) {
+    else if (addressInfo) {
         if (addressInfo && JSON.stringify(user.addressInfo) !== addressInfo) {
             user.addressInfo = JSON.parse(addressInfo);
             flag = true;
@@ -161,7 +162,7 @@ export const updateUser = TryCatch(async (req, res, next) => {
     else {
         if (!name || !gender || !email || !dob)
             return next(new ErrorHandler("Please fill all details", 400));
-    
+
         if (user.name !== name ||
             user.email !== email ||
             user.dob.toISOString().split('T')[0] !== dob ||
@@ -181,7 +182,7 @@ export const updateUser = TryCatch(async (req, res, next) => {
     }
     res.status(200).json({
         success: true,
-        message: `User ${photo? 'photo' : ''} Updated Successfully`,
+        message: `User ${photo ? 'photo' : ''} Updated Successfully`,
     });
 })
 

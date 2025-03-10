@@ -23,7 +23,7 @@ const schema = new mongoose.Schema({
     discount: {
         type: Number,
     },
-    discription: {
+    description: {
         type: String,
     },
     specification: {

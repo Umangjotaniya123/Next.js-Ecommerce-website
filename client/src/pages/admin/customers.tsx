@@ -85,31 +85,29 @@ const Customers = ({ data }: Props) => {
     setUsersData(decryptedData(data));
   }, [data])
 
-  // const router = useRouter();
-  // const [deleteUser] = useDeleteUserMutation();
-  // console.log(data);
-
   const users = usersData?.map((user, index: number) => {
     return (
       {
         _id: user._id,
-        avatar: user.photo ? (
-          <Image
-            className="rounded-full"
-            src={`${process.env.NEXT_PUBLIC_SERVER}/${user.photo}`}
+        avatar: <div className="w-full flex justify-center">
+          {user.photo ? (
+            <Image
+              className="rounded-full w-14 h-14"
+              src={`${process.env.NEXT_PUBLIC_SERVER}/${user.photo}`}
+              alt="avatar"
+              width={0}
+              height={0}
+              sizes="100vw"
+            />
+          ) : <Image
+            className="rounded-full w-14 h-14"
+            src={userImage}
             alt="avatar"
-            width={60}
-            height={60}
-          />
-        ) : <Image
-          style={{
-            borderRadius: '50%',
-          }}
-          src={userImage}
-          alt="avatar"
-          width={40}
-          height={40}
-        />,
+            width={0}
+            height={0}
+            sizes="100vw"
+          />}
+        </div>,
         name: user.name,
         email: user.email,
         gender: user.gender,
@@ -143,8 +141,8 @@ const Customers = ({ data }: Props) => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main className="bg-slate-100 w-full flex justify-center max-w-[calc(100% - 360px)] overflow-y-scroll ">
-        <div className="m-16 w-[60%]">
+      <main className="w-full flex justify-center max-w-[calc(100% - 360px)] overflow-y-scroll ">
+        <div className="m-16 w-[80%]">
           <TableHook columns={columns} items={users} />
         </div>
       </main>
@@ -154,14 +152,14 @@ const Customers = ({ data }: Props) => {
 
 export default Customers;
 
-export const getServerSideProps: GetServerSideProps = async(context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 
   let users = null;
 
   try {
     const { data } = await Axios.get('/user/all');
 
-    if(data){
+    if (data) {
       users = encryptedData(data?.users);
     }
   } catch (error) {

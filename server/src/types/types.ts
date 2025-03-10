@@ -27,7 +27,7 @@ export interface NewProductRequestBody {
     price: number;
     stock: number;
     discount: number;
-    discription: string;
+    description: string;
     specification: string; 
 }
 
@@ -44,6 +44,11 @@ export type SearchRequestQuery = {
     sort?: string;
     page?: string;
 };
+
+export interface WatchListItems {
+    userId: string;
+    productId: string[];
+}
 
 export interface BaseQuery {
     name?: {

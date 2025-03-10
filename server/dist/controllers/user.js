@@ -93,17 +93,17 @@ export const deleteUser = TryCatch(async (req, res, next) => {
 export const updateUser = TryCatch(async (req, res, next) => {
     const { name, email, gender, dob, addressInfo } = req.body;
     const id = req.params.id;
-    const photo = req.file;
+    const photo = req.files.map((file) => file.path);
     let flag = false;
     const user = await User.findById(id);
     if (!user)
         return next(new ErrorHandler("Invalid Id", 400));
-    if (photo) {
+    if (photo && photo.length) {
         if (user.photo)
             rm(user.photo, () => {
                 console.log('Old Photo Deleted');
             });
-        user.photo = photo.path;
+        user.photo = photo[0];
         flag = true;
     }
     else if (addressInfo) {

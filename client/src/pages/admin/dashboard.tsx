@@ -32,7 +32,7 @@ const dashboard = () => {
   return (
     <div className='admin-container'>
       <AdminSidebar />
-      <main className='bg-slate-100 w-full flex flex-col gap-4 max-w-[calc(100% - 360px)] overflow-y-scroll'>
+      <main className='w-full flex flex-col gap-4 max-w-[calc(100% - 360px)] overflow-y-scroll'>
         <div className="bar w-full flex flex-row justify-end items-center gap-4 border-b border-black text-lg p-2">
           <BsSearch />
           <input className='p-1 text-sm w-1/6 border-2 border-gray-300 rounded-lg' type="text" placeholder="Search for data, users, docs" />

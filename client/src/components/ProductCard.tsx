@@ -23,7 +23,8 @@ export const ProductCard = ({ product, latest }: PageProps) => {
         try {
             const res = await Axios.post('/cartItems/new', {
                 productId: product._id,
-                price, name, photos, stock, quantity: 1,
+                price, name, stock, quantity: 1,
+                photo: photos && photos.length && photos[0],
             })
 
             responseToast(res)

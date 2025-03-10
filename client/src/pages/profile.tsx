@@ -79,11 +79,12 @@ const profile = () => {
                     {img &&
                         <label htmlFor='imageRef' className='w-40 h-32 '>
                             <Image
-                                className="w-32 h-32 rounded-full border shadow-md cursor-pointer"
+                                className="w-full h-full rounded-full border shadow-md cursor-pointer"
                                 src={img}
                                 alt="User Profile"
-                                width={100}
-                                height={100}
+                                width={0}
+                                height={0}
+                                sizes='100vw'
                             />
                         </label>
                     }
