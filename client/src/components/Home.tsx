@@ -15,9 +15,11 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import { categoriesWithIcons } from '@/utilities/data';
+import { useRouter } from 'next/router';
 
 const Home = ({ data }: { data: string }) => {
     const [products, setProducts] = useState<Product[] | []>([]);
+    const router = useRouter();
 
     useEffect(() => {
         setProducts(decryptedData(data));
@@ -52,11 +54,17 @@ const Home = ({ data }: { data: string }) => {
                 <h1 className="uppercase mx-3 mt-4 text-xl md:text-2xl flex justify-between items-center">
                     Search With Categories
                 </h1>
-                <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 py-6 px-4 md:px-12 gap-4 md:gap-7">
+                <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 py-6 px-4 md:px-12 gap-4 md:gap-7 md:gap-x-20">
                     {categoriesWithIcons.map((cat, index) => {
                         const Icon = cat.icon;
                         return (
-                            <div key={index} className="h-24 md:h-32 text-sm md:text-md font-semibold flex flex-col justify-center items-center gap-2 cursor-pointer">
+                            <div 
+                                key={index} 
+                                className="h-24 md:h-32 text-sm md:text-md font-semibold flex flex-col justify-center items-center gap-2 cursor-pointer"
+                                onClick={() => {
+                                    router.push(`/search?category=${cat.name.toLowerCase()}`);
+                                }}
+                            >
                                 <div className="bg-orange-200 p-3 md:p-4 text-xl md:text-2xl rounded-full">
                                     <Icon />
                                 </div>

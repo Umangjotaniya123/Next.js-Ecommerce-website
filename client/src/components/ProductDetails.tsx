@@ -70,7 +70,7 @@ const details = ({ data }: { data: string }) => {
                     {product?.photos &&
                         <Image
                             className="w-full max-h-full object-contain rounded-md cursor-pointer"
-                            src={`${process.env.NEXT_PUBLIC_SERVER}/${product.photos[0]}`}
+                            src={(product.photos && product.photos.length > 0) ? `${process.env.NEXT_PUBLIC_SERVER}/${product.photos[0]}` : '/images/Image-not-found.png'}
                             alt={product.name}
                             width={0}
                             height={0}

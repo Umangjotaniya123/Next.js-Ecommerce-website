@@ -8,7 +8,6 @@ export const registerUser = TryCatch(async (req, res, next) => {
     // const { name, email, photo, gender, _id, dob } = req.body;
     const { name, email, password, gender, dob } = req.body;
     let user = await User.findOne({ email });
-    console.log(user);
     if (user)
         return res.status(400).json({
             success: false,
@@ -67,7 +66,6 @@ export const getAllUsers = TryCatch(async (req, res, next) => {
 });
 export const getUsers = TryCatch(async (req, res, next) => {
     const id = req.params.id;
-    console.log(id);
     const user = await User.findById(id);
     if (!user)
         return next(new ErrorHandler("Invalid Id", 400));
@@ -84,6 +82,10 @@ export const deleteUser = TryCatch(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Id", 400));
     if (user.role === 'admin')
         return next(new ErrorHandler(`Can't Delete Admin User`, 400));
+    if (user.photo)
+        rm(user.photo, () => {
+            console.log('Old Photo Deleted');
+        });
     await user.deleteOne();
     res.status(200).json({
         success: true,
@@ -91,9 +93,9 @@ export const deleteUser = TryCatch(async (req, res, next) => {
     });
 });
 export const updateUser = TryCatch(async (req, res, next) => {
-    const { name, email, gender, dob, addressInfo } = req.body;
+    const { name, email, gender, dob, addressInfo, role } = req.body;
     const id = req.params.id;
-    const photo = req.files.map((file) => file.path);
+    const photo = req.files?.map((file) => file.path);
     let flag = false;
     const user = await User.findById(id);
     if (!user)
@@ -105,6 +107,12 @@ export const updateUser = TryCatch(async (req, res, next) => {
             });
         user.photo = photo[0];
         flag = true;
+    }
+    else if (role) {
+        if (user.role !== role) {
+            user.role = role;
+            flag = true;
+        }
     }
     else if (addressInfo) {
         if (addressInfo && JSON.stringify(user.addressInfo) !== addressInfo) {

@@ -78,7 +78,7 @@ type Props = {
 const Customers = ({ data }: Props) => {
 
   const [usersData, setUsersData] = useState<User[] | []>([]);
-  const { user } = useAuth();
+  const { user, getUser } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -89,32 +89,45 @@ const Customers = ({ data }: Props) => {
     return (
       {
         _id: user._id,
-        avatar: <div className="w-full flex justify-center">
-          {user.photo ? (
-            <Image
+        avatar: (
+          <div className="w-full flex justify-center">
+            {user.photo ? (
+              <Image
+                className="rounded-full w-14 h-14"
+                src={`${process.env.NEXT_PUBLIC_SERVER}/${user.photo}`}
+                alt="avatar"
+                width={0}
+                height={0}
+                sizes="100vw"
+              />
+            ) : <Image
               className="rounded-full w-14 h-14"
-              src={`${process.env.NEXT_PUBLIC_SERVER}/${user.photo}`}
+              src={userImage}
               alt="avatar"
               width={0}
               height={0}
               sizes="100vw"
-            />
-          ) : <Image
-            className="rounded-full w-14 h-14"
-            src={userImage}
-            alt="avatar"
-            width={0}
-            height={0}
-            sizes="100vw"
-          />}
-        </div>,
+            />}
+          </div>
+        ),
         name: user.name,
         email: user.email,
         gender: user.gender,
-        role: user.role,
+        role: (
+          <select
+            className="border border-gray-300 bg-white rounded-md p-1 cursor-pointer"
+            name="role"
+            id="role"
+            defaultValue={user.role}
+            onChange={(e) => handleChange(e, user._id)}
+          >
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+        ),
         action: (
           <button>
-            <Tooltip color="danger" content="Delete user">
+            <Tooltip color="danger" content="Delete user" className="font-semibold">
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
                 <FaTrash onClick={() => handleDelete(user._id)} />
               </span>
@@ -126,10 +139,23 @@ const Customers = ({ data }: Props) => {
   });
 
   const handleDelete = async (_id: string) => {
-    // console.log(_id);
-
     try {
       const res = await Axios.delete(`/user/${_id}?id=${user?._id}`);
+
+      // if (res.data)
+      //   getUser();
+      responseToast(res, router, '/admin/customers');
+
+    } catch (error: any) {
+      responseToast(error.response)
+    }
+  }
+
+  const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>, _id: string) => {
+    try {
+      const res = await Axios.put(`/user/${_id}?id=${user?._id}`, {
+        role: e.target.value,
+      });
 
       responseToast(res, router, '/admin/customers');
 
@@ -143,7 +169,7 @@ const Customers = ({ data }: Props) => {
       <AdminSidebar />
       <main className="w-full flex justify-center max-w-[calc(100% - 360px)] overflow-y-scroll ">
         <div className="m-16 w-[80%]">
-          <TableHook columns={columns} items={users} />
+          {users && users.length > 0 && <TableHook columns={columns} items={users} />}
         </div>
       </main>
     </div>

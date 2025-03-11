@@ -167,9 +167,9 @@ export const getAllProducts = TryCatch(async (req, res, next) => {
     if (category)
         baseQuery.category = category;
     const productsPromise = Product.find(baseQuery)
-        .sort(sort && { price: sort === 'asc' ? 1 : -1 });
-    // .limit(limit)
-    // .skip(skip);
+        .sort(sort && { price: sort === 'asc' ? 1 : -1 })
+        .limit(limit)
+        .skip(skip);
     const [products, filteredOnlyProduct] = await Promise.all([
         productsPromise,
         Product.find(baseQuery),
@@ -198,7 +198,6 @@ const generateRandomProducts = async (count = 10) => {
         products.push(product);
     }
     await Product.create(products);
-    console.log({ succecss: true });
 };
 // generateRandomProducts(50);
 // const deleteRandomsProducts = async () => {

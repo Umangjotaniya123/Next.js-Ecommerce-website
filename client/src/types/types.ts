@@ -182,7 +182,7 @@ export interface TUserType {
     name: string;
     email: string;
     gender: string;
-    role: string;
+    role: React.JSX.Element;
     action: React.JSX.Element;
 }
 

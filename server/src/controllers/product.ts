@@ -27,7 +27,7 @@ export const newProduct = TryCatch(
             category: category.toLowerCase(),
             photos,
             description,
-            specification: JSON.parse(specification), 
+            specification: JSON.parse(specification),
             discount,
         });
 
@@ -129,14 +129,14 @@ export const updateProduct = TryCatch(async (req, res, next) => {
     if (removePhoto && JSON.parse(removePhoto).length > 0) {
         JSON.parse(removePhoto).map((photo: string) => {
             rm(photo, () => {
-            console.log('Old Photo Deleted');
+                console.log('Old Photo Deleted');
             })
         });
 
         product.photos = product.photos.filter((photo) => !removePhoto.includes(photo))
     }
 
-    if(photos && photos.length > 0) {
+    if (photos && photos.length > 0) {
         product.photos = [...product.photos, ...photos];
     }
 
@@ -213,8 +213,8 @@ export const getAllProducts = TryCatch(
 
         const productsPromise = Product.find(baseQuery)
             .sort(sort && { price: sort === 'asc' ? 1 : -1 })
-        // .limit(limit)
-        // .skip(skip);
+            .limit(limit)
+            .skip(skip);
 
         const [products, filteredOnlyProduct] = await Promise.all([
             productsPromise,
@@ -251,7 +251,6 @@ const generateRandomProducts = async (count: number = 10) => {
 
     await Product.create(products);
 
-    console.log({ succecss: true });
 };
 
 // generateRandomProducts(50);

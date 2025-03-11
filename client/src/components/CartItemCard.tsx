@@ -1,5 +1,6 @@
 import Axios from '@/config/axios';
 import { addToCart, removeCartItem } from '@/redux/reducer/cartReducer';
+import { CartItem } from '@/types/types';
 import { debounce } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,7 +9,7 @@ import { FaTrash } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 
 type CartItemProps = {
-    cartItem: any;
+    cartItem: CartItem;
     // incrementHandler: () => void;
     // decrementHandler: () => void;
     // removeHandler: (id: string, productId: string) => void;
@@ -20,7 +21,7 @@ const CartItemCard = ({ cartItem }: CartItemProps) => {
     const { _id, photo, productId, name, price, quantity } = cartItem;
     const dispatch = useDispatch();
 
-    const updateQuantityHandler = async({id, quantity}: { id: string, quantity: number }) => {
+    const updateQuantityHandler = async ({ id, quantity }: { id: string, quantity: number }) => {
         const res = await Axios.put(`/cartItems/${id}`, { quantity });
     }
 
@@ -28,33 +29,41 @@ const CartItemCard = ({ cartItem }: CartItemProps) => {
         debounce(updateQuantityHandler, 1000), []
     )
 
-    const incrementHandler = async() => {
+    const incrementHandler = async () => {
         dispatch(addToCart({ ...cartItem, quantity: quantity + 1 }));
         debounceUpdateQuantity({
-            id: _id,
+            id: _id || '',
             quantity: quantity + 1
         });
     }
-    
-    const decrementHandler = async() => {
+
+    const decrementHandler = async () => {
         dispatch(addToCart({ ...cartItem, quantity: quantity - 1 }));
         debounceUpdateQuantity({
-            id: _id,
+            id: _id || '',
             quantity: quantity - 1
         });
     }
 
-    const removeHandler = async() => {
-        dispatch(removeCartItem(_id))
+    const removeHandler = async () => {
+        dispatch(removeCartItem(_id || ''));
         await Axios.delete(`/cartItems/${_id}`)
     }
 
     return (
         <div className="cart-item p-3 mx-3 w-[80%] flex flex-col justify-center items-center gap-2 border-b border-l border-yellow-900 rounded-bl-lg sm:flex-row sm:justify-start sm:gap-10 sm:px-7 sm:py-4">
-            <Image className='w-full h-24 rounded-md' src={`${process.env.NEXT_PUBLIC_SERVER}/${photo}`} alt={name} width={200} height={200} />
+            {/* <Image className='w-full h-24 rounded-md' src={`${process.env.NEXT_PUBLIC_SERVER}/${photo}`} alt={name} width={200} height={200} /> */}
+            <Image
+                className='w-full h-24 rounded-md'
+                src={(photo && photo.includes('uploads/')) ? `${process.env.NEXT_PUBLIC_SERVER}/${photo}` : '/images/Image-not-found.png'}
+                alt={name}
+                width={0}
+                height={0}
+                sizes='100vw'
+            />
             {/* <article className='flex flex-row justify-center items-center gap-3 font-medium text-base sm:flex-col sm:gap-0'> */}
-                <Link className='text-amber-950 hover:text-blue-600  w-[90%] font-medium text-base' href={`/product/${productId}`}>{name}</Link>
-                <span className='font-semibold text-base px-2'>₹{price}</span>
+            <Link className='text-amber-950 hover:text-blue-600  w-[90%] font-medium text-base' href={`/product/${productId}`}>{name}</Link>
+            <span className='font-semibold text-base px-2'>₹{price}</span>
             {/* </article> */}
             <div className='flex felx-row justify-between items-center gap-6 font-medium sm:w-full sm:justify-end'>
                 <button className={`${buttonStyle}`} disabled={quantity == 1} onClick={() => decrementHandler()} >-</button>

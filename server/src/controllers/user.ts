@@ -17,7 +17,6 @@ export const registerUser = TryCatch(
         const { name, email, password, gender, dob } = req.body;
 
         let user = await User.findOne({ email });
-        console.log(user);
 
         if (user)
             return res.status(400).json({
@@ -100,7 +99,6 @@ export const getAllUsers = TryCatch(async (req, res, next) => {
 export const getUsers = TryCatch(async (req, res, next) => {
 
     const id = req.params.id;
-    console.log(id);
     const user = await User.findById(id);
 
     if (!user)
@@ -123,6 +121,12 @@ export const deleteUser = TryCatch(async (req, res, next) => {
     if (user.role === 'admin')
         return next(new ErrorHandler(`Can't Delete Admin User`, 400))
 
+    if (user.photo)
+        rm(user.photo, () => {
+            console.log('Old Photo Deleted');
+        })
+
+
     await user.deleteOne();
 
     res.status(200).json({
@@ -133,11 +137,11 @@ export const deleteUser = TryCatch(async (req, res, next) => {
 
 export const updateUser = TryCatch(async (req, res, next) => {
 
-    const { name, email, gender, dob, addressInfo } = req.body;
+    const { name, email, gender, dob, addressInfo, role } = req.body;
     const id = req.params.id;
-    const photo = (req.files as Express.Multer.File[]).map((file) => file.path);
+    const photo = (req.files as Express.Multer.File[])?.map((file) => file.path);
     let flag = false;
-
+    
     const user = await User.findById(id);
 
     if (!user)
@@ -150,6 +154,13 @@ export const updateUser = TryCatch(async (req, res, next) => {
             })
         user.photo = photo[0];
         flag = true;
+    }
+
+    else if (role) {
+        if (user.role !== role) {
+            user.role = role;
+            flag = true;
+        }
     }
 
     else if (addressInfo) {

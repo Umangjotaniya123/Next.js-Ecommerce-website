@@ -27,6 +27,7 @@ import {
     RiBillFill,
     RiCoupon3Fill,
     RiDashboardFill,
+    RiHeartLine,
     RiHome5Fill,
     RiShoppingBag3Fill,
 } from "react-icons/ri";
@@ -99,9 +100,9 @@ export const navbarData = {
             Icon: AiFillProduct
         },
         {
-            name: 'Favorite Store',
-            url: '/#',
-            Icon: FaStore
+            name: 'Watch List',
+            url: '/watchList',
+            Icon: RiHeartLine
         },
         {
             name: 'Shipping Info',

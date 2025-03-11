@@ -1,7 +1,9 @@
 import { ProductCard } from '@/components/ProductCard';
 import Axios from '@/config/axios';
 import { Product, SearchRequestQuery } from '@/types/types';
+import { categoriesWithIcons } from '@/utilities/data';
 import { decryptedData, encryptedData } from '@/utilities/features';
+import { round } from 'lodash';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react'
@@ -10,17 +12,18 @@ import { FaFilter } from 'react-icons/fa6';
 const search = ({ data }: { data: string }) => {
 
     const router = useRouter();
+    // console.log("Router - ", router);
+
 
     const divRef = useRef<HTMLElement>(null);
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("");
     const [maxPrice, setMaxPrice] = useState<number>(0);
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(router.query.category ? router.query.category as string : "");
     const [allCategory, setAllCategory] = useState<string[] | []>([]);
     const [page, setPage] = useState(1);
     const [maxPage, setMaxPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
-    const [searchAllProducts, setSearchAllProducts] = useState<Product[]>([]);
     const [searchProducts, setSearchProducts] = useState<Product[]>([]);
 
     useEffect(() => {
@@ -29,33 +32,22 @@ const search = ({ data }: { data: string }) => {
             const decryptData = decryptedData(data);
             setAllCategory(decryptData.categories);
             setPage(1);
-            setSearchAllProducts(decryptData.products);
+            setSearchProducts(decryptData.products);
             setMaxPage(decryptData.totalPage);
         }
     }, [data]);
 
-    useEffect(() => {
-        const startIndex = 20 * (page - 1);
-        const products = searchAllProducts?.slice(startIndex, startIndex + 20);
-        setSearchProducts(products);
-        divRef.current?.scroll(0, 0);
-    }, [page, searchAllProducts]);
+    // useEffect(() => {
+    //     if (searchAllProducts && searchAllProducts.length > 0) {
+    //         const startIndex = 20 * (page - 1);
+    //         const products = searchAllProducts?.slice(startIndex, startIndex + 20);
+    //         setSearchProducts(products);
+    //         divRef.current?.scroll(0, 0);
+    //     }
+    // }, [page, searchAllProducts]);
 
 
     useEffect(() => {
-
-        // const getSearchProducts = async() => {
-
-        //     try {
-        //         const { data } = await Axios.get(url);
-
-        //         if(data) {
-        //         }
-
-        //     } catch (error) {
-        //         console.log('Error - ', error);
-        //     }
-        // }
 
         const query: SearchRequestQuery = {}
 
@@ -63,10 +55,10 @@ const search = ({ data }: { data: string }) => {
         if (search) query.search = `${search}`;
         if (selectedCategory) query.category = `${selectedCategory}`;
         if (sort) query.sort = `${sort}`;
+        if (page > 1) query.page = `${page}`;
 
         router.query = { ...query }
         router.replace(router);
-        // getSearchProducts();
 
     }, [search, maxPrice, selectedCategory, sort]);
 
@@ -153,8 +145,8 @@ const search = ({ data }: { data: string }) => {
                     <h4>Category</h4>
                     <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)} className="border p-2 rounded-lg">
                         <option value="">ALL</option>
-                        {Array.isArray(allCategory) && allCategory.map((cat, index) => (
-                            <option key={index} value={cat}>{cat.toUpperCase()}</option>
+                        {categoriesWithIcons.map((cat, index) => (
+                            <option key={index} value={cat.name.toLowerCase()}>{cat.name.toUpperCase()}</option>
                         ))}
                     </select>
                 </div>
@@ -174,27 +166,30 @@ const search = ({ data }: { data: string }) => {
                 </div>
 
                 {/* Products Grid */}
-                <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-6 py-6">
-                    {searchProducts?.map((product, index) => (
-                        <ProductCard key={index} product={product} latest />
-                    ))}
-                </div>
+                {searchProducts && searchProducts.length > 0 ?
+                    <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-6 py-6">
+                        {searchProducts?.map((product, index) => (
+                            <ProductCard key={index} product={product} latest />
+                        ))}
+                    </div> :
+                    <h1 className="w-full heading my-8 text-center text-lg font-semibold">No Items Added</h1>
+                }
 
                 {/* Pagination */}
                 <article className="flex justify-center items-center gap-2 sm:gap-4">
                     <button
-                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page === 1 ? "opacity-50 cursor-not-allowed" : ""
+                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page <= 1 ? "opacity-50 cursor-not-allowed" : ""
                             }`}
-                        disabled={page === 1}
+                        disabled={page <= 1}
                         onClick={() => setPage((prev) => prev - 1)}
                     >
                         Prev
                     </button>
                     <span className="font-semibold">{page}</span>
                     <button
-                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page === maxPage ? "opacity-50 cursor-not-allowed" : ""
+                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page >= maxPage ? "opacity-50 cursor-not-allowed" : ""
                             }`}
-                        disabled={page === maxPage}
+                        disabled={page >= maxPage}
                         onClick={() => setPage((prev) => prev + 1)}
                     >
                         Next
