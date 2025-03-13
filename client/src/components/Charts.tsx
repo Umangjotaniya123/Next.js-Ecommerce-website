@@ -13,6 +13,7 @@ import {
   LineElement,
   Filler,
 } from "chart.js";
+import { useEffect, useRef } from "react";
 import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 
 ChartJS.register(
@@ -196,33 +197,33 @@ interface LineChartProps {
 export const LineChart = ({
   data,
   label,
-  backgroundColor,
   borderColor,
-  labels = months,
+  labels,
 }: LineChartProps) => {
+  const chartRef = useRef<any>(null);
+
+  // Function to generate linear gradient
+  const getGradient = (ctx: CanvasRenderingContext2D, chartArea: any) => {
+    const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    gradient.addColorStop(0, borderColor); // Start color
+    gradient.addColorStop(1, "rgba(255, 255, 255, 0.5)"); // Transparent bottom
+    return gradient;
+  };
+
   const options: ChartOptions<"line"> = {
     responsive: true,
     plugins: {
-      legend: {
-        display: false,
-      },
-      title: {
-        display: false,
-      },
+      legend: { display: false },
+      title: { display: false },
+      tooltip: {
+        mode: "index",
+        intersect: false, // 🔥 Ensures full-height hover
+      }
     },
 
     scales: {
-      y: {
-        beginAtZero: true,
-        grid: {
-          display: false,
-        },
-      },
-      x: {
-        grid: {
-          display: false,
-        },
-      },
+      y: { beginAtZero: true, grid: { display: false } },
+      x: { grid: { display: false } },
     },
   };
 
@@ -233,11 +234,22 @@ export const LineChart = ({
         fill: true,
         label,
         data,
-        backgroundColor,
         borderColor,
+        backgroundColor: function (context) {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+
+          if (!chartArea) return "rgba(0, 0, 0, 0)"; // Wait until chart is rendered
+
+          return getGradient(ctx, chartArea);
+        },
+        tension: 0.5,
+        pointRadius: 0,
+        cubicInterpolationMode: "monotone",
+        pointHoverRadius: 5,
       },
     ],
   };
 
-  return <Line options={options} data={lineChartData} />;
+  return <Line ref={chartRef} options={options} data={lineChartData} />;
 };

@@ -14,7 +14,6 @@ import { useAuth } from "@/context/AuthContext";
 
 const AdminSidebar = dynamic(() => import('@/components/AdminSidebar'));
 
-// Column<DataType>[]
 const columns = [
   { name: "Avatar", uid: "avatar" },
   { name: "Name", uid: "name" },
@@ -27,53 +26,6 @@ const columns = [
 type Props = {
   data: string;
 }
-
-// const usersData = [
-//   {
-//     "_id": "677bcb2b119252e3a77cc29b",
-//     "name": "Umang Jotaniya",
-//     "email": "umang@gmail.com",
-//     "role": "admin",
-//     "gender": "male",
-//     "dob": "2005-02-15T00:00:00.000Z",
-//     "addressInfo": [
-//       {
-//         "address": "Madhuram, Udaybagar-1, st-15, mavadi chokadi",
-//         "city": "Rajkot",
-//         "state": "Gujarat",
-//         "country": "India",
-//         "pincode": 360000,
-//         "addType": "Home",
-//         "_id": "677e4b698a5f014ef1195ad5"
-//       },
-//       {
-//         "address": "KamleshPark",
-//         "city": "Nadiad",
-//         "state": "Gujarat",
-//         "country": "India",
-//         "pincode": 387005,
-//         "addType": "Work",
-//         "_id": "677e4c3c8a5f014ef1195ade"
-//       }
-//     ],
-//     "createdAt": "2025-01-06T12:23:07.008Z",
-//     "updatedAt": "2025-01-21T06:11:58.389Z",
-//     "__v": 30,
-//     "photo": "uploads/05f9cfce37e05b7b66d13d000.jpeg"
-//   },
-//   {
-//     "_id": "678a52e27f9bfc759701c4f3",
-//     "name": "Test 1",
-//     "email": "t@gmail.com",
-//     "role": "user",
-//     "gender": "female",
-//     "dob": "2007-01-01T00:00:00.000Z",
-//     "addressInfo": [],
-//     "createdAt": "2024-04-17T12:53:54.663Z",
-//     "updatedAt": "2025-01-21T05:26:43.203Z",
-//     "__v": 0
-//   }
-// ]
 
 const Customers = ({ data }: Props) => {
 
@@ -167,8 +119,9 @@ const Customers = ({ data }: Props) => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main className="w-full flex justify-center max-w-[calc(100% - 360px)] overflow-y-scroll ">
-        <div className="m-16 w-[80%]">
+      <main className="w-full flex flex-col items-center max-w-[calc(100% - 360px)] overflow-y-scroll">
+        <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Customers</h1>
+        <div className="m-8 w-[80%]">
           {users && users.length > 0 && <TableHook columns={columns} items={users} />}
         </div>
       </main>

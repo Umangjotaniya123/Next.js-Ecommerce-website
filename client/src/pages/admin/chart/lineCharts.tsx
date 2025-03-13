@@ -64,7 +64,7 @@ const BarCharts = () => {
         <section className="my-4 p-3 md:p-12 rounded-lg w-full md:w-[80%] shadow-lg">
           <LineChart
             data={[
-              9000, 12000, 12000, 9000, 1000, 5000, 4000, 1200, 1100, 1500,
+              9000, 12000, 11000, 9000, 1000, 5000, 4000, 1200, 1100, 1500,
               2000, 5000,
             ]}
             backgroundColor={"hsla(29,80%,40%,0.4)"}

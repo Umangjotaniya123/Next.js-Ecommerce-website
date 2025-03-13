@@ -145,3 +145,18 @@ export const categoriesWithIcons = [
     { name: "Accessories", icon: FaShoppingBag },
     { name: "Hardware Tools", icon: FaTools }
 ];
+
+export const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];

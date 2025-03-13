@@ -113,6 +113,8 @@ export type Stats = {
     changePercent: CountAndChange,
     count: CountAndChange,
     chart: {
+        user: number[],
+        product: number[],
         order: number[],
         revenue: number[],
     },

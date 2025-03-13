@@ -122,8 +122,9 @@ const Products = ({ data }: Props) => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main className="w-full flex justify-center max-w-[calc(100% - 360px)] overflow-y-scroll ">
-        <div className="m-16 w-[80%]">
+      <main className="w-full flex flex-col items-center max-w-[calc(100% - 360px)] overflow-y-scroll ">
+        <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Products</h1>
+        <div className="m-8 w-[80%]">
           {products.length ?
             <TableHook columns={columns} items={products} /> :
             <h1>No any Products Available</h1>}

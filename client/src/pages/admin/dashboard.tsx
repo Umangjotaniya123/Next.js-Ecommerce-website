@@ -1,5 +1,5 @@
 import AdminSidebar from '@/components/AdminSidebar';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaRegBell } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { HiTrendingUp, HiTrendingDown } from "react-icons/hi";
@@ -8,6 +8,10 @@ import Image from 'next/image';
 import { BarChart, DoughnutChart } from '@/components/Charts';
 import data from '../../../public/data.json';
 import TableHook from '@/components/TableHook';
+import { OrdersChart } from '../one';
+import Axios from '@/config/axios';
+import { decryptedData, encryptedData } from '@/utilities/features';
+import { Stats } from '@/types/types';
 
 const columns = [
   {
@@ -28,7 +32,17 @@ const columns = [
   },
 ];
 
-const dashboard = () => {
+const dashboard = ({ data }: { data: string }) => {
+
+  const [dashboardStats, setDashboardStats] = useState<Stats | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      setDashboardStats(decryptedData(data));
+    }
+  }, [data]);
+
+
   return (
     <div className='admin-container'>
       <AdminSidebar />
@@ -38,10 +52,10 @@ const dashboard = () => {
           <input className='p-1 text-sm w-1/6 border-2 border-gray-300 rounded-lg' type="text" placeholder="Search for data, users, docs" />
           <FaRegBell />
           <Image className="rounded-full flex justify-center items-center" src={`/download.jpeg`} alt="User" width={40} height={40} />
-          
+
         </div>
 
-        <section className="widget-container flex flex-wrap justify-evenly items-stretch gap-x-20 gap-y-4 p-4">
+        <section className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 px-8">
           <WidgetItem
             percent={40}
             amount={true}
@@ -69,21 +83,10 @@ const dashboard = () => {
           />
         </section>
 
-        <section className="graph-container flex flex-col justify-center items-center gap-6 px-4 w-full xl:flex-wrap ">
-          <div className="revenue-chart bg-white rounded-lg w-full flex flex-col justify-center items-center gap-4 py-4 px-4 xl:w-3/5 xl:max-w-3/5">
-            <h2 className='heading text-sm sm:text-xl'>Revenue & Transaction</h2>
-            {/* Grapph here */}
-            <BarChart
-              data_2={[300, 144, 433, 655, 237, 755, 190]}
-              data_1={[200, 444, 343, 556, 778, 455, 990]}
-              title_1="Revenue"
-              title_2="Transaction"
-              bgColor_1="rgb(0,115,255)"
-              bgColor_2="rgba(53,162,235,0.8)"
-            />
-          </div>
+        <section className="w-full px-8">
+          {dashboardStats?.chart.revenue && <OrdersChart state={dashboardStats?.chart.revenue} />}
 
-          <div className="dashboard-categories bg-white rounded-lg w-full max-w-80 flex flex-col items-center justify-center gap-3 p-5 xl:w-1/5 xl:h-full">
+          {/* <div className="dashboard-categories bg-white rounded-lg w-full max-w-80 flex flex-col items-center justify-center gap-3 p-5 xl:w-1/5 xl:h-full">
             <h2 className='heading text-sm sm:text-xl'>Inventory</h2>
             <div className='overflow-y-auto scrollbar-hide w-full'>
               {data.categories.map((i) => (
@@ -95,7 +98,7 @@ const dashboard = () => {
                 />
               ))}
             </div>
-          </div>
+          </div> */}
         </section>
 
         <section className="transaction-container flex flex-col items-center justify-center gap-3 p-4 sm:flex-row">
@@ -114,7 +117,7 @@ const dashboard = () => {
             </p>
           </div>
 
-          <TableHook items={data.transaction} columns={columns}/>
+          <TableHook items={data.transaction} columns={columns} />
         </section>
       </main>
     </div>
@@ -138,9 +141,9 @@ const WidgetItem = ({
   color,
   amount = false,
 }: WidgetItemProps) => (
-  <article className="widget w-64 flex flex-row justify-between items-stretch p-6 rounded-lg bg-white shadow-md">
-    <div className="widget-info flex flex-col items-start justify-center gap-1">
-      <p className='opacity-80 text-sm'>{heading}</p>
+  <article className="w-full flex flex-row justify-between items-stretch p-6 rounded-lg bg-white shadow-md">
+    <div className="widget-info flex flex-col items-start justify-center gap-4">
+      <p className='heading text-gray-400 text-medium'>{heading}</p>
       <h4 className='text-lg font-semibold'>{amount ? `$${value}` : value}</h4>
       {percent > 0 ? (
         <span className="text-green-500 flex flex-row items-center gap-1">
@@ -195,3 +198,23 @@ const CategoryItem = ({ color, value, heading }: CategoryItemProps) => (
     <span className='text-small w-1/5 font-medium'>{value}%</span>
   </div>
 );
+
+export const getServerSideProps = async () => {
+
+  let stats = null;
+
+  try {
+    const { data } = await Axios.get('/dashboard/stats');
+
+    if (data) {
+      stats = encryptedData(data.stats);
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+
+  return {
+    props: { data: stats }
+  };
+}

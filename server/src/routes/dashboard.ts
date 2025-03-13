@@ -4,7 +4,7 @@ import { getBarCharts, getDashboardStats, getLineCharts, getPieCharts } from "..
 
 const app = express.Router();
 
-app.get ("/stats", adminOnly, getDashboardStats);
+app.get ("/stats", getDashboardStats);
 
 app.get ("/pie", adminOnly, getPieCharts);
 

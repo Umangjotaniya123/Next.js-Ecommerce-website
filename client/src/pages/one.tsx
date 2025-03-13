@@ -1,111 +1,131 @@
 import { LineChart, Line, AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis, BarChart, Bar } from "recharts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Stats } from "@/types/types";
+import Axios from "@/config/axios";
+import { decryptedData, encryptedData } from "@/utilities/features";
+import { months } from "@/utilities/data";
 
-export default function Dashboard() {
+export default function Dashboard({ data }: { data: string }) {
+
+  const [dashboardStats, setDashboardStats] = useState<Stats | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      setDashboardStats(decryptedData(data));
+    }
+  }, [data]);
+
+  // console.log(dashboardStats);
+
+
   const stats = [
     {
-      title: "Total Sales",
-      value: "34,945",
+      title: "Total Products",
+      value: dashboardStats?.count.product,
       percentage: "1.56%",
       icon: "🛍️",
       color: "bg-green-500",
       trend: "up",
       chartColor: "#22c55e",
       fillColor: "rgba(34, 197, 94, 0.2)", // Light green for fill
-      data: [
-        { value: 50 },
-        { value: 7 },
-        { value: 65 },
-        { value: 900 },
-        { value: 8 },
-        { value: 100 },
-      ],
+      data: dashboardStats?.chart.product.map((item) => ({ value: item })),
+      // [
+      //   { value: 50 },
+      //   { value: 7 },
+      //   { value: 65 },
+      //   { value: 900 },
+      //   { value: 8 },
+      //   { value: 100 },
+      // ],
     },
     {
       title: "Total Income",
-      value: "$37,802",
+      value: `₹${dashboardStats?.count.revenue}`,
       percentage: "1.56%",
       icon: "💰",
       color: "bg-orange-500",
       trend: "down",
       chartColor: "#f97316",
       fillColor: "rgba(249, 115, 22, 0.2)", // Light orange for fill
-      data: [
-        { value: 40 },
-        { value: 600 },
-        { value: 55 },
-        { value: 825 },
-        { value: 75 },
-        { value: 905 },
-      ],
+      data: dashboardStats?.chart.revenue.map((item) => ({ value: item })),
+      // [
+      //   { value: 40 },
+      //   { value: 600 },
+      //   { value: 55 },
+      //   { value: 825 },
+      //   { value: 75 },
+      //   { value: 905 },
+      // ],
     },
     {
-      title: "Orders Paid",
-      value: "34,945",
+      title: "Total Orders",
+      value: dashboardStats?.count.order,
       percentage: "0.00%",
       icon: "📄",
       color: "bg-gray-500",
       trend: "neutral",
       chartColor: "#9ca3af",
       fillColor: "rgba(156, 163, 175, 0.2)", // Light gray for fill
-      data: [
-        { value: 30 },
-        { value: 50 },
-        { value: 459 },
-        { value: 0 },
-        { value: 605 },
-        { value: 85 },
-      ],
+      data: dashboardStats?.chart.order.map((item) => ({ value: item })),
+      // [
+      //   { value: 30 },
+      //   { value: 50 },
+      //   { value: 459 },
+      //   { value: 0 },
+      //   { value: 605 },
+      //   { value: 85 },
+      // ],
     },
     {
-      title: "Total Visitors",
-      value: "34,945",
+      title: "Total Users",
+      value: dashboardStats?.count.user,
       percentage: "1.56%",
       icon: "👥",
       color: "bg-blue-500",
       trend: "up",
       chartColor: "#3b82f6",
       fillColor: "rgba(59, 130, 246, 0.2)", // Light blue for fill
-      data: [
-        { value: 60 },
-        { value: 8 },
-        { value: 75 },
-        { value: 100 },
-        { value: 90 },
-        { value: 110 },
-      ],
+      data: dashboardStats?.chart.user.map((item) => ({ value: item })),
+      // [
+      //   { value: 60 },
+      //   { value: 8 },
+      //   { value: 75 },
+      //   { value: 100 },
+      //   { value: 90 },
+      //   { value: 110 },
+      // ],
     },
   ];
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 ">
         {stats.map((stat, index) => (
           <Card key={index} stat={stat} />
         ))}
       </div>
-      <OrdersChart />
+      {/* <OrdersChart /> */}
       <StackedAreaChart />
     </>
   );
 }
 
-const Card = ({ stat }) => {
+const Card = ({ stat }: { stat: any }) => {
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg flex flex-col">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className={`p-3 ${stat.color} text-white rounded-lg`}>
-            {stat.icon}
-          </span>
+    <div className="p-6 h-fit bg-white rounded-xl shadow-lg flex flex-col">
+      <div className="flex gap-8">
+        <span className={`p-3 ${stat.color} text-white rounded-lg`}>
+          {stat.icon}
+        </span>
+        <div className="flex flex-col ">
           <h3 className="text-gray-700">{stat.title}</h3>
+          <span className="text-xl text-black">{stat.value}</span>
         </div>
-        <span className="text-xl text-black">{stat.value}</span>
       </div>
 
       {/* Chart with Colored Fill */}
       <div className="mt-4">
-        <ResponsiveContainer width="100%" height={100}>
+        <ResponsiveContainer width="100%" height={120}>
           <AreaChart data={stat.data}>
             <defs>
               <linearGradient id={`color${stat.chartColor}`} x1="0" y1="0" x2="0" y2="1">
@@ -113,12 +133,30 @@ const Card = ({ stat }) => {
                 <stop offset="95%" stopColor={stat.fillColor} stopOpacity={0} />
               </linearGradient>
             </defs>
+
+            {/* X-Axis (Months) */}
+            {/* <XAxis dataKey="month" stroke="#9ca3af" /> */}
+
+            {/* Y-Axis (Values) */}
+            {/* <YAxis stroke="#9ca3af" /> */}
+
             <Tooltip
               contentStyle={{
                 backgroundColor: "#1f2937",
                 borderRadius: "6px",
                 color: "#fff",
                 padding: "5px",
+              }}
+              content={({ payload }) => {
+                if (!payload || payload.length === 0) {
+                  return null;
+                }
+
+                return (
+                  <div className="bg-gray-800 p-2 rounded-lg">
+                    <p className="text-gray-300">{stat.title}: {payload[0].value}</p>
+                  </div>
+                );
               }}
               cursor={{ stroke: stat.chartColor, strokeWidth: 1 }}
             />
@@ -134,56 +172,52 @@ const Card = ({ stat }) => {
       </div>
 
       {/* Trend Section */}
-      <div className="flex justify-between items-center mt-4">
+      {/* <div className="flex justify-between items-center mt-4">
         <span className="text-gray-400">Trend:</span>
         <span
           className={`${stat.trend === "up"
-              ? "text-green-400"
-              : stat.trend === "down"
-                ? "text-red-400"
-                : "text-gray-400"
+            ? "text-green-400"
+            : stat.trend === "down"
+              ? "text-red-400"
+              : "text-gray-400"
             }`}
         >
           {stat.trend === "up" ? "📈" : stat.trend === "down" ? "📉" : "➖"}{" "}
           {stat.percentage}
         </span>
-      </div>
+      </div> */}
     </div>
   );
 };
 
-const data = [
-  { month: "Jan", value: 30 },
-  { month: "Feb", value: 60 },
-  { month: "Mar", value: 40 },
-  { month: "Apr", value: 70 },
-  { month: "May", value: 49 },
-  { month: "Jun", value: 65 },
-  { month: "Jul", value: 55 },
-  { month: "Aug", value: 75 },
-  { month: "Sep", value: 80 },
-  { month: "Oct", value: 68 },
-  { month: "Nov", value: 72 },
-  { month: "Dec", value: 35 },
-];
+export function OrdersChart({ state }: { state: number[] }) {
 
-export function OrdersChart() {
+  const today = new Date();
+  const data = state && state.length > 0 ? state.map((item, index) => {
+    const monthDiff = (today.getMonth() + 1 + index) % 12;
+
+    return {
+      month: months[monthDiff],
+      value: item,
+    };
+  }) : [];
+
   return (
-    <div className="p-6 bg-gray-800 rounded-xl shadow-lg">
-      <h3 className="text-gray-300 text-lg font-semibold mb-4">Recent Order</h3>
+    <div className="p-6 bg-white rounded-xl shadow-lg">
+      <h3 className="w-full text-center heading text-gray-800 text-lg font-semibold mb-4">Recent Order</h3>
 
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={500}>
         <AreaChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 10 }}>
           {/* Gradient for the Fill Color */}
           <defs>
             <linearGradient id="colorBlue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.5} />
-              <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
+              <stop offset="45%" stopColor="#3b82f6" stopOpacity={2.5} />
+              <stop offset="95%" stopColor="#ffffff" stopOpacity={0.1} />
             </linearGradient>
           </defs>
 
           {/* X-Axis (Months) */}
-          <XAxis dataKey="month" stroke="#9ca3af" />
+          <XAxis dataKey="month" stroke="#9fa3af" />
 
           {/* Y-Axis (Values) */}
           <YAxis stroke="#9ca3af" />
@@ -274,3 +308,23 @@ export function StackedAreaChart() {
   );
 }
 
+
+export const getServerSideProps = async () => {
+
+  let stats = null;
+
+  try {
+    const { data } = await Axios.get('/dashboard/stats');
+
+    if (data) {
+      stats = encryptedData(data.stats);
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+
+  return {
+    props: { data: stats }
+  };
+}

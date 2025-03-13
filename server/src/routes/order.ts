@@ -8,11 +8,11 @@ app.post("/new", newOrder);
 
 app.get("/my", myOrders);
 
-app.get("/all", adminOnly, allOrders);
+app.get("/all", allOrders);
 
 app.route("/:id")
     .get(getSingleOrder)
-    .put(adminOnly, processOrder)
+    .put(processOrder)
     .delete(adminOnly, deleteOrder);
 
 export default app;
