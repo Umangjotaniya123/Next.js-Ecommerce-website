@@ -3,22 +3,7 @@ import { LineChart } from "@/components/Charts";
 
 const AdminSidebar = dynamic(() => import('@/components/AdminSidebar'));
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "Aug",
-  "Sept",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-const BarCharts = () => {
+const LineCharts = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
@@ -32,7 +17,6 @@ const BarCharts = () => {
             label="Users"
             borderColor="rgb(53, 162, 255)"
             backgroundColor="rgba(53, 162, 255,0.5)"
-            labels={months}
           />
           <h2 className="heading text-center text-sm md:text-lg md:mt-8 xl:text-xl">Active Users</h2>
         </section>
@@ -42,7 +26,6 @@ const BarCharts = () => {
             backgroundColor={"hsla(269,80%,40%,0.4)"}
             borderColor={"hsl(269,80%,40%)"}
             label="Products"
-            labels={months}
           />
           <h2 className="heading text-center text-sm md:text-lg md:mt-8 xl:text-xl">Total Products (SKU)</h2>
         </section>
@@ -56,7 +39,6 @@ const BarCharts = () => {
             backgroundColor={"hsla(129,80%,40%,0.4)"}
             borderColor={"hsl(129,80%,40%)"}
             label="Revenue"
-            labels={months}
           />
           <h2 className="heading text-center text-sm md:text-lg md:mt-8 xl:text-xl">Total Revenue</h2>
         </section>
@@ -70,7 +52,6 @@ const BarCharts = () => {
             backgroundColor={"hsla(29,80%,40%,0.4)"}
             borderColor={"hsl(29,80%,40%)"}
             label="Discount"
-            labels={months}
           />
           <h2 className="heading text-center text-sm md:text-lg md:mt-8 xl:text-xl">Discount Allotted</h2>
         </section>
@@ -79,4 +60,4 @@ const BarCharts = () => {
   );
 };
 
-export default BarCharts;
+export default LineCharts;

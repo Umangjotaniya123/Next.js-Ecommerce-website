@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaBars, FaTimes, FaSignOutAlt, FaUser, FaShoppingCart } from 'react-icons/fa';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Image from 'next/image';
 import { navbarData } from '@/utilities/data';
 import { useAuth } from '@/context/AuthContext';
@@ -10,9 +10,12 @@ import { responseToast } from '@/utilities/features';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartReducerInitialState } from '@/types/reducer-types';
 import { resetCart } from '@/redux/reducer/cartReducer';
+import { ThemeContext } from '@/context/ThemeContext';
+import { FiMoon, FiSun } from 'react-icons/fi';
 
 const Navbar = () => {
     const { user, getUser } = useAuth();
+    const { theme, toggleTheme } = useContext(ThemeContext);
     const router = useRouter();
     const dispatch = useDispatch()
     const [menuOpen, setMenuOpen] = useState(false);
@@ -34,7 +37,7 @@ const Navbar = () => {
 
     return (
         <nav className="fixed top-3 left-0 w-full flex justify-center z-50">
-            <div className="w-[93%] bg-orange-200/30 backdrop-blur-lg shadow-md rounded-3xl flex items-center justify-between px-6 lg:px-8 py-2">
+            <div className="w-[93%] bg-orange-200/30 dark:bg-slate-300/30 backdrop-blur-lg shadow-md rounded-3xl flex items-center justify-between px-6 lg:px-8 py-2">
 
                 {/* Logo */}
                 <Link href="/">
@@ -61,6 +64,9 @@ const Navbar = () => {
                 <div className="relative flex items-center gap-4">
                     {user?._id ? (
                         <>
+                            <button onClick={toggleTheme} className="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                                {theme === "dark" ? <FiSun className="text-yellow-400" size={24} /> : <FiMoon className="text-gray-900" size={24} />}
+                            </button>
                             <Link href={'/cart'}
                                 className="relative flex items-center gap-2 rounded-md hover:text-orange-900"
                                 onClick={() => setDropdownOpen(false)}
@@ -82,11 +88,11 @@ const Navbar = () => {
 
                                     {/* User Info */}
                                     <div className="flex flex-col items-center text-center border-b border-gray-700 pb-4">
-                                        <Image 
-                                            src={user.photo ? `${process.env.NEXT_PUBLIC_SERVER}/${user.photo}` : '/download.jpeg'} 
-                                            alt="User" 
-                                            width={0} 
-                                            height={0} 
+                                        <Image
+                                            src={user.photo ? `${process.env.NEXT_PUBLIC_SERVER}/${user.photo}` : '/download.jpeg'}
+                                            alt="User"
+                                            width={0}
+                                            height={0}
                                             sizes='100vw'
                                             className="rounded-full w-16 h-16" />
                                         <h3 className="text-lg font-semibold mt-2">{user?.name}</h3>

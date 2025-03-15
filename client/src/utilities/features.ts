@@ -4,6 +4,7 @@ import { NextRouter } from "next/router";
 import toast from "react-hot-toast";
 import crypto from 'crypto'
 import { log } from "console";
+import { months } from "./data";
 
 export const SERVER = process.env.NEXT_PUBLIC_SERVER;
 
@@ -33,12 +34,12 @@ export const encryptedData = (data: any) => {
         iv,
         { 'authTagLength': 16 }
     );
-    
+
     let encryptData = cipher.update(JSON.stringify(data), 'utf8', 'base64');
     encryptData += cipher.final('base64');
-    
+
     return `${iv}.${encryptData}.${cipher.getAuthTag().toString('base64')}`; //encryptData.toString('base64');
-    
+
 }
 
 
@@ -46,7 +47,7 @@ export const decryptedData = (encryptData: string) => {
 
     const key = process.env.NEXT_PUBLIC_KEY!;
 
-    const [ iv, data, tag ] = encryptData.split('.');
+    const [iv, data, tag] = encryptData.split('.');
 
     const decipher = crypto.createDecipheriv(
         'aes-256-gcm', Buffer.from(key, 'base64'), iv,
@@ -58,4 +59,16 @@ export const decryptedData = (encryptData: string) => {
     decryptData += decipher.final('utf8')
 
     return JSON.parse(decryptData); //messagetext.toString('utf8');
+}
+
+export const monthSequence = (state: number[]) => {
+    const today = new Date();
+    const data = state && state.length > 0 ? state.map((item, index) => {
+        const monthDiff = (today.getMonth() + 1 + index) % 12;
+
+        return months[monthDiff] ;
+        
+    }) : [];
+
+    return data;
 }

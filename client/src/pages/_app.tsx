@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
+import ThemeProvider from "@/context/ThemeContext";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
 
@@ -18,10 +19,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <HeroUIProvider>
         <Provider store={store}>
           <UserContextProvider>
-            <Navbar />
-            <Component {...pageProps} />
-            {router.pathname.includes('/admin') ? <></> : <Footer />}
-            <Toaster position="bottom-center" gutter={4} />
+            <ThemeProvider>
+              <Navbar />
+              <Component {...pageProps} />
+              {router.pathname.includes('/admin') ? <></> : <Footer />}
+              <Toaster position="bottom-center" gutter={4} />
+            </ThemeProvider>
           </UserContextProvider>
         </Provider>
       </HeroUIProvider>

@@ -64,12 +64,14 @@ export const ProductCard = ({ product, latest, watchList }: PageProps) => {
 
     return (
         <>
-            <div className='border h-[25rem] flex flex-col justify-between items-center p-4 shadow-sm rounded-2xl group bg-orange-50 hover:bg-orange-100 break-inside-avoid-column relative'>
+            <div 
+                className='border h-[25rem] flex flex-col justify-between items-center p-4 shadow-sm rounded-2xl group dark:bg-slate-800 hover:bg-orange-100 dark:hover:bg-slate-600 break-inside-avoid-column relative'
+            >
 
                 <Tooltip
                     content={watchList ? 'Remove Product' : 'Add to watchList'}
                     showArrow={true}
-                    className='w-36 font-semibold p-2 bg-white rounded-b-lg shadow-md'
+                    className='w-36 font-semibold p-2 bg-white text-black rounded-b-lg shadow-md'
                 >
                     <button
                         className='absolute top-2 right-2 p-2 bg-white rounded-full shadow-md group-hover:opacity-100'
@@ -94,7 +96,7 @@ export const ProductCard = ({ product, latest, watchList }: PageProps) => {
                             color='default'
                             className='w-36 p-2 font-semibold tracking-wider rounded-lg shadow-md'
                         >
-                            <button className='bg-yellow-800 text-white rounded-md text-sm p-2 font-semibold flex items-center justify-center border-none group-hover:opacity-100'
+                            <button className='bg-yellow-800 dark:bg-slate-100 text-white dark:text-black rounded-md text-sm p-2 font-semibold flex items-center justify-center border-none group-hover:opacity-100'
                                 onClick={addToCartHandler}
                             >
                                 Add To Cart
@@ -102,7 +104,7 @@ export const ProductCard = ({ product, latest, watchList }: PageProps) => {
                         </Tooltip>
                     </div>
                     <div className='w-full text-end flex flex-col'>
-                        <Link href={`/product/${_id}`}>{name}</Link>
+                        <Link href={`/product/${_id}`} className='hover:underline hover:text-blue-500'>{name}</Link>
                         {latest && <p className='flex justify-end items-center text-green-500'><FaArrowDown />{discount}%</p>}
                         <span className='font-bold text-lg'>₹{price}</span>
                     </div>

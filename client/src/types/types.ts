@@ -122,7 +122,8 @@ export type Stats = {
         male: number;
         female: number;
     },
-    latestTransactions: LatestTransaction[],
+    recentOrder: OrderItem[],
+    latestProducts: Product[],
 }
 
 export type Bars = {
@@ -214,16 +215,17 @@ export interface TTransactionType {
     products: React.JSX.Element;
     action: React.JSX.Element;
 }
+export interface TRecentOrderType {
+    _id: number;
+    product: React.JSX.Element;
+    price: number;
+    quantity: string;
+    total: number;
+}
 
 export type ItemsType =
     TUserType |
     TProductType |
     TOrderType |
-    TTransactionType | {
-        _id: string;
-        amount: number;
-        quantity: number;
-        discount: number;
-        status: React.JSX.Element;
-        action: React.JSX.Element;
-    }
+    TTransactionType |
+    TRecentOrderType ;

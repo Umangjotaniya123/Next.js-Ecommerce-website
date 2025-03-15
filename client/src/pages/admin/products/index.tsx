@@ -75,7 +75,7 @@ const Products = ({ data }: Props) => {
       _id: product._id,
       photo: <div className="w-full flex justify-center">
         <Image
-          src={`${SERVER}/${product.photos[0]}`}
+          src={product.photos && product.photos.length ? `${SERVER}/${product.photos[0]}` : '/images/Image-not-found.png'}
           alt={product.name}
           width={70}
           height={60}

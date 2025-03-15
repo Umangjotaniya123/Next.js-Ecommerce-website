@@ -26,7 +26,7 @@ const Home = ({ data }: { data: string }) => {
     }, [data]);
 
     return (
-        <div className="p-4 flex flex-col mx-auto w-full bg-orange-50">
+        <div className="p-4 flex flex-col mx-auto w-full">
             {/* Sliders */}
             <div className="w-full h-[30rem] md:h-[40rem] px-4 md:px-20">
                 <Slider />
@@ -65,7 +65,7 @@ const Home = ({ data }: { data: string }) => {
                                     router.push(`/search?category=${cat.name.toLowerCase()}`);
                                 }}
                             >
-                                <div className="bg-orange-200 p-3 md:p-4 text-xl md:text-2xl rounded-full">
+                                <div className="bg-orange-200 dark:bg-gray-700 p-3 md:p-4 text-xl md:text-2xl rounded-full">
                                     <Icon />
                                 </div>
                                 <span>{cat.name}</span>
@@ -115,7 +115,7 @@ const Home = ({ data }: { data: string }) => {
                     sizes="100vw"
                     className="w-full h-[26rem] md:h-[40rem] object-cover object-left-top"
                 />
-                <div className="absolute top-[50%] left-4 md:right-16 md:left-auto transform -translate-y-1/2 w-[90%] md:w-[45%] bg-white/60 md:bg-transparent p-4 md:p-0 rounded-lg">
+                <div className="absolute top-[50%] left-4 md:right-16 md:left-auto transform -translate-y-1/2 w-[90%] md:w-[45%] md:bg-transparent p-4 md:p-0 rounded-lg text-black">
                     <div className="uppercase text-gray-600 tracking-wide text-base md:text-2xl">Denim collection</div>
                     <h1 className="text-4xl md:text-6xl font-bold my-3 md:my-6 leading-tight">The Casual Selection</h1>
                     <p className="text-sm md:text-lg w-full md:w-[80%] text-gray-800">

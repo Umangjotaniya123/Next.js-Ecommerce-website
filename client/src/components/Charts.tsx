@@ -1,3 +1,4 @@
+import { monthSequence } from "@/utilities/features";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -191,14 +192,12 @@ interface LineChartProps {
   label: string;
   backgroundColor: string;
   borderColor: string;
-  labels?: string[];
 }
 
 export const LineChart = ({
   data,
   label,
   borderColor,
-  labels,
 }: LineChartProps) => {
   const chartRef = useRef<any>(null);
 
@@ -228,7 +227,7 @@ export const LineChart = ({
   };
 
   const lineChartData: ChartData<"line", number[], string> = {
-    labels,
+    labels: monthSequence(data),
     datasets: [
       {
         fill: true,
@@ -251,5 +250,5 @@ export const LineChart = ({
     ],
   };
 
-  return <Line ref={chartRef} options={options} data={lineChartData} />;
+  return <Line ref={chartRef} options={options} data={lineChartData}/>;
 };
