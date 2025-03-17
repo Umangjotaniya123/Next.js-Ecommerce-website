@@ -28,7 +28,7 @@ const dashboard = ({ data }: { data: string }) => {
   return (
     <div className='admin-container'>
       <AdminSidebar />
-      <main className='w-full flex flex-col gap-6 max-w-[calc(100% - 360px)] overflow-y-scroll'>
+      <main className='w-full flex flex-col gap-6 max-w-[calc(100% - 360px)]  h-screen overflow-y-auto'>
         <div className="bar w-full flex flex-row justify-end items-center gap-4 border-b border-black text-lg p-2">
           <BsSearch />
           <input className='p-1 text-sm w-1/6 border-2 border-gray-300 rounded-lg' type="text" placeholder="Search for data, users, docs" />
@@ -83,15 +83,17 @@ const dashboard = ({ data }: { data: string }) => {
         </section>
 
         <section className="transaction-container w-full lg:h-[600px] flex flex-col justify-center gap-6 px-8 lg:flex-row">
-          <div className="gender-chart bg-white dark:bg-slate-800 rounded-lg w-full lg:w-[30%] p-4 relative flex flex-col justify-center items-center gap-3">
+          <div className="gender-chart bg-white dark:bg-slate-800 rounded-lg w-full lg:w-[35%] p-4 relative flex flex-col justify-center items-center gap-3">
             <h2 className='heading text-sm sm:text-xl'>Gender Ratio</h2>
 
-            <DoughnutChart
-              labels={["Female", "Male"]}
-              data={[12, 19]}
-              backgroundColor={["hsl(340,82%,56%)", "rgba(53,162,235,0.8)"]}
-              cutout={90}
-            />
+            <div className="chart-container">
+              <DoughnutChart
+                labels={["Female", "Male"]}
+                data={[12, 19]}
+                backgroundColor={["hsl(340,82%,56%)", "rgba(53,162,235,0.8)"]}
+                cutout={90}
+              />
+            </div>
 
             <p className='absolute top-[45%] left-[48%]'>
               <BiMaleFemale />
@@ -107,7 +109,7 @@ const dashboard = ({ data }: { data: string }) => {
         </section>
 
         <section className='w-full h-fit flex flex-col lg:flex-row justify-between gap-6 px-8'>
-          <div className='w-full lg:w-[70%] bg-white dark:bg-slate-800'>
+          <div className='w-full lg:w-[70%] rounded-lg bg-white dark:bg-slate-800'>
             <h3 className="w-full heading text-gray-800 dark:text-gray-200 text-lg font-semibold m-4">Latest Products</h3>
             <div className='p-4'>
               {Array.isArray(dashboardStats?.latestProducts) && <TableHook columns={productsColumns} items={latestProducts(dashboardStats?.latestProducts)} />}
@@ -243,7 +245,7 @@ const recentOrders = (data: OrderItem[]) => {
               width={0}
               height={0}
               sizes='100vw'
-              className='w-16 h-16 rounded-full ml-16 object-contain'
+              className='w-16 h-16 rounded-full object-contain'
             />
             <Link href={`/admin/products/details?id=${item.productId}`}>
               <span className="text-blue-500 hover:underline">{item.name}</span>
@@ -296,7 +298,7 @@ const latestProducts = (data: Product[]) => {
           width={0}
           height={0}
           sizes='100vw'
-          className='w-16 h-16 rounded-full ml-16 object-contain'
+          className='w-16 h-16 rounded-full object-contain'
         />
       ),
       name: (

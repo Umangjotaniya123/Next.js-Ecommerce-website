@@ -59,6 +59,9 @@ const Products = ({ data }: Props) => {
     setProductsData(decryptedData(data));
   }, [data])
 
+  if(!user)
+    return <div>Loading....</div>
+
   const handleDelete = async (productId: string) => {
     try {
       const res = await Axios.delete(`/product/${productId}?id=${user?._id}`);

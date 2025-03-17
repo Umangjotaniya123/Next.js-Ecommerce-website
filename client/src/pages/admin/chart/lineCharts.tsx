@@ -7,7 +7,7 @@ const LineCharts = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main className="chart-container w-full py-8 px-6 overflow-y-auto flex flex-col items-center">
+      <main className="w-full h-screen overflow-y-auto flex flex-col items-center">
         <h1 className="heading p-6 text-center text-small md:text-lg xl:text-2xl">Line Charts</h1>
         <section className="my-4 p-3 md:p-12 bg-white dark:bg-slate-800 rounded-lg w-full md:w-[80%] shadow-lg">
           <LineChart

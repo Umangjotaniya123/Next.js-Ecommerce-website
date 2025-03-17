@@ -59,8 +59,8 @@ const AdminSidebar = () => {
   }, [phoneActive])
 
   const DataDiv = ({ data: [name, value], router }: dataProps) => (
-    <div className="w-[85%]">
-      <h5 className="heading text-white opacity-50 my-6">{name}</h5>
+    <div className="w-[85%] py-3">
+      <h5 className="heading text-white opacity-50 py-3">{name}</h5>
       <ul className="flex flex-col justify-center items-center gap-2 w-full">
         {value.map((i, index) => (
           <Li data={i} router={router} key={index} />
@@ -96,9 +96,9 @@ const AdminSidebar = () => {
 
       {showModal && <aside
         className={ `${phoneActive ? 
-          'absolute transition-all duration-600 w-[90%] max-w-[360px] z-20 h-[calc(100vh-6rem)]' :
+          'absolute transition-all duration-600 w-[90%] max-w-[360px] z-20' :
           'w-[360px]'
-        } rounded-lg flex flex-col bg-gray-500 dark:bg-slate-800 items-center gap-2 `}
+        } rounded-lg flex flex-col bg-gray-500 dark:bg-slate-600 items-center pb-6 gap-2 h-fit`}
       >
         {/* <h2 className="heading m-4 flex justify-center text-white items-center">LOGO</h2> */}
 
