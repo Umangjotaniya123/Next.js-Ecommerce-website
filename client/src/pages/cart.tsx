@@ -29,7 +29,7 @@ const cart = () => {
         </section>
       </main>
 
-      <div className="bg-orange-100 p-6 rounded-lg shadow-md w-full h-fit max-w-lg md:w-[40%] md:max-w-md">
+      <div className="bg-orange-100 dark:bg-slate-900 p-6 rounded-lg shadow-md w-full h-fit max-w-lg md:w-[40%] md:max-w-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Summary</h2>
         </div>
@@ -49,16 +49,16 @@ const cart = () => {
           </div>
         </div>
 
-        <div className="flex my-8 border-1 border-yellow-950 rounded-md p-2">
+        <div className="flex my-8 border-1 border-yellow-950 dark:border-slate-200 rounded-md p-2">
           <input type="text" placeholder="Voucher" className="w-full px-2 border-none bg-transparent focus:ring-0 outline-none" />
-          <button className="text-indigo-800 px-2 font-semibold">Apply</button>
+          <button className="text-indigo-800 dark:text-indigo-600 px-2 font-semibold">Apply</button>
         </div>
 
         <div className="flex justify-between font-bold text-lg mt-4">
           <span>Total :</span> <span>₹{total}</span>
         </div>
 
-        <button className="w-full bg-indigo-950 font-semibold text-white py-2 rounded-lg mt-4 hover:bg-zinc-700">
+        <button className="w-full bg-indigo-950 dark:bg-indigo-700 dark:hover:bg-zinc-500 font-semibold text-white py-2 rounded-lg mt-4 hover:bg-zinc-700">
           <Link href="/shipping">Proceed to Checkout</Link>
         </button>
       </div>

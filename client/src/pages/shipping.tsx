@@ -93,7 +93,7 @@ const Shipping = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col lg:flex-row justify-center items-start gap-10 p-6">
-      <div className="w-full max-w-lg sm:max-w-full p-6 rounded-lg m-2 bg-orange-100 border border-yellow-900 flex flex-col justify-center gap-4 shadow-xl lg:max-w-[35%]">
+      <div className="w-full max-w-lg sm:max-w-full p-6 rounded-lg m-2 bg-orange-100 dark:bg-slate-900 border border-yellow-900 dark:border-slate-200 flex flex-col justify-center gap-4 shadow-xl lg:max-w-[35%]">
         <h5 className="text-lg font-semibold mb-4">Select Shipping Address</h5>
         {addressInfo &&
           addressInfo.map((address, index) => (
@@ -106,8 +106,8 @@ const Shipping = () => {
               />
               <div>
                 <p className="font-medium">{`${address.addType} Address:`}</p>
-                <p className="text-gray-600">{`${address.address}, ${address.city}, ${address.state}, ${address.country}.`}</p>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">{`${address.address}, ${address.city}, ${address.state}, ${address.country}.`}</p>
+                <p className="text-gray-600 dark:text-gray-400">
                   <span className="font-semibold">Pincode:</span> {address.pincode}
                 </p>
               </div>
@@ -159,7 +159,7 @@ const Shipping = () => {
             </div>
           </div>
           <div className="w-full flex flex-row gap-2 text-sm lg:gap-4">
-            <button type="submit" className={`w-28 bg-indigo-950 hover:bg-zinc-800 text-white rounded-2xl font-semibold py-2 ${selectedAddressIndex == -1 ? 'bg-orange-800' : ''}`}>
+            <button type="submit" className={`w-28 bg-indigo-950 dark:bg-indigo-700 hover:bg-zinc-800 dark:hover:bg-zinc-700 text-white rounded-2xl font-semibold py-2 ${selectedAddressIndex == -1 ? 'bg-orange-800' : ''}`}>
               {selectedAddressIndex !== -1 ? 'Select' : 'Selected'}
             </button>
             <button
@@ -173,7 +173,7 @@ const Shipping = () => {
         </form>
       </div>
 
-      <div className="w-full max-w-lg sm:max-w-full bg-orange-100 p-6 h-fit m-2 rounded-lg shadow-md lg:max-w-[35%]">
+      <div className="w-full max-w-lg sm:max-w-full bg-orange-100 dark:bg-slate-900 p-6 h-fit m-2 rounded-lg shadow-md lg:max-w-[35%]">
         {/* <div className="flex justify-between items-center mb-4 font-bold text-xl">
           <h2>Summary</h2>
           <Link href={"/cart"} className="text-blue-500 text-medium">
@@ -237,7 +237,7 @@ const Shipping = () => {
 
         <CartSummary />
         <button
-          className="w-full bg-indigo-950 font-semibold text-white py-2 rounded-lg mt-4 hover:bg-zinc-700"
+          className="w-full bg-indigo-950 dark:bg-indigo-700 dark:hover:bg-zinc-500 font-semibold text-white py-2 rounded-lg mt-4 hover:bg-zinc-700"
           onClick={handleCheckout}
         >
           Proceed to check out

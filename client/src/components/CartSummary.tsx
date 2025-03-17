@@ -39,7 +39,7 @@ const CartSummary = () => {
                             />
                             <div className="flex-1 ml-3">
                                 <p className="text-sm truncate">{item.name}</p>
-                                <span className="text-gray-700 text-xs">x{item.quantity}</span>
+                                <span className="text-gray-700 dark:text-gray-400 text-xs">x{item.quantity}</span>
                             </div>
                             <p className="font-semibold">₹{item.price}</p>
                         </div>

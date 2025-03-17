@@ -6,7 +6,7 @@ import { set } from 'lodash';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-const buttonStyle = 'w-8 h-8 rounded-md text-2xl bg-slate-300 hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-50'
+const buttonStyle = 'w-8 h-8 rounded-md text-2xl bg-slate-300 hover:bg-black hover:text-white dark:bg-white dark:text-black dark:hover:bg-slate-500 disabled:cursor-not-allowed disabled:opacity-50'
 
 const details = ({ data }: { data: string }) => {
 
@@ -123,7 +123,7 @@ const details = ({ data }: { data: string }) => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className={`w-44 bg-indigo-950 hover:bg-zinc-800 text-white rounded-3xl font-semibold py-2`}
+                                    className={`w-44 bg-indigo-950 hover:bg-zinc-800 dark:bg-indigo-700 dark:hover:bg-zinc-500 text-white rounded-3xl font-semibold py-2`}
                                     onClick={addToCartHandler}
                                 >
                                     Add to Cart
@@ -139,7 +139,7 @@ const details = ({ data }: { data: string }) => {
                         </> :
                         <button
                             type="submit"
-                            className={`w-44 bg-indigo-950 hover:bg-zinc-800 text-white rounded-3xl font-semibold py-2`}
+                            className={`w-44 bg-indigo-950 hover:bg-zinc-800 dark:bg-indigo-700 dark:hover:bg-zinc-500 text-white rounded-3xl font-semibold py-2`}
                             onClick={() =>router.push(`/admin/products/${product?._id}`)}
                         >
                             Edit Product
@@ -150,8 +150,8 @@ const details = ({ data }: { data: string }) => {
 
             <div className='w-[70%] flex items-center gap-8 font-semibold cursor-pointer'>
                 <div
-                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
-                                ${description ? 'border-b-2 border-violet-950 text-violet-950' : ''}`}
+                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 dark:border-violet-600 dark:hover:text-violet-600 
+                                ${description ? 'border-b-2 border-violet-950 text-violet-950 dark:border-violet-600 dark:text-violet-600' : ''}`}
                     onClick={() => {
                         setDescription(true);
                         setSpecification(false);
@@ -160,8 +160,8 @@ const details = ({ data }: { data: string }) => {
                     <span>Description</span>
                 </div>
                 <div
-                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
-                                ${specification ? 'border-b-2 border-violet-950 text-violet-950' : ''}`}
+                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 dark:border-violet-600 dark:hover:text-violet-600 
+                                ${specification ? 'border-b-2 border-violet-950 text-violet-950 dark:border-violet-600 dark:text-violet-600' : ''}`}
                     onClick={() => {
                         setDescription(false);
                         setSpecification(true);
@@ -170,7 +170,7 @@ const details = ({ data }: { data: string }) => {
                     <span>Specification</span>
                 </div>
             </div>
-            <div className='w-[70%] bg-orange-100 min-h-64 p-4 rounded-tl-3xl rounded-br-3xl border border-orange-900'>
+            <div className='w-[70%] bg-orange-100 dark:bg-slate-900 min-h-64 p-4 rounded-tl-3xl rounded-br-3xl border border-orange-900 dark:border-slate-200'>
                 {description && (product?.description ?
                     <p>{product.description}</p> :
                     <p>No description available</p>
@@ -183,7 +183,7 @@ const details = ({ data }: { data: string }) => {
                                 className='w-full flex items-center gap-4'
                             >
                                 <span className='w-[20%] text-center p-2 '>{key}</span>
-                                <span className='text-start border-b border-gray-500 p-2 px-5 bg-orange-50 w-[60%]'>{value}</span>
+                                <span className='text-start border-b border-gray-500 p-2 px-5 bg-orange-50 dark:bg-black w-[60%]'>{value}</span>
                             </div>
                         ))}
                     </div> :

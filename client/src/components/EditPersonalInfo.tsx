@@ -75,7 +75,7 @@ const EditPersonalInfo = () => {
     return (
         <div className="flex flex-col justify-center py-3 w-full text-sm">
                 <form
-                    className='py-6 px-2 border rounded-br-2xl rounded-tl-2xl bg-orange-100 border-orange-950 flex flex-col justify-center items-center '
+                    className='py-6 px-2 border rounded-br-2xl rounded-tl-2xl bg-orange-100 border-orange-950 dark:bg-slate-900 dark:border-slate-200 flex flex-col justify-center items-center '
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <div className="box grid grid-cols-1 gap-4 w-full p-3 sm:justify-between lg:grid-cols-2 lg:gap-8 text-base tracking-wide">
@@ -132,7 +132,7 @@ const EditPersonalInfo = () => {
                     </div>
 
                     <div className="buttons w-full px-3 flex flex-row justify-start items-center gap-2 pt-4 lg:gap-4">
-                        <button type='submit' className="w-32 bg-indigo-950 text-white px-3 py-2 rounded-xl font-semibold lg:w-40 lg:py-3">Save Changes</button>
+                        <button type='submit' className="w-32 bg-indigo-950 dark:bg-indigo-700 dark:hover:bg-zinc-500 text-white px-3 py-2 rounded-xl font-semibold lg:w-40 lg:py-3">Save Changes</button>
                         <button type='button' className="w-32 bg-gray-500 rounded-xl text-white font-semibold px-3 py-2 lg:w-40 lg:py-3 " onClick={handleBack}>Cancel</button>
                     </div>
                 </form>

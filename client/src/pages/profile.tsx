@@ -68,7 +68,7 @@ const profile = () => {
 
             <div className="w-full h-fit flex justify-center gap-5">
 
-                <div className="flex justify-start w-[40%] p-6 border border-yellow-900 bg-orange-100 rounded-lg">
+                <div className="flex justify-start w-[40%] p-6 border border-yellow-900 bg-orange-100 dark:bg-slate-900 dark:border-slate-200 rounded-lg">
                     <input
                         type="file"
                         accept="image/*"
@@ -89,7 +89,7 @@ const profile = () => {
                         </label>
                     }
                     <div className="text-center w-full p-6">
-                        <h2 className="text-2xl font-semibold text-gray-800">{user?.name}</h2>
+                        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">{user?.name}</h2>
                         <p className="text-gray-500 text-sm">Joined 3 months ago</p>
 
                         <div className="grid grid-cols-3 gap-4 mt-4">
@@ -110,7 +110,7 @@ const profile = () => {
                 </div>
 
 
-                <div className="bg-orange-100 border border-yellow-900 p-6 -tracking-tighter rounded-lg shadow-md w-[20%] max-w-md">
+                <div className="bg-orange-100 dark:bg-slate-900 dark:border-slate-200 border border-yellow-900 p-6 -tracking-tighter rounded-lg shadow-md w-[20%] max-w-md">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold">Personal Info</h2>
                     </div>
@@ -130,8 +130,8 @@ const profile = () => {
 
             <div className='w-[60%] mt-10 flex items-center gap-8 font-semibold cursor-pointer'>
                 <div
-                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
-                                ${showOrders ? 'border-b-2 border-violet-950 text-violet-950' : ''}`}
+                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 dark:border-violet-600 dark:hover:text-violet-600 
+                                ${showOrders ? 'border-b-2 border-violet-950 text-violet-950 dark:border-violet-600 dark:text-violet-600' : ''}`}
                     onClick={() => {
                         setShowOrders(true)
                         setShowProfileInfo(false)
@@ -142,8 +142,8 @@ const profile = () => {
                     <span>Orders</span>
                 </div>
                 <div
-                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
-                                ${showProfileInfo ? 'border-b-2 border-violet-950 text-violet-950' : ''}`}
+                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 dark:border-violet-600 dark:hover:text-violet-600 
+                                ${showProfileInfo ? 'border-b-2 border-violet-950 text-violet-950 dark:border-violet-600 dark:text-violet-600' : ''}`}
                     onClick={() => {
                         setShowOrders(false)
                         setShowProfileInfo(true)
@@ -154,8 +154,8 @@ const profile = () => {
                     <span>Personal Info</span>
                 </div>
                 <div
-                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 
-                                ${showAddressInfo ? 'border-b-2 border-violet-950 text-violet-950' : ''}`}
+                    className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 dark:border-violet-600 dark:hover:text-violet-600 
+                                ${showAddressInfo ? 'border-b-2 border-violet-950 text-violet-950 dark:border-violet-600 dark:text-violet-600' : ''}`}
                     onClick={() => {
                         setShowOrders(false)
                         setShowProfileInfo(false)

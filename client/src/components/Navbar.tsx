@@ -50,7 +50,7 @@ const Navbar = () => {
                         const Icon = data.Icon;
                         return (
                             <Link href={data.url} key={index}
-                                className={`flex items-center gap-2 px-4 py-1 rounded-md hover:bg-orange-200 ${router.pathname === data.url ? 'shadow shadow-content4-foreground text-orange-950' : ''}`}
+                                className={`flex items-center gap-2 px-4 py-1 rounded-md hover:bg-orange-200 dark:hover:bg-black ${router.pathname === data.url ? 'shadow shadow-content4-foreground text-orange-950 dark:bg-black dark:text-gray-200' : ''}`}
                                 onClick={() => setDropdownOpen(false)}
                             >
                                 <Icon className='text-xl' />
@@ -64,11 +64,11 @@ const Navbar = () => {
                 <div className="relative flex items-center gap-4">
                     {user?._id ? (
                         <>
-                            <button onClick={toggleTheme} className="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                            <button onClick={toggleTheme} className="p-2 rounded-full">
                                 {theme === "dark" ? <FiSun className="text-yellow-400" size={24} /> : <FiMoon className="text-gray-900" size={24} />}
                             </button>
                             <Link href={'/cart'}
-                                className="relative flex items-center gap-2 rounded-md hover:text-orange-900"
+                                className="relative flex items-center gap-2 rounded-md hover:text-orange-900 dark:hover:text-black"
                                 onClick={() => setDropdownOpen(false)}
                             >
                                 <FaShoppingCart className='text-2xl' />
@@ -78,7 +78,7 @@ const Navbar = () => {
                             </Link>
 
                             <FaUser
-                                className="text-xl cursor-pointer hover:text-orange-900"
+                                className="text-xl cursor-pointer hover:text-orange-900 dark:hover:text-black"
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
                             />
 
@@ -126,7 +126,7 @@ const Navbar = () => {
                         </>
                     ) : (
                         <div className="flex flex-row gap-2 lg:gap-4">
-                            <Link href="/login" className="w-20 sm:w-24 md:w-28 bg-indigo-950 hover:bg-indigo-800 text-center text-white rounded-2xl font-semibold py-2">
+                            <Link href="/login" className="w-20 sm:w-24 md:w-28 bg-indigo-950 hover:bg-indigo-800 dark:bg-indigo-800 dark:hover:bg-indigo-700 text-center text-white rounded-2xl font-semibold py-2">
                                 Sign In
                             </Link>
                             <Link href="/signUp" className="w-20 sm:w-24 md:w-28 bg-gray-500 hover:bg-gray-700 text-center rounded-2xl text-white font-semibold py-2">

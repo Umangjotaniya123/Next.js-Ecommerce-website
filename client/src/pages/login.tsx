@@ -43,7 +43,7 @@ const login = () => {
     return (
         <div className="login w-full min-h-screen flex flex-col justify-center items-center text-sm px-4">
           <form
-            className="w-full max-w-md bg-orange-200 border border-yellow-900 flex flex-col items-center shadow-xl rounded-lg p-6 sm:max-w-lg lg:max-w-lg lg:px-10"
+            className="w-full max-w-md bg-orange-200 border border-yellow-900 dark:bg-slate-800 dark:border-slate-200 flex flex-col items-center shadow-xl rounded-lg p-6 sm:max-w-lg lg:max-w-lg lg:px-10"
             onSubmit={handleSubmit(onSubmit)}
           >
             <Image src={'/logo1.png'} alt="Logo" width={150} height={150} />
@@ -54,7 +54,7 @@ const login = () => {
               {/* Email Input */}
               <div className="w-full">
                 <label>Email Address</label>
-                <div className="flex items-center gap-2 border rounded-md px-2 py-2 bg-white">
+                <div className="flex items-center gap-2 border rounded-md px-2 py-2 bg-white dark:bg-black">
                   <FaUser />
                   <input
                     type="email"
@@ -74,7 +74,7 @@ const login = () => {
               {/* Password Input */}
               <div className="w-full">
                 <label>Password</label>
-                <div className="flex items-center gap-2 border rounded-md px-2 py-2 bg-white">
+                <div className="flex items-center gap-2 border rounded-md px-2 py-2 bg-white dark:bg-black">
                   <FaKey />
                   <input
                     type="password"
@@ -90,10 +90,10 @@ const login = () => {
             </div>
       
             <div className="w-full flex flex-col items-center gap-4 mt-6">
-              <button className="w-full bg-indigo-950 text-white font-semibold py-3 rounded-lg hover:bg-zinc-700">
+              <button className="w-full bg-indigo-950 text-white dark:bg-indigo-700 dark:hover:bg-indigo-500 font-semibold py-3 rounded-lg hover:bg-zinc-700">
                 Sign In
               </button>
-              <Link href="/signUp" className="text-base font-semibold text-violet-950 hover:underline">
+              <Link href="/signUp" className="text-base font-semibold text-violet-950 dark:text-violet-600 hover:underline">
                 Create an account
               </Link>
             </div>
