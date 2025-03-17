@@ -54,12 +54,12 @@ const CartItemCard = ({ cartItem }: CartItemProps) => {
         <div className="cart-item p-3 mx-3 w-[80%] flex flex-col justify-center items-center gap-2 border-b border-l border-yellow-900 dark:border-slate-200 rounded-bl-lg sm:flex-row sm:justify-start sm:gap-10 sm:px-7 sm:py-4">
             {/* <Image className='w-full h-24 rounded-md' src={`${process.env.NEXT_PUBLIC_SERVER}/${photo}`} alt={name} width={200} height={200} /> */}
             <Image
-                className='w-full h-24 rounded-md'
+                className='w-full h-28 rounded-md'
                 src={(photo && photo.includes('uploads/')) ? `${process.env.NEXT_PUBLIC_SERVER}/${photo}` : '/images/Image-not-found.png'}
                 alt={name}
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='70vw'
             />
             {/* <article className='flex flex-row justify-center items-center gap-3 font-medium text-base sm:flex-col sm:gap-0'> */}
             <Link className='text-amber-950 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-500 w-[90%] font-medium text-base' href={`/product/${productId}`}>{name}</Link>

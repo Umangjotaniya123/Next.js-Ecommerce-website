@@ -130,7 +130,7 @@ const Products = ({ data }: Props) => {
             <h1>No any Products Available</h1>}
         </div>
         <Link
-          className="create-product-btn absolute right-10 top-20 w-10 h-10 rounded-full bg-gray-700 text-white flex justify-center items-center"
+          className="create-product-btn absolute right-10 top-28 w-10 h-10 rounded-full bg-gray-700 text-white flex justify-center items-center"
           href={"/admin/products/new"}
         >
           <FaPlus />

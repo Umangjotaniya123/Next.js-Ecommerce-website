@@ -8,9 +8,9 @@ const PieCharts = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main className="chart-container w-full bg-white py-8 px-6 overflow-y-auto flex flex-col items-center gap-5">
+      <main className="chart-container w-full py-8 px-6 overflow-y-auto flex flex-col items-center gap-5">
         <h1 className="heading p-6 text-center text-small md:text-lg xl:text-2xl">Pie & Doughnut Charts</h1>
-        <div className="grid grod-col-1 items-center justify-center md:grid-cols-2 md:gap-x-80 md:gap-y-32">
+        <div className="grid px-24 rounded-xl grod-col-1 items-center justify-center md:grid-cols-2 md:gap-x-80 md:gap-y-32 bg-white dark:bg-slate-800">
           <section className="w-full max-w-64 md:max-w-80">
             <PieChart
               labels={["Processing", "Shipped", "Delivered"]}

@@ -60,7 +60,7 @@ const AdminSidebar = () => {
 
   const DataDiv = ({ data: [name, value], router }: dataProps) => (
     <div className="w-[85%]">
-      <h5 className="heading opacity-50 my-3">{name}</h5>
+      <h5 className="heading text-white opacity-50 my-6">{name}</h5>
       <ul className="flex flex-col justify-center items-center gap-2 w-full">
         {value.map((i, index) => (
           <Li data={i} router={router} key={index} />
@@ -71,7 +71,7 @@ const AdminSidebar = () => {
 
   const Li = ({ data: { url, text, Icon }, router }: LiProps) => (
     <li
-      className={`px-4 py-2 rounded-md text-black w-full ${router.pathname.includes(url) ? 'bg-orange-200': 'bg-orange-50'}`}
+      className={`px-4 py-2 rounded-md w-full ${router.pathname.includes(url) ? 'bg-orange-200 dark:bg-white dark:text-black': 'bg-orange-50 dark:bg-slate-700'}`}
     >
       <Link
         className="flex flex-row justify-start items-center gap-4"
@@ -98,9 +98,9 @@ const AdminSidebar = () => {
         className={ `${phoneActive ? 
           'absolute transition-all duration-600 w-[90%] max-w-[360px] z-20 h-[calc(100vh-6rem)]' :
           'w-[360px]'
-        } rounded-lg flex flex-col bg-gray-500 text-white items-center gap-2 `}
+        } rounded-lg flex flex-col bg-gray-500 dark:bg-slate-800 items-center gap-2 `}
       >
-        <h2 className="heading m-4 flex justify-center items-center">LOGO</h2>
+        {/* <h2 className="heading m-4 flex justify-center text-white items-center">LOGO</h2> */}
 
         {Object.entries(sideBarData).map((data, index) => {
           // console.log(data)

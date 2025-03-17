@@ -3,21 +3,22 @@
 @tailwind utilities;
 
 :root {
-  /* --background: #000000;
-  --foreground: #171717; */
+  --input-color: #fff7ed;
+  --secondary-color: #374151;
+  --text-color: #000000;
+  --bg-color: #ffedd5;
+  --border-color: #fed7aa;
 }
 
-@media (prefers-color-scheme: dark) {
-  /* :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  } */
+/* Dark Mode */
+.dark {
+  --input-color: #334155;
+  --secondary-color: #9ca3af;
+  --text-color: #ffffff;
+  --bg-color: #1e293b;
+  --border-color: #e2e8f0;
 }
 
-/* body {
-  background-color: #fff7ed;
-  padding-top: 5.5rem;
-} */
 
 .heading {
   letter-spacing: 3px;
@@ -31,9 +32,14 @@
     font-weight: 500;
   }
 
+  >span {
+    color: var(--secondary-color);
+    display: block;
+  }
+
   >div {
     width: 100%;
-    background-color: #fff7ed;
+    background-color: var(--input-color);
     padding: 0.3rem 10px;
     border: 1px solid rgba(154, 154, 154, 0.38);
     border-radius: 10px;
@@ -43,7 +49,7 @@
     >select {
       width: 100%;
       margin: 0.3rem;
-      background-color: #fff7ed;
+      background-color: var(--input-color);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       font-size: small;
       outline: none;
@@ -57,7 +63,7 @@
     width: 100%;
     padding: 0.3rem 10px;
     margin-top: 0.3rem;
-    background-color: #fff7ed;
+    background-color: var(--input-color);
     border: 1px solid rgba(154, 154, 154, 0.38);
     border-radius: 10px;
     /* margin: 0.3rem; */
@@ -78,20 +84,6 @@
     font-weight: bold;
   }
 
-}
-@media (prefers-color-scheme: dark) {
-  .inputStyle > div {
-    background-color: #2d3748; /* Dark mode background */
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-
-  .inputStyle > input,
-  .inputStyle > select,
-  .inputStyle > textarea {
-    background-color: #2d3748; /* Dark mode background */
-    color: white;
-    border-color: rgba(255, 255, 255, 0.2);
-  }
 }
 
 .admin-container {

@@ -85,9 +85,9 @@ const Home = ({ data }: { data: string }) => {
                     <Swiper
                         slidesPerView={2}
                         breakpoints={{
-                            640: { slidesPerView: 3 },
-                            768: { slidesPerView: 4 },
-                            1024: { slidesPerView: 6 },
+                            740: { slidesPerView: 3 },
+                            1000: { slidesPerView: 4 },
+                            1224: { slidesPerView: 5 },
                         }}
                         spaceBetween={20}
                         navigation
@@ -143,9 +143,9 @@ const Home = ({ data }: { data: string }) => {
                     <Swiper
                         slidesPerView={2}
                         breakpoints={{
-                            640: { slidesPerView: 3 },
-                            768: { slidesPerView: 4 },
-                            1024: { slidesPerView: 5 },
+                            740: { slidesPerView: 3 },
+                            1000: { slidesPerView: 4 },
+                            1224: { slidesPerView: 5 },
                         }}
                         spaceBetween={20}
                         navigation

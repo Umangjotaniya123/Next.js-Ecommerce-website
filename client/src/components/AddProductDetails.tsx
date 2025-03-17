@@ -25,6 +25,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
             description: '',
         }
     });
+    const textColor = "text-gray-700 dark:text-gray-400"
 
     const router = useRouter();
     const [product, setProduct] = useState<Product | null>(null);
@@ -165,13 +166,13 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                 className='w-full flex flex-col items-start gap-6'
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div className="w-full bg-orange-100 flex justify-between items-center rounded-lg font-bold p-4 ">
+                <div className="w-full bg-background flex justify-between items-center rounded-lg font-bold p-4 ">
                     <h2 className='text-xl'>Add a product</h2>
                     <div className="buttons w-fit px-3 flex flex-row justify-start items-center gap-2 lg:gap-4">
                         <button type='button' className="w-24 rounded-xl font-semibold py-2 lg:py-3 " onClick={handleBack}>Cancel</button>
                         <button
                             type='submit'
-                            className="w-32 bg-indigo-950 text-white px-2 py-2 rounded-xl font-semibold lg:py-3"
+                            className="w-32 bg-indigo-950 dark:bg-indigo-700 text-white px-2 py-2 rounded-xl font-semibold lg:py-3"
                         >
                             {product ? 'Save Product' : 'Add Product'}
                         </button>
@@ -180,7 +181,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                 <div className="w-full flex gap-4">
                     <div className='w-[35%] flex flex-col justify-between gap-5 '>
 
-                        <div className='w-full rounded-lg bg-orange-100 p-4 font-medium inputStyle border border-orange-200'>
+                        <div className='w-full rounded-lg bg-background p-4 font-medium inputStyle border border-borderColor'>
                             <h2 className='text-lg'>Product Name:</h2>
                             <input
                                 type="text"
@@ -191,9 +192,9 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                             {errors.name && <small>{errors?.name.message}</small>}
                         </div>
 
-                        <div className='w-full rounded-lg bg-orange-100 p-4 inputStyle border border-orange-200'>
+                        <div className='w-full rounded-lg bg-background p-4 inputStyle border border-borderColor'>
                             <h2 className='text-lg font-medium'>Product Category</h2>
-                            <span className='mt-3 block text-gray-700'>Select category:</span>
+                            <span className='mt-3'>Select category:</span>
                             <select
                                 {...register('category', { required: 'Category is required' })} >
                                 <option value="">select category</option>
@@ -204,12 +205,12 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                             {errors.category && <small>{errors?.category.message}</small>}
                         </div>
 
-                        <div className='w-full rounded-lg bg-orange-100 flex flex-col gap-5 border border-orange-200 p-4'>
+                        <div className='w-full rounded-lg bg-background flex flex-col gap-5 border border-borderColor p-4'>
 
                             <h2 className='text-lg font-medium'>Product Price</h2>
                             <div className='flex justify-between gap-3'>
                                 <div className='inputStyle w-[70%]'>
-                                    <span className='block text-gray-700'>Base price:</span>
+                                    <span>Base price:</span>
                                     <input
                                         type="text"
                                         placeholder='Enter a price...'
@@ -222,7 +223,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                                         )}
                                 </div>
                                 <div className='inputStyle w-[25%]'>
-                                    <span className='block text-gray-700'>Currency:</span>
+                                    <span>Currency:</span>
                                     <select name="" id="">
                                         <option value="">INR</option>
                                     </select>
@@ -230,7 +231,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                             </div>
 
                             <div className='inputStyle'>
-                                <span className='block text-gray-700'>Discount in percentage:</span>
+                                <span>Discount in percentage:</span>
                                 <input
                                     type="number"
                                     placeholder='Enter a discount...'
@@ -239,7 +240,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                             </div>
 
                             <div className='inputStyle'>
-                                <span className='block text-gray-700'>Final price:</span>
+                                <span>Final price:</span>
                                 <input
                                     type="text"
                                     // placeholder='Enter a price...'
@@ -249,9 +250,9 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                             </div>
                         </div>
 
-                        <div className='w-full rounded-lg bg-orange-100 p-4 inputStyle border border-orange-200'>
+                        <div className='w-full rounded-lg bg-background p-4 inputStyle border border-borderColor'>
                             <h2 className='text-lg font-medium'>Product Stock</h2>
-                            <span className='mt-3 block text-gray-700'>Add stock:</span>
+                            <span className='mt-3'>Add stock:</span>
                             <input
                                 type="number"
                                 placeholder='Enter a stock'
@@ -265,7 +266,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                     <div className='w-[65%] flex flex-col justify-between gap-5 '>
 
 
-                        <div className='w-full rounded-lg bg-orange-100 p-4 border border-orange-200'>
+                        <div className='w-full rounded-lg bg-background p-4 border border-borderColor'>
                             <h2 className='text-lg font-medium'>Add Images</h2>
                             <input
                                 type="file"
@@ -306,7 +307,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
 
                             <label
                                 htmlFor="imageRef"
-                                className='border-2 border-dashed border-gray-300 bg-orange-50 rounded-lg block w-full h-48 my-2 text-center text-base content-center cursor-pointer opacity-80'
+                                className='border-2 border-dashed border-gray-300 bg-orange-50 dark:bg-slate-700 rounded-lg block w-full h-48 my-2 text-center text-base content-center cursor-pointer opacity-80'
                             >
                                 Drag your image hear
                                 <br />
@@ -314,7 +315,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                             </label>
                         </div>
 
-                        <div className='w-full rounded-lg bg-orange-100 p-4 font-medium inputStyle border border-orange-200'>
+                        <div className='w-full rounded-lg bg-background p-4 font-medium inputStyle border border-borderColor'>
                             <h2 className='text-lg'>Product description:</h2>
                             {/* <input
                                 type="text"
@@ -329,7 +330,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                             />
                         </div>
 
-                        <div className='w-full rounded-lg bg-orange-100 p-4 font-medium border border-orange-200'>
+                        <div className='w-full rounded-lg bg-background p-4 font-medium border border-borderColor'>
                             <h2 className='text-lg'>Product Specification:</h2>
 
                             <div className='w-full flex flex-col my-3'>
@@ -339,7 +340,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                                         className='w-full flex justify-between items-center gap-4'
                                     >
                                         <span className='w-[30%] text-center p-2 '>{key}</span>
-                                        <span className='text-start border-b border-gray-500 p-2 px-5 bg-orange-50 w-full'>{value}</span>
+                                        <span className='text-start border-b border-gray-500 p-2 px-5 bg-orange-50 dark:bg-black w-full'>{value}</span>
                                         <button
                                             type='button'
                                             className='bg-black/70 mx-2 text-white p-1 rounded-full '

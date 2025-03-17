@@ -37,7 +37,7 @@ const dashboard = ({ data }: { data: string }) => {
 
         </div>
 
-        <section className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 px-8">
+        <section className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4 px-8">
           <WidgetItem
             percent={dashboardStats?.changePercent.revenue!}
             amount={true}
@@ -67,8 +67,8 @@ const dashboard = ({ data }: { data: string }) => {
 
         <section className="w-full px-8 h-full">
           {/* {dashboardStats?.chart.revenue && <OrdersChart state={dashboardStats?.chart.revenue} />} */}
-          <div className="p-6 bg-white rounded-xl shadow-lg">
-            <h3 className="w-full text-center heading text-gray-800 text-lg font-semibold mb-4">Revenue Chart</h3>
+          <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg">
+            <h3 className="w-full text-center heading text-gray-800 dark:text-gray-200 text-lg font-semibold mb-4">Revenue Chart</h3>
             {dashboardStats?.chart.revenue &&
               <LineChart
                 data={dashboardStats?.chart.revenue}
@@ -82,8 +82,8 @@ const dashboard = ({ data }: { data: string }) => {
 
         </section>
 
-        <section className="transaction-container w-full h-[600px] flex flex-col justify-center gap-6 px-8 sm:flex-row">
-          <div className="gender-chart bg-white rounded-lg w-[30%] p-4 relative flex flex-col justify-center items-center gap-3">
+        <section className="transaction-container w-full lg:h-[600px] flex flex-col justify-center gap-6 px-8 lg:flex-row">
+          <div className="gender-chart bg-white dark:bg-slate-800 rounded-lg w-full lg:w-[30%] p-4 relative flex flex-col justify-center items-center gap-3">
             <h2 className='heading text-sm sm:text-xl'>Gender Ratio</h2>
 
             <DoughnutChart
@@ -98,22 +98,22 @@ const dashboard = ({ data }: { data: string }) => {
             </p>
           </div>
 
-          <div className='w-[70%] h-full rounded-lg bg-white'>
-            <h3 className="w-full text-center heading text-gray-800 text-lg font-semibold m-4">Recent Orders</h3>
-            <div className='h-[90%] overflow-y-scroll p-3'>
+          <div className='w-full lg:w-[70%] h-full rounded-lg bg-white dark:bg-slate-800'>
+            <h3 className="w-full text-center heading text-gray-800 dark:text-gray-200 text-lg font-semibold m-4">Recent Orders</h3>
+            <div className='w-full lg:h-[90%] overflow-y-scroll p-3'>
               {dashboardStats?.recentOrder && dashboardStats.recentOrder.length && <TableHook columns={orderColumns} items={recentOrders(dashboardStats.recentOrder)} />}
             </div>
           </div>
         </section>
 
-        <section className='w-full h-fit flex justify-between gap-6 px-8'>
-          <div className='w-[70%] bg-white'>
-            <h3 className="w-full heading text-gray-800 text-lg font-semibold m-4">Latest Products</h3>
+        <section className='w-full h-fit flex flex-col lg:flex-row justify-between gap-6 px-8'>
+          <div className='w-full lg:w-[70%] bg-white dark:bg-slate-800'>
+            <h3 className="w-full heading text-gray-800 dark:text-gray-200 text-lg font-semibold m-4">Latest Products</h3>
             <div className='p-4'>
               {Array.isArray(dashboardStats?.latestProducts) && <TableHook columns={productsColumns} items={latestProducts(dashboardStats?.latestProducts)} />}
             </div>
           </div>
-          <div className="dashboard-categories bg-white rounded-lg w-full flex flex-col items-center gap-3 p-5 xl:w-[30%] xl:h-full">
+          <div className="dashboard-categories bg-white dark:bg-slate-800 rounded-lg w-full flex flex-col items-center gap-3 p-5 xl:w-[30%] xl:h-full">
             <h2 className='heading text-sm sm:text-xl'>Inventory</h2>
             <div className='overflow-y-auto scrollbar-hide w-full'>
               {dashboardStats?.categoriesCount && dashboardStats.categoriesCount.map((i) => {
@@ -152,7 +152,7 @@ const WidgetItem = ({
   color,
   amount = false,
 }: WidgetItemProps) => (
-  <article className="w-full flex flex-row justify-between items-stretch p-6 rounded-lg bg-white shadow-md">
+  <article className="w-full flex flex-row justify-between items-stretch p-6 rounded-lg bg-white dark:bg-slate-800 shadow-md">
     <div className="widget-info flex flex-col items-start justify-center gap-4">
       <p className='heading text-gray-400 text-medium'>{heading}</p>
       <h4 className='text-lg font-semibold'>{amount ? `₹${value}` : value}</h4>

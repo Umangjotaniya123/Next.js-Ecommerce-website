@@ -8,6 +8,7 @@ import { decryptedData, encryptedData, responseToast } from "@/utilities/feature
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+import { FaTrash } from "react-icons/fa";
 
 const AdminSidebar = dynamic(() => import('@/components/AdminSidebar'));
 
@@ -46,6 +47,18 @@ const Orders = ({ data }: { data: string }) => {
 
     // console.log(ordersData);
 
+    const handleDelete = async (id: string) => {
+        try {
+            console.log(user);
+            
+            const res = await Axios.delete(`order/${id}?id=${user?._id}`);
+
+            responseToast(res);
+        } catch (error: any) {
+            responseToast(error.response);
+        }
+    }
+
 
     const orders = ordersData?.map((order) => {
         return {
@@ -61,7 +74,7 @@ const Orders = ({ data }: { data: string }) => {
             ),
             status: (
                 <select
-                    className={`border border-gray-300 bg-white rounded-md p-1 cursor-pointer ${order.status === "Processing" ? "text-red-500" : order.status === "Shipped" ? "text-green-500" : "text-purple-500"}`}
+                    className={`border border-gray-300 bg-white dark:bg-transparent rounded-md p-1 cursor-pointer ${order.status === "Processing" ? "text-red-500" : order.status === "Shipped" ? "text-green-500" : "text-purple-500"}`}
                     name="status"
                     id="status"
                     defaultValue={order.status}
@@ -72,13 +85,15 @@ const Orders = ({ data }: { data: string }) => {
                     <option value="Delivered">Delivered</option>
                 </select>
             ),
-            action: <Link href={`/admin/orders/${order._id}`}>
-                <Tooltip color="secondary" content='Edit Order'>
-                    <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                        Manage
-                    </span>
-                </Tooltip>
-            </Link>,
+            action: (
+                <button>
+                    <Tooltip color="danger" content="Delete Order" className="font-semibold">
+                        <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                            <FaTrash onClick={() => handleDelete(order._id)} />
+                        </span>
+                    </Tooltip>
+                </button>
+            ),
         }
     });
 

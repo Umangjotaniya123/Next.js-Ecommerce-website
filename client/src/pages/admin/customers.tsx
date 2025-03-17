@@ -67,7 +67,7 @@ const Customers = ({ data }: Props) => {
         gender: user.gender,
         role: (
           <select
-            className="border border-gray-300 bg-white rounded-md p-1 cursor-pointer"
+            className="border border-gray-300 bg-white dark:bg-gray-400 rounded-md p-1 cursor-pointer"
             name="role"
             id="role"
             defaultValue={user.role}

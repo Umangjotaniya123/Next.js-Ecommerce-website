@@ -21,6 +21,8 @@ interface PageProps {
 
 export const ProductCard = ({ product, latest, watchList }: PageProps) => {
 
+    if(!product) return;
+
     const router = useRouter();
     const { user, getCartItems } = useAuth();
     const { _id, name, price, photos, stock, discount } = product;

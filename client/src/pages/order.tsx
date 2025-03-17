@@ -205,7 +205,7 @@ const order = () => {
     }) || [];
 
     return (
-        <div className="flex flex-col justify-center items-center gap-6 px-4 py-8 text-lg">
+        <div className="h-screen flex flex-col items-center gap-6 px-4 py-8 text-lg">
           <h1 className="heading text-xl sm:text-2xl font-semibold">My Orders</h1>
           {
             // isLoading ? <Skeleton length={20} /> : 

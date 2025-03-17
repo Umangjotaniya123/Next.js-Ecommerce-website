@@ -12,6 +12,7 @@ import { CartReducerInitialState } from '@/types/reducer-types';
 import { resetCart } from '@/redux/reducer/cartReducer';
 import { ThemeContext } from '@/context/ThemeContext';
 import { FiMoon, FiSun } from 'react-icons/fi';
+import { AiFillMoon, AiFillSun } from 'react-icons/ai';
 
 const Navbar = () => {
     const { user, getUser } = useAuth();
@@ -64,9 +65,7 @@ const Navbar = () => {
                 <div className="relative flex items-center gap-4">
                     {user?._id ? (
                         <>
-                            <button onClick={toggleTheme} className="p-2 rounded-full">
-                                {theme === "dark" ? <FiSun className="text-yellow-400" size={24} /> : <FiMoon className="text-gray-900" size={24} />}
-                            </button>
+
                             <Link href={'/cart'}
                                 className="relative flex items-center gap-2 rounded-md hover:text-orange-900 dark:hover:text-black"
                                 onClick={() => setDropdownOpen(false)}
@@ -84,7 +83,7 @@ const Navbar = () => {
 
                             {dropdownOpen && (
                                 <div className="absolute top-[2rem] -right-7 mt-3 w-72 bg-gray-800 rounded-lg shadow-lg text-white p-4 z-50">
-                                    <div className="absolute -top-2 right-6 w-7 h-7 bg-gray-800 rotate-45"></div>
+                                    <div className="absolute -top-2 right-20 w-7 h-7 bg-gray-800 rotate-45"></div>
 
                                     {/* User Info */}
                                     <div className="flex flex-col items-center text-center border-b border-gray-700 pb-4">
@@ -135,6 +134,9 @@ const Navbar = () => {
                         </div>
 
                     )}
+                    <button onClick={toggleTheme} className="p-2 rounded-full">
+                        {theme === "dark" ? <AiFillSun className="text-yellow-400" size={24} /> : <AiFillMoon className="text-gray-900" size={24} />}
+                    </button>
                 </div>
 
                 {/* Mobile Menu Icon */}

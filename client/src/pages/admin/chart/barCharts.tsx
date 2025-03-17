@@ -1,30 +1,16 @@
 import dynamic from "next/dynamic";
 import { BarChart } from "@/components/Charts";
+import { months } from "@/utilities/data";
 
 const AdminSidebar = dynamic(() => import('@/components/AdminSidebar'));
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "Aug",
-  "Sept",
-  "Oct",
-  "Nov",
-  "Dec",
-];
 
 const BarCharts = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main className="chart-container w-full bg-white py-8 px-6 overflow-y-auto flex flex-col items-center ">
+      <main className="chart-container w-full py-8 px-6 overflow-y-auto flex flex-col items-center ">
         <h1 className="heading p-6 text-center text-small md:text-lg xl:text-2xl">Bar Charts</h1>
-        <section className="my-4 p-12 rounded-lg w-full md:w-[80%] shadow-lg">
+        <section className="my-4 p-12 bg-white dark:bg-slate-800 rounded-lg w-full md:w-[80%] shadow-lg">
           <BarChart
             data_1={[200, 444, 343, 556, 778, 455, 990]}
             data_2={[300, 144, 433, 655, 237, 755, 190]}
@@ -35,7 +21,7 @@ const BarCharts = () => {
           />
           <h2 className="heading my-6 text-center text-sm md:text-lg xl:text-xl">Top Selling Products & Top Customers</h2>
         </section>
-        <section className="my-4 p-12 rounded-lg w-full md:w-[80%] shadow-lg">
+        <section className="my-4 p-12 bg-white dark:bg-slate-800 rounded-lg w-full md:w-[80%] shadow-lg">
           <BarChart
             horizontal={true}
             data_1={[

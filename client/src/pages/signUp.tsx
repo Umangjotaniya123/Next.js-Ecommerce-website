@@ -1,4 +1,5 @@
 import Axios from '@/config/axios';
+import { useAuth } from '@/context/AuthContext';
 import { responseToast } from '@/utilities/features';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,6 +9,7 @@ import { useForm } from 'react-hook-form';
 
 const SignUp = () => {
 
+    const { getUser } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             name: '',
@@ -26,6 +28,7 @@ const SignUp = () => {
             const res = await Axios.post('/user/register', data);
 
             responseToast(res, router, '/');
+            getUser();
 
         } catch (error: any) {
             responseToast(error?.response)
