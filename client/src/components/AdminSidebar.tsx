@@ -90,15 +90,15 @@ const AdminSidebar = () => {
 
   return (
     <>
-      {phoneActive && <button className="text-xl fixed p-4" id="hamburger" onClick={() => setShowModal(true)}>
+      {phoneActive && <button className="text-xl fixed top-20 left-0 p-4" id="hamburger" onClick={() => setShowModal(true)}>
         <HiMenuAlt4 />
       </button>}
 
       {showModal && <aside
         className={ `${phoneActive ? 
-          'absolute transition-all duration-600 w-[90%] max-w-[360px] z-20' :
+          'fixed left-3 transition-all duration-600 w-[90%] max-w-[360px] z-20 h-screen' :
           'w-[360px]'
-        } rounded-lg flex flex-col bg-gray-500 dark:bg-slate-600 items-center pb-6 gap-2 h-fit`}
+        } rounded-lg flex flex-col bg-gray-500 dark:bg-slate-600 items-center pb-6 gap-2`}
       >
         {/* <h2 className="heading m-4 flex justify-center text-white items-center">LOGO</h2> */}
 

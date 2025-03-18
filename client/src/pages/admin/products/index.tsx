@@ -59,9 +59,6 @@ const Products = ({ data }: Props) => {
     setProductsData(decryptedData(data));
   }, [data])
 
-  if(!user)
-    return <div>Loading....</div>
-
   const handleDelete = async (productId: string) => {
     try {
       const res = await Axios.delete(`/product/${productId}?id=${user?._id}`);
@@ -123,23 +120,20 @@ const Products = ({ data }: Props) => {
   })
 
   return (
-    <div className="admin-container">
-      <AdminSidebar />
-      <main className="w-full flex flex-col items-center max-w-[calc(100% - 360px)] overflow-y-scroll ">
-        <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Products</h1>
-        <div className="m-8 w-[80%]">
-          {products.length ?
-            <TableHook columns={columns} items={products} /> :
-            <h1>No any Products Available</h1>}
-        </div>
-        <Link
-          className="create-product-btn absolute right-10 top-28 w-10 h-10 rounded-full bg-gray-700 text-white flex justify-center items-center"
-          href={"/admin/products/new"}
-        >
-          <FaPlus />
-        </Link>
-      </main>
-    </div>
+    <main className="w-full flex flex-col items-center overflow-y-scroll ">
+      <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Products</h1>
+      <div className="m-8 w-[80%]">
+        {products.length ?
+          <TableHook columns={columns} items={products} /> :
+          <h1>No any Products Available</h1>}
+      </div>
+      <Link
+        className="create-product-btn absolute right-10 top-28 w-10 h-10 rounded-full bg-gray-700 text-white flex justify-center items-center"
+        href={"/admin/products/new"}
+      >
+        <FaPlus />
+      </Link>
+    </main>
   );
 };
 

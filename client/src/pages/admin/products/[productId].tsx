@@ -11,12 +11,9 @@ type Props = {
 const productManage = ({ data }: Props) => {
 
   return (
-    <div className="admin-container">
-      <AdminSidebar />
-      <main className="product-management w-full  max-w-[calc(100% - 360px)] overflow-y-scroll">
-        <AddProductDetails data={data} />
-      </main>
-    </div>
+    <main className="w-full overflow-y-scroll px-4">
+      <AddProductDetails data={data} />
+    </main>
   )
 };
 export default productManage;

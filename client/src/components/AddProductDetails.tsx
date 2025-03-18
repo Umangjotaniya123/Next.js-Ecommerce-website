@@ -178,8 +178,8 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                         </button>
                     </div>
                 </div>
-                <div className="w-full flex gap-4">
-                    <div className='w-[35%] flex flex-col justify-between gap-5 '>
+                <div className="w-full flex flex-col md:flex-row gap-4">
+                    <div className='w-full md:w-[35%] flex flex-col justify-between gap-5 '>
 
                         <div className='w-full rounded-lg bg-background p-4 font-medium inputStyle border border-borderColor'>
                             <h2 className='text-lg'>Product Name:</h2>
@@ -263,7 +263,7 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                         </div>
 
                     </div>
-                    <div className='w-[65%] flex flex-col justify-between gap-5 '>
+                    <div className='w-full md:w-[65%] flex flex-col justify-between gap-5 '>
 
 
                         <div className='w-full rounded-lg bg-background p-4 border border-borderColor'>
@@ -309,14 +309,14 @@ const AddProductDetails = ({ data }: { data?: string }) => {
                                 htmlFor="imageRef"
                                 className='border-2 border-dashed border-gray-300 bg-orange-50 dark:bg-slate-700 rounded-lg block w-full h-48 my-2 text-center text-base content-center cursor-pointer opacity-80'
                             >
-                                Drag your image hear
+                                Drag your image here
                                 <br />
                                 or <span className='text-blue-600 hover:underline'>Browse</span>
                             </label>
                         </div>
 
                         <div className='w-full rounded-lg bg-background p-4 font-medium inputStyle border border-borderColor'>
-                            <h2 className='text-lg'>Product description:</h2>
+                            <h2 className='text-lg'>Product Description:</h2>
                             {/* <input
                                 type="text"
                                 placeholder='Write a description here...'

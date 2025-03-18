@@ -6,12 +6,9 @@ import AdminSidebar from '@/components/AdminSidebar';
 
 const details = ({ data }: { data: string }) => {
   return (
-    <div className="admin-container">
-      <AdminSidebar />
-      <main className="w-full flex justify-center max-w-[calc(100% - 360px)] overflow-y-scroll ">
-        <ProductDetails data={data} />
-      </main>
-    </div>
+    <main className="w-full flex justify-center overflow-y-scroll ">
+      <ProductDetails data={data} />
+    </main>
   )
 }
 

@@ -26,18 +26,16 @@ const dashboard = ({ data }: { data: string }) => {
 
 
   return (
-    <div className='admin-container'>
-      <AdminSidebar />
-      <main className='w-full flex flex-col gap-6 max-w-[calc(100% - 360px)]  h-screen overflow-y-auto'>
-        <div className="bar w-full flex flex-row justify-end items-center gap-4 border-b border-black text-lg p-2">
+      <main className='w-full flex flex-col gap-6 overflow-y-auto px-4'>
+        {/* <div className="bar w-full flex flex-row justify-end items-center gap-4 border-b border-black text-lg p-2">
           <BsSearch />
           <input className='p-1 text-sm w-1/6 border-2 border-gray-300 rounded-lg' type="text" placeholder="Search for data, users, docs" />
           <FaRegBell />
           <Image className="rounded-full flex justify-center items-center" src={`/download.jpeg`} alt="User" width={40} height={40} />
 
-        </div>
+        </div> */}
 
-        <section className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4 px-8">
+        <section className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4">
           <WidgetItem
             percent={dashboardStats?.changePercent.revenue!}
             amount={true}
@@ -65,7 +63,7 @@ const dashboard = ({ data }: { data: string }) => {
           />
         </section>
 
-        <section className="w-full px-8 h-full">
+        <section className="w-full h-full">
           {/* {dashboardStats?.chart.revenue && <OrdersChart state={dashboardStats?.chart.revenue} />} */}
           <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg">
             <h3 className="w-full text-center heading text-gray-800 dark:text-gray-200 text-lg font-semibold mb-4">Revenue Chart</h3>
@@ -82,7 +80,7 @@ const dashboard = ({ data }: { data: string }) => {
 
         </section>
 
-        <section className="transaction-container w-full lg:h-[600px] flex flex-col justify-center gap-6 px-8 lg:flex-row">
+        <section className="transaction-container w-full lg:h-[600px] flex flex-col justify-center gap-6 lg:flex-row">
           <div className="gender-chart bg-white dark:bg-slate-800 rounded-lg w-full lg:w-[35%] p-4 relative flex flex-col justify-center items-center gap-3">
             <h2 className='heading text-sm sm:text-xl'>Gender Ratio</h2>
 
@@ -102,13 +100,13 @@ const dashboard = ({ data }: { data: string }) => {
 
           <div className='w-full lg:w-[70%] h-full rounded-lg bg-white dark:bg-slate-800'>
             <h3 className="w-full text-center heading text-gray-800 dark:text-gray-200 text-lg font-semibold m-4">Recent Orders</h3>
-            <div className='w-full lg:h-[90%] overflow-y-scroll p-3'>
+            <div className='w-full lg:h-[90%] overflow-y-scroll p-3 '>
               {dashboardStats?.recentOrder && dashboardStats.recentOrder.length && <TableHook columns={orderColumns} items={recentOrders(dashboardStats.recentOrder)} />}
             </div>
           </div>
         </section>
 
-        <section className='w-full h-fit flex flex-col lg:flex-row justify-between gap-6 px-8'>
+        <section className='w-full h-fit flex flex-col lg:flex-row justify-between gap-6'>
           <div className='w-full lg:w-[70%] rounded-lg bg-white dark:bg-slate-800'>
             <h3 className="w-full heading text-gray-800 dark:text-gray-200 text-lg font-semibold m-4">Latest Products</h3>
             <div className='p-4'>
@@ -133,7 +131,6 @@ const dashboard = ({ data }: { data: string }) => {
           </div>
         </section>
       </main>
-    </div>
   )
 }
 

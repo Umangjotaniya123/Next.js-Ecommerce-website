@@ -6,7 +6,7 @@ export const newCartItems = TryCatch(async (req, res, next) => {
     const { name, photo, price, quantity, stock, productId } = req.body;
     const { id } = req.query;
 
-    if(!id)
+    if (!id)
         return next(new ErrorHandler("Please Login First!!!", 401));
 
     if (!name || !price || !photo || !quantity || !stock || !productId)
@@ -18,33 +18,33 @@ export const newCartItems = TryCatch(async (req, res, next) => {
 
     if (cartItem && item.length) {
 
-        if(quantity !== item[0].quantity){
+        if (quantity !== item[0].quantity) {
 
             req.params = { id: `${item[0]._id}` };
             updateCartItemQuantity(req, res, next);
         }
+        else {
+            await CartItems.create({
+                name, price, stock, photo, quantity, productId, userId: id
+            });
 
-        return res.status(201).json({
-            success: true,
-            message: "Product already added to Cart",
-        });
+            return res.status(201).json({
+                success: true,
+                message: "Product add to Cart",
+            });
+        }
     }
-    else {
-        await CartItems.create({
-            name, price, stock, photo, quantity, productId, userId: id
-        });
 
-        return res.status(201).json({
-            success: true,
-            message: "Product add to Cart",
-        });
-    }
+    return res.status(201).json({
+        success: true,
+        message: "Product already added to Cart",
+    });
 });
 
-export const allCartItems = TryCatch(async(req, res, next) => {
+export const allCartItems = TryCatch(async (req, res, next) => {
     const { id } = req.query;
-    
-    if(!id)
+
+    if (!id)
         return res.json({});
 
     const cartItems = await CartItems.find({ 'userId': id });
@@ -60,7 +60,7 @@ export const deleteCartItem = TryCatch(async (req, res, next) => {
 
     const cartItem = await CartItems.findById(id);
 
-    if(!cartItem)
+    if (!cartItem)
         return next(new ErrorHandler("Invalid Id", 400));
 
     await cartItem.deleteOne();
@@ -71,13 +71,13 @@ export const deleteCartItem = TryCatch(async (req, res, next) => {
     });
 })
 
-export const updateCartItemQuantity = TryCatch(async(req, res, next) => {
+export const updateCartItemQuantity = TryCatch(async (req, res, next) => {
     const { id } = req.params;
     const { quantity } = req.body;
 
     const cartItem = await CartItems.findById(id);
 
-    if(!cartItem)
+    if (!cartItem)
         return next(new ErrorHandler("Invalid Id", 400));
 
     cartItem.quantity = quantity;

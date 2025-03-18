@@ -45,20 +45,30 @@ const Orders = ({ data }: { data: string }) => {
         setOrdersData(decryptedData(data));
     }, [data])
 
-    // console.log(ordersData);
-
     const handleDelete = async (id: string) => {
         try {
-            console.log(user);
-            
             const res = await Axios.delete(`order/${id}?id=${user?._id}`);
 
-            responseToast(res);
+            responseToast(res, router, '/admin/orders');
+            
         } catch (error: any) {
             responseToast(error.response);
         }
     }
 
+    const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>, _id: string) => {
+        try {
+            const res = await Axios.put(`/order/${_id}`, {
+                status: e.target.value,
+            });
+
+            responseToast(res, router, '/admin/orders');
+
+        } catch (error: any) {
+            console.log(error.response);
+            responseToast(error.response)
+        }
+    }
 
     const orders = ordersData?.map((order) => {
         return {
@@ -80,9 +90,9 @@ const Orders = ({ data }: { data: string }) => {
                     defaultValue={order.status}
                     onChange={(e) => handleChange(e, order._id)}
                 >
-                    <option value="Processing">Processing</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
+                    <option className="text-red-500" value="Processing">Processing</option>
+                    <option className="text-green-500" value="Shipped">Shipped</option>
+                    <option className="text-purple-500" value="Delivered">Delivered</option>
                 </select>
             ),
             action: (
@@ -97,34 +107,13 @@ const Orders = ({ data }: { data: string }) => {
         }
     });
 
-    const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>, _id: string) => {
-        try {
-            const res = await Axios.put(`/order/${_id}`, {
-                status: e.target.value,
-            });
-
-            responseToast(res, router, '/admin/orders');
-
-            if (res.data)
-                setOrdersData(ordersData?.map(order => order._id === _id ? { ...order, status: e.target.value } : order));
-
-
-        } catch (error: any) {
-            console.log(error.response);
-            responseToast(error.response)
-        }
-    }
-
     return (
-        <div className="admin-container">
-            <AdminSidebar />
-            <main className="w-full flex flex-col items-center max-w-[calc(100% - 360px)] overflow-y-scroll">
-                <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Orders</h1>
-                <div className="m-8 w-[80%]">
-                    {orders && orders.length > 0 && <TableHook columns={columns} items={orders} />}
-                </div>
-            </main>
-        </div>
+        <main className="w-full flex flex-col items-center">
+            <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Orders</h1>
+            <div className="m-8 w-[80%]">
+                {orders && orders.length > 0 && <TableHook columns={columns} items={orders} />}
+            </div>
+        </main>
     );
 };
 

@@ -15,6 +15,7 @@ const details = ({ data }: { data: string }) => {
     const [product, setProduct] = useState<Product>();
     const [quantity, setQuantity] = useState<number>(1);
     const [discount, setDiscount] = useState<number>(0);
+    const [imagePrev, setImagePrev] = useState<string>('');
     const [description, setDescription] = useState<boolean>(true);
     const [specification, setSpecification] = useState<boolean>(false);
     const [isAdmin, setAdmin] = useState<boolean>(false);
@@ -23,6 +24,9 @@ const details = ({ data }: { data: string }) => {
         const product = decryptedData(data);
         setProduct(product);
         setDiscount((product?.price! * product?.discount) / 100);
+
+        if (product?.photos && product.photos.length)
+            setImagePrev(`${process.env.NEXT_PUBLIC_SERVER}/${product.photos[0]}`);
     }, [data]);
 
     useEffect(() => {
@@ -66,21 +70,36 @@ const details = ({ data }: { data: string }) => {
 
             <div className="w-full h-fit flex justify-center gap-5">
 
-                <div className="flex justify-start w-[30%] px-6">
-                    {product?.photos &&
-                        <Image
-                            className="w-full max-h-full object-contain rounded-md cursor-pointer"
-                            src={(product.photos && product.photos.length > 0) ? `${process.env.NEXT_PUBLIC_SERVER}/${product.photos[0]}` : '/images/Image-not-found.png'}
-                            alt={product.name}
-                            width={0}
-                            height={0}
-                            sizes='100vw'
-                        />
+                <div className={`flex justify-start gap-4 ${isAdmin ? 'w-[45%]' : 'w-[35%]'}`}>
+                    {(product?.photos && product.photos.length > 0) &&
+                        <div className='flex flex-col gap-5 overflow-y-auto'>
+                            {product.photos.map((src, index) => (
+                                <Image
+                                    key={index}
+                                    src={`${process.env.NEXT_PUBLIC_SERVER}/${src}`}
+                                    alt='Photo'
+                                    width={0}
+                                    height={0}
+                                    sizes='100vw'
+                                    className='w-full h-24 border border-gray-700 rounded-md cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-800'
+                                    onClick={() => setImagePrev(`${process.env.NEXT_PUBLIC_SERVER}/${src}`)}
+                                />
+                            ))}
+                        </div>
                     }
-                </div> 
+
+                    <Image
+                        className="w-full h-[500px] object-contain border border-gray-700 shadow-sm shadow-black dark:shadow-white rounded-md cursor-pointer"
+                        src={(imagePrev) ? imagePrev : '/images/Image-not-found.png'}
+                        alt={'Photo'}
+                        width={0}
+                        height={0}
+                        sizes='100vw'
+                    />
+                </div>
 
 
-                <div className="p-6 -tracking-tighter flex flex-col w-[40%]">
+                <div className={`p-6 -tracking-tighter flex flex-col ${isAdmin ? 'w-[40%]' : 'w-[35%]'}`}>
                     <h2 className="text-5xl font-semibold">{product?.name}</h2>
 
                     <div className="flex justify-start gap-4 py-1">
@@ -90,15 +109,15 @@ const details = ({ data }: { data: string }) => {
 
                     <div className='flex items-center mt-3 gap-6'>
                         <h2 className="text-3xl font-semibold">₹{product?.price! - discount}</h2>
-                        {product?.discount && <span className="font-semibold text-xl text-green-600">₹{discount} off</span>}
+                        {product?.discount && <span className="font-semibold text-xl text-green-600">{product.discount}% off</span>}
                     </div>
 
                     <h2
-                        style={{ 
+                        style={{
                             textDecoration: 'line-through',
                             textDecorationColor: 'red',
                             textDecorationThickness: '2px',
-                        }} 
+                        }}
                         className="text-lg font-normal"
                     >₹{product?.price}</h2>
 
@@ -140,7 +159,7 @@ const details = ({ data }: { data: string }) => {
                         <button
                             type="submit"
                             className={`w-44 bg-indigo-950 hover:bg-zinc-800 dark:bg-indigo-700 dark:hover:bg-zinc-500 text-white rounded-3xl font-semibold py-2`}
-                            onClick={() =>router.push(`/admin/products/${product?._id}`)}
+                            onClick={() => router.push(`/admin/products/${product?._id}`)}
                         >
                             Edit Product
                         </button>
@@ -148,7 +167,7 @@ const details = ({ data }: { data: string }) => {
                 </div>
             </div>
 
-            <div className='w-[70%] flex items-center gap-8 font-semibold cursor-pointer'>
+            <div className={`${isAdmin ? 'w-[80%]' : 'w-[70%]'} flex items-center gap-8 font-semibold cursor-pointer`}>
                 <div
                     className={`flex justify-center items-center gap-1 p-1 hover:border-b-2 border-violet-950 hover:text-violet-950 dark:border-violet-600 dark:hover:text-violet-600 
                                 ${description ? 'border-b-2 border-violet-950 text-violet-950 dark:border-violet-600 dark:text-violet-600' : ''}`}
@@ -170,7 +189,7 @@ const details = ({ data }: { data: string }) => {
                     <span>Specification</span>
                 </div>
             </div>
-            <div className='w-[70%] bg-orange-100 dark:bg-slate-900 min-h-64 p-4 rounded-tl-3xl rounded-br-3xl border border-orange-900 dark:border-slate-200'>
+            <div className={`${isAdmin ? 'w-[80%]' : 'w-[70%]'} bg-orange-100 dark:bg-slate-900 min-h-64 p-4 rounded-tl-3xl rounded-br-3xl border border-orange-900 dark:border-slate-200`}>
                 {description && (product?.description ?
                     <p>{product.description}</p> :
                     <p>No description available</p>

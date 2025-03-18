@@ -9,6 +9,7 @@ import { store } from "@/redux/store";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import ThemeProvider from "@/context/ThemeContext";
+import AdminSidebar from "@/components/AdminSidebar";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
 
@@ -21,8 +22,18 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <UserContextProvider>
             <ThemeProvider>
               <Navbar />
-              <Component {...pageProps} />
-              {router.pathname.includes('/admin') ? <></> : <Footer />}
+              {router.pathname.includes('/admin') ?
+                <div className="w-full flex justify-center">
+                  <div className="w-[93%] max-w-[120rem] flex justify-center gap-4 py-4 h-screen">
+                    <AdminSidebar />
+                    <Component {...pageProps} />
+                  </div>
+                </div> :
+                <>
+                  <Component {...pageProps} />
+                  <Footer />
+                </>
+              }
               <Toaster position="bottom-center" gutter={4} />
             </ThemeProvider>
           </UserContextProvider>

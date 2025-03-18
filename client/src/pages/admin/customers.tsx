@@ -37,6 +37,9 @@ const Customers = ({ data }: Props) => {
     setUsersData(decryptedData(data));
   }, [data])
 
+  if (!user)
+    return <div>Loading....</div>
+
   const users = usersData?.map((user, index: number) => {
     return (
       {
@@ -94,9 +97,9 @@ const Customers = ({ data }: Props) => {
     try {
       const res = await Axios.delete(`/user/${_id}?id=${user?._id}`);
 
-      // if (res.data)
-      //   getUser();
       responseToast(res, router, '/admin/customers');
+      if (res.data)
+        getUser();
 
     } catch (error: any) {
       responseToast(error.response)
@@ -110,6 +113,8 @@ const Customers = ({ data }: Props) => {
       });
 
       responseToast(res, router, '/admin/customers');
+      if (res.data)
+        getUser();
 
     } catch (error: any) {
       responseToast(error.response)
@@ -117,15 +122,12 @@ const Customers = ({ data }: Props) => {
   }
 
   return (
-    <div className="admin-container">
-      <AdminSidebar />
-      <main className="w-full flex flex-col items-center max-w-[calc(100% - 360px)] overflow-y-scroll">
-        <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Customers</h1>
-        <div className="m-8 w-[80%]">
-          {users && users.length > 0 && <TableHook columns={columns} items={users} />}
-        </div>
-      </main>
-    </div>
+    <main className="w-full flex flex-col items-center">
+      <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Customers</h1>
+      <div className="m-8 w-[80%]">
+        {users && users.length > 0 && <TableHook columns={columns} items={users} />}
+      </div>
+    </main>
   );
 };
 

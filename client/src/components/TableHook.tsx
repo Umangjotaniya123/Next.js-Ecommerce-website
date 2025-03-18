@@ -11,7 +11,7 @@ import {
 } from '@heroui/react';
 
 import { useAsyncList } from '@react-stately/data';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 type Props = {
     columns: columnsType[];
@@ -44,9 +44,33 @@ const TableHook = ({ columns, items }: Props) => {
         },
     });
 
+    const classNames = useMemo(
+        () => ({
+            wrapper: ["bg-gray-700/50"],
+            th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
+            td: [
+                // changing the rows border radius
+                // first
+                "group-data-[first=true]/tr:first:before:rounded-none",
+                "group-data-[first=true]/tr:last:before:rounded-none",
+                // middle
+                "group-data-[middle=true]/tr:before:rounded-none",
+                // last
+                "group-data-[last=true]/tr:first:before:rounded-none",
+                "group-data-[last=true]/tr:last:before:rounded-none",
+            ],
+        }),
+        [],
+    );
+
+    useEffect(() => {
+        list.reload();
+    }, [items]);
+
     return (
         <Table
             onSortChange={list.sort}
+            classNames={classNames}
             sortDescriptor={list.sortDescriptor}
         >
             <TableHeader columns={columns}>

@@ -15,20 +15,20 @@ export const newCartItems = TryCatch(async (req, res, next) => {
             req.params = { id: `${item[0]._id}` };
             updateCartItemQuantity(req, res, next);
         }
-        return res.status(201).json({
-            success: true,
-            message: "Product already added to Cart",
-        });
+        else {
+            await CartItems.create({
+                name, price, stock, photo, quantity, productId, userId: id
+            });
+            return res.status(201).json({
+                success: true,
+                message: "Product add to Cart",
+            });
+        }
     }
-    else {
-        await CartItems.create({
-            name, price, stock, photo, quantity, productId, userId: id
-        });
-        return res.status(201).json({
-            success: true,
-            message: "Product add to Cart",
-        });
-    }
+    return res.status(201).json({
+        success: true,
+        message: "Product already added to Cart",
+    });
 });
 export const allCartItems = TryCatch(async (req, res, next) => {
     const { id } = req.query;

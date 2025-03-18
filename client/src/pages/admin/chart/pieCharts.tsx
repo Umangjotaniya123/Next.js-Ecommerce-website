@@ -6,9 +6,7 @@ const AdminSidebar = dynamic(() => import('@/components/AdminSidebar'));
 
 const PieCharts = () => {
   return (
-    <div className="admin-container">
-      <AdminSidebar />
-      <main className="w-full max-w-[calc(100% - 360px)] h-screen py-8 px-6 overflow-y-auto flex flex-col items-center gap-5">
+      <main className="w-full py-8 px-6 overflow-y-auto flex flex-col items-center gap-5">
         <h1 className="heading p-6 text-center text-small md:text-lg xl:text-2xl">Pie & Doughnut Charts</h1>
         <div className="grid px-24 rounded-xl grod-col-1 items-center justify-center md:grid-cols-2 md:gap-x-80 md:gap-y-32 bg-white dark:bg-slate-800">
           <section className="w-full max-w-64 md:max-w-80">
@@ -101,7 +99,6 @@ const PieCharts = () => {
           </section>
         </div>
       </main>
-    </div>
   );
 };
 
