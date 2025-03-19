@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const WatchListSchema: Schema = new mongoose.Schema({
+const wishlistSchema: Schema = new mongoose.Schema({
     userId: { type: String, required: true },
     productId: { type: [String], required: true },
 
@@ -8,6 +8,6 @@ const WatchListSchema: Schema = new mongoose.Schema({
     timestamps: true,
 });
 
-const WatchList = mongoose.model('WatchList', WatchListSchema);
+const Wishlist = mongoose.model('Wishlist', wishlistSchema);
 
-export default WatchList;
+export default Wishlist;

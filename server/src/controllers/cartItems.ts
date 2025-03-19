@@ -9,30 +9,30 @@ export const newCartItems = TryCatch(async (req, res, next) => {
     if (!id)
         return next(new ErrorHandler("Please Login First!!!", 401));
 
-    if (!name || !price || !photo || !quantity || !stock || !productId)
+    if (!name || !price || !quantity || !stock || !productId)
         return next(new ErrorHandler("Please enter all fields", 400));
 
     let cartItem = await CartItems.find({ 'userId': id });
 
+
+
     const item = cartItem.filter(item => item.productId === productId);
+    console.log(item);
 
     if (cartItem && item.length) {
+        req.params = { id: `${item[0]._id}` };
+        req.body.quantity += item[0].quantity;
+        updateCartItemQuantity(req, res, next);
+    }
+    else {
+        await CartItems.create({
+            name, price, stock, photo, quantity, productId, userId: id
+        });
 
-        if (quantity !== item[0].quantity) {
-
-            req.params = { id: `${item[0]._id}` };
-            updateCartItemQuantity(req, res, next);
-        }
-        else {
-            await CartItems.create({
-                name, price, stock, photo, quantity, productId, userId: id
-            });
-
-            return res.status(201).json({
-                success: true,
-                message: "Product add to Cart",
-            });
-        }
+        return res.status(201).json({
+            success: true,
+            message: "Product add to Cart",
+        });
     }
 
     return res.status(201).json({

@@ -31,8 +31,6 @@ import {
     RiHome5Fill,
     RiShoppingBag3Fill,
 } from "react-icons/ri";
-import { FaStore } from "react-icons/fa6";
-import { LiaShippingFastSolid } from "react-icons/lia";
 
 export const sideBarData = {
     dashboard: [
@@ -95,13 +93,13 @@ export const navbarData = {
             Icon: RiHome5Fill
         },
         {
-            name: 'Over Products',
+            name: 'Our Products',
             url: '/search',
             Icon: AiFillProduct
         },
         {
-            name: 'Watch List',
-            url: '/watchList',
+            name: 'Wishlist',
+            url: '/wishlist',
             Icon: RiHeartLine
         },
         {

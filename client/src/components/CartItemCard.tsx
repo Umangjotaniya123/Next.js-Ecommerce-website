@@ -51,7 +51,7 @@ const CartItemCard = ({ cartItem }: CartItemProps) => {
     }
 
     return (
-        <div className="cart-item p-3 mx-3 w-[80%] flex flex-col justify-center items-center gap-2 border-b border-l border-yellow-900 dark:border-slate-200 rounded-bl-lg sm:flex-row sm:justify-start sm:gap-10 sm:px-7 sm:py-4">
+        <div className="cart-item p-3 mx-3 w-[80%] flex flex-col justify-center items-center gap-2 rounded-bl-lg sm:flex-row sm:justify-start sm:gap-10 sm:px-7 sm:py-4">
             {/* <Image className='w-full h-24 rounded-md' src={`${process.env.NEXT_PUBLIC_SERVER}/${photo}`} alt={name} width={200} height={200} /> */}
             <Image
                 className='w-full h-28 rounded-md'

@@ -168,9 +168,9 @@ const profile = () => {
             </div>
 
             <div className='w-[60%]'>
-                {showOrders &&
+                {/* {showOrders &&
                     <Order />
-                }
+                } */}
                 {showProfileInfo &&
                     <EditProfileInfo />
                 }

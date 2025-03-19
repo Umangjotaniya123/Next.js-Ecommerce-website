@@ -1,5 +1,10 @@
+import { RecentOrders } from '@/components/DashboardTable';
 import TableHook from '@/components/TableHook';
-import React from 'react'
+import Axios from '@/config/axios';
+import { Order, OrderItem } from '@/types/types';
+import { decryptedData, encryptedData } from '@/utilities/features';
+import { GetServerSideProps } from 'next';
+import React, { useEffect, useState } from 'react'
 
 const data = [
     {
@@ -179,41 +184,48 @@ const columns = [
     }
 ];
 
-const order = () => {
+const order = ({ data }: { data: string}) => {
 
-    const orders = data?.map((order) => {
-        return {
-            _id: order._id,
-            amount: order.total,
-            discount: order.discount,
-            quantity: order.orderItems.length,
-            status: (
-                <span
-                    className={
-                        order.status === "Processing"
-                            ? "text-red-500"
-                            : order.status === "Shipped"
-                                ? "text-green-500"
-                                : "text-purple-500"
-                    }
-                >
-                    {order.status}
-                </span>
-            ),
-            action: (<></>)
-        }
-    }) || [];
+    const [orderData, setOrderData] = useState<OrderItem[] | []>([]);
+
+    useEffect(() => {
+        setOrderData(decryptedData(data));
+        console.log(decryptedData(data));
+        
+    }, [data])
 
     return (
         <div className="h-screen flex flex-col items-center gap-6 px-4 py-8 text-lg">
-          <h1 className="heading text-xl sm:text-2xl font-semibold">My Orders</h1>
-          {
-            // isLoading ? <Skeleton length={20} /> : 
-            <TableHook columns={columns} items={orders} />
-          }
+            <h1 className="heading text-xl sm:text-2xl font-semibold">My Orders</h1>
+            {
+                // isLoading ? <Skeleton length={20} /> : 
+                <RecentOrders data={orderData} />
+            }
         </div>
-      );
-      
+    );
+
 }
 
 export default order;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+
+    let order = null;
+    const { token } = req.cookies;
+
+    try {
+        const { data } = await Axios.get(`/order/my?token=${token}`);
+        console.log(data);
+        
+        if (data) {
+            order = encryptedData(data.orders);
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    return {
+        props: { data: order }
+    };
+}

@@ -120,7 +120,7 @@ const Products = ({ data }: Props) => {
   })
 
   return (
-    <main className="w-full flex flex-col items-center overflow-y-scroll ">
+    <main className="w-full flex flex-col items-center">
       <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Products</h1>
       <div className="m-8 w-[80%]">
         {products.length ?

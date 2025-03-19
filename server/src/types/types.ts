@@ -45,7 +45,7 @@ export type SearchRequestQuery = {
     page?: string;
 };
 
-export interface WatchListItems {
+export interface WishlistItems {
     userId: string;
     productId: string[];
 }

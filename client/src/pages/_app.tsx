@@ -24,7 +24,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               <Navbar />
               {router.pathname.includes('/admin') ?
                 <div className="w-full flex justify-center">
-                  <div className="w-[93%] max-w-[120rem] flex justify-center gap-4 py-4 h-screen">
+                  <div className="w-[93%] max-w-[120rem] flex justify-center gap-4 py-4 min-h-[calc(100vh-5.5rem)]">
                     <AdminSidebar />
                     <Component {...pageProps} />
                   </div>

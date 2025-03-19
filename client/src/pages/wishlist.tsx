@@ -5,20 +5,20 @@ import { decryptedData, encryptedData } from '@/utilities/features';
 import { GetServerSideProps } from 'next';
 import React, { use, useEffect, useState } from 'react'
 
-const watchList = ({ data }: { data: string }) => {
+const wishlist = ({ data }: { data: string }) => {
 
-    const [watchListItems, setWatchListItems] = useState<Product[]>([]);
+    const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
         if (data) {
-            setWatchListItems(decryptedData(data));
+            setWishlistItems(decryptedData(data));
         }
     }, [data]);
 
     return (
         <div className="w-full h-[calc(100vh-5rem)] pt-8 flex flex-col items-center">
-            <main className="w-full md:w-[80%] p-8 overflow-y-scroll">
+            <main className="w-full md:w-[80%] p-8">
                 {/* Search Bar (Only for Desktop) */}
                 {/* <div className="hidden md:flex w-full px-4 mb-4">
                     <input
@@ -31,10 +31,11 @@ const watchList = ({ data }: { data: string }) => {
                 </div> */}
 
                 {/* Products Grid */}
-                {watchListItems && watchListItems.length > 0 ?
+                <h1 className="text-center font-bold text-2xl">Wishlist Items</h1>
+                {wishlistItems && wishlistItems.length > 0 ?
                     <div className="w-full columns-3xs gap-6 py-6">
-                        {watchListItems?.map((product, index) => (
-                            <ProductCard key={index} product={product} latest watchList />
+                        {wishlistItems?.map((product, index) => (
+                            <ProductCard key={index} product={product} latest wishlist />
                         ))}
                     </div> :
                     <h1 className="w-full heading my-8 text-center text-lg font-semibold">No Items Added</h1>
@@ -65,7 +66,7 @@ const watchList = ({ data }: { data: string }) => {
     )
 }
 
-export default watchList;
+export default wishlist;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
@@ -73,10 +74,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     let products = null;
 
     try {
-        const { data } = await Axios.get(`/watchList/get?token=${token}`);
+        const { data } = await Axios.get(`/wishlist/get?token=${token}`);
 
         if (data)
-            products = encryptedData(data.watchListItems);
+            products = encryptedData(data.wishlistItems);
     } catch (error) {
         console.log(error);
     }

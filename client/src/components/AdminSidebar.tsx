@@ -71,14 +71,11 @@ const AdminSidebar = () => {
 
   const Li = ({ data: { url, text, Icon }, router }: LiProps) => (
     <li
-      className={`px-4 py-2 rounded-md w-full ${router.pathname.includes(url) ? 'bg-orange-200 dark:bg-white dark:text-black': 'bg-orange-50 dark:bg-slate-700'}`}
+      className={`rounded-md w-full ${router.pathname.includes(url) ? 'bg-orange-200 dark:bg-white dark:text-black': 'bg-orange-50 dark:bg-slate-700'}`}
     >
       <Link
-        className="flex flex-row justify-start items-center gap-4"
+        className="px-4 py-2 flex flex-row justify-start items-center gap-4"
         href={url}
-        style={{
-          // color: router.pathname.includes(url) ? "white" : "black",
-        }}
         onClick={() => setShowModal(phoneActive ? false : true)}
       >
         <p><Icon /></p>
@@ -90,7 +87,7 @@ const AdminSidebar = () => {
 
   return (
     <>
-      {phoneActive && <button className="text-xl fixed top-20 left-0 p-4" id="hamburger" onClick={() => setShowModal(true)}>
+      {phoneActive && <button className="text-xl fixed top-5 left-20 p-4 z-50" id="hamburger" onClick={() => setShowModal(true)}>
         <HiMenuAlt4 />
       </button>}
 

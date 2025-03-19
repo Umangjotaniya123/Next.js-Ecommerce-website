@@ -217,6 +217,7 @@ export interface TTransactionType {
 }
 export interface TRecentOrderType {
     _id: number;
+    photo: React.JSX.Element;
     product: React.JSX.Element;
     price: number;
     quantity: string;

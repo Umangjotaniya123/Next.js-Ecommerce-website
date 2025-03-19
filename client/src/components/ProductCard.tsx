@@ -16,17 +16,16 @@ import 'swiper/css/free-mode';
 interface PageProps {
     product: Product;
     latest?: boolean;
-    watchList?: boolean;
+    wishlist?: boolean;
 }
 
-export const ProductCard = ({ product, latest, watchList }: PageProps) => {
+export const ProductCard = ({ product, latest, wishlist }: PageProps) => {
 
-    if(!product) return;
+    if (!product) return;
 
     const router = useRouter();
     const { user, getCartItems } = useAuth();
     const { _id, name, price, photos, stock, discount } = product;
-    const [addedToWatchList, setAddedToWatchList] = useState<boolean>(watchList ? true : false);
 
     const addToCartHandler = async () => {
         try {
@@ -46,14 +45,14 @@ export const ProductCard = ({ product, latest, watchList }: PageProps) => {
     const handleClick = async () => {
 
         try {
-            if (watchList) {
-                const res = await Axios.put('/watchList/update', {
+            if (wishlist) {
+                const res = await Axios.put('/wishlist/update', {
                     productId: _id,
                 })
-                responseToast(res, router, '/watchList')
+                responseToast(res, router, '/wishlist')
             }
             else {
-                const res = await Axios.post('/watchList/add', {
+                const res = await Axios.post('/wishlist/add', {
                     productId: _id,
                 })
                 responseToast(res);
@@ -66,12 +65,12 @@ export const ProductCard = ({ product, latest, watchList }: PageProps) => {
 
     return (
         <>
-            <div 
+            <div
                 className='border h-[25rem] flex flex-col justify-between items-center p-4 shadow-sm rounded-2xl group dark:bg-slate-800 hover:bg-orange-100 dark:hover:bg-slate-600 break-inside-avoid-column relative'
             >
 
                 <Tooltip
-                    content={watchList ? 'Remove Product' : 'Add to watchList'}
+                    content={wishlist ? 'Remove Product' : 'Add to wishlist'}
                     showArrow={true}
                     className='w-36 font-semibold p-2 bg-white text-black rounded-b-lg shadow-md'
                 >
@@ -79,17 +78,19 @@ export const ProductCard = ({ product, latest, watchList }: PageProps) => {
                         className='absolute top-2 right-2 p-2 bg-white rounded-full shadow-md group-hover:opacity-100'
                         onClick={handleClick}
                     >
-                        {watchList ? <FaHeart className='text-red-500 text-xl' /> : <RiHeartLine className='text-red-500 text-xl' />}
+                        {wishlist ? <FaHeart className='text-red-500 text-xl' /> : <RiHeartLine className='text-red-500 text-xl' />}
                     </button>
                 </Tooltip>
-                <Image
-                    className='rounded-xl w-full h-full object-contain'
-                    src={(photos && photos.length) ? `${process.env.NEXT_PUBLIC_SERVER}/${photos[0]}` : '/images/Image-not-found.png'}
-                    alt={name}
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                />
+                <Link href={`/product/${_id}`}>
+                    <Image
+                        className='rounded-xl w-full h-full max-h-[250px] object-contain'
+                        src={(photos && photos.length) ? `${process.env.NEXT_PUBLIC_SERVER}/${photos[0]}` : '/images/Image-not-found.png'}
+                        alt={name}
+                        width={0}
+                        height={0}
+                        sizes='100vw'
+                    />
+                </Link>
                 <div className='w-full flex mt-3 relative'>
                     <div className='absolute left-0 bottom-0 rounded-2xl'>
                         <Tooltip

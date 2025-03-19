@@ -53,9 +53,9 @@ const details = ({ data }: { data: string }) => {
         getCartItems();
     }
 
-    const addToWatchListHandler = async () => {
+    const addTowishlistHandler = async () => {
         try {
-            const res = await Axios.post('/watchList/add', {
+            const res = await Axios.post('/wishlist/add', {
                 productId: product?._id,
             })
 
@@ -72,7 +72,7 @@ const details = ({ data }: { data: string }) => {
 
                 <div className={`flex justify-start gap-4 ${isAdmin ? 'w-[45%]' : 'w-[35%]'}`}>
                     {(product?.photos && product.photos.length > 0) &&
-                        <div className='flex flex-col gap-5 overflow-y-auto'>
+                        <div className='w-[20%] flex flex-col gap-5 overflow-y-auto'>
                             {product.photos.map((src, index) => (
                                 <Image
                                     key={index}
@@ -87,15 +87,16 @@ const details = ({ data }: { data: string }) => {
                             ))}
                         </div>
                     }
-
-                    <Image
-                        className="w-full h-[500px] object-contain border border-gray-700 shadow-sm shadow-black dark:shadow-white rounded-md cursor-pointer"
-                        src={(imagePrev) ? imagePrev : '/images/Image-not-found.png'}
-                        alt={'Photo'}
-                        width={0}
-                        height={0}
-                        sizes='100vw'
-                    />
+                    <div className={(product?.photos && product.photos.length > 0) ? `w-[80%]` : 'w-full'}>
+                        <Image
+                            className="w-full h-[500px] object-contain border border-gray-700 shadow-sm shadow-black dark:shadow-white rounded-md cursor-pointer"
+                            src={(imagePrev) ? imagePrev : '/images/Image-not-found.png'}
+                            alt={'Photo'}
+                            width={0}
+                            height={0}
+                            sizes='100vw'
+                        />
+                    </div>
                 </div>
 
 
@@ -150,9 +151,9 @@ const details = ({ data }: { data: string }) => {
                                 <button
                                     type="button"
                                     className="w-44 bg-gray-500 hover:bg-gray-700 rounded-3xl text-white font-semibold py-2"
-                                    onClick={addToWatchListHandler}
+                                    onClick={addTowishlistHandler}
                                 >
-                                    Add to watchList
+                                    Add to wishlist
                                 </button>
                             </div>
                         </> :

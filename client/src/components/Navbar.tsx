@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaBars, FaTimes, FaSignOutAlt, FaUser, FaShoppingCart } from 'react-icons/fa';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { navbarData } from '@/utilities/data';
 import { useAuth } from '@/context/AuthContext';
@@ -20,9 +20,17 @@ const Navbar = () => {
     const router = useRouter();
     const dispatch = useDispatch()
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    const { cartItems } = useSelector((state: { cartReducer: CartReducerInitialState }) => state.cartReducer)
+    const { cartItems } = useSelector((state: { cartReducer: CartReducerInitialState }) => state.cartReducer);
+
+    useEffect(() => {
+        if (router.pathname.includes('/admin'))
+            setIsAdmin(true);
+        else
+            setIsAdmin(false);
+    }, [router])
 
     const handleLogout = async () => {
         const res = await Axios.post('/user/logout');
@@ -46,27 +54,30 @@ const Navbar = () => {
                 </Link>
 
                 {/* Navigation Links (Hidden in mobile, visible in md+) */}
-                <div className="hidden md:flex space-x-6 lg:space-x-8">
-                    {navbarData && navbarData.nav.map((data, index) => {
-                        const Icon = data.Icon;
-                        return (
-                            <Link href={data.url} key={index}
-                                className={`flex items-center gap-2 px-4 py-1 rounded-md hover:bg-orange-200 dark:hover:bg-black ${router.pathname === data.url ? 'shadow shadow-content4-foreground text-orange-950 dark:bg-black dark:text-gray-200' : ''}`}
-                                onClick={() => setDropdownOpen(false)}
-                            >
-                                <Icon className='text-xl' />
-                                <span>{data.name}</span>
-                            </Link>
-                        )
-                    })}
-                </div>
+                {!isAdmin ?
+                    <div className="hidden md:flex space-x-6 lg:space-x-8">
+                        {navbarData && navbarData.nav.map((data, index) => {
+                            const Icon = data.Icon;
+                            return (
+                                <Link href={data.url} key={index}
+                                    className={`flex items-center gap-2 px-4 py-1 rounded-md hover:bg-orange-200 dark:hover:bg-black ${router.pathname === data.url ? 'shadow shadow-content4-foreground text-orange-950 dark:bg-black dark:text-gray-200' : ''}`}
+                                    onClick={() => setDropdownOpen(false)}
+                                >
+                                    <Icon className='text-xl' />
+                                    <span>{data.name}</span>
+                                </Link>
+                            )
+                        })}
+                    </div> :
+                    <h1 className="heading font-bold text-xl">Company Name</h1>
+                }
 
                 {/* User Profile Dropdown */}
                 <div className="relative flex items-center gap-4">
                     {user?._id ? (
                         <>
 
-                            <Link href={'/cart'}
+                            {!isAdmin && <Link href={'/cart'}
                                 className="relative flex items-center gap-2 rounded-md hover:text-orange-900 dark:hover:text-black"
                                 onClick={() => setDropdownOpen(false)}
                             >
@@ -75,6 +86,7 @@ const Navbar = () => {
                                     {cartItems.length}
                                 </span>
                             </Link>
+                            }
 
                             <FaUser
                                 className="text-xl cursor-pointer hover:text-orange-900 dark:hover:text-black"
@@ -140,15 +152,17 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Menu Icon */}
-                <div className="md:hidden">
-                    <button onClick={() => setMenuOpen(!menuOpen)}>
-                        {menuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
-                    </button>
-                </div>
+                {!isAdmin &&
+                    <div className="md:hidden">
+                        <button onClick={() => setMenuOpen(!menuOpen)}>
+                            {menuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
+                        </button>
+                    </div>
+                }
             </div>
 
             {/* Mobile Menu */}
-            {menuOpen && (
+            {!isAdmin && menuOpen && (
                 <div className="md:hidden bg-gray-900 text-white shadow-md p-4 absolute right-0 w-[60%] sm:w-[50%] md:w-[40%] top-16 rounded-lg">
                     {navbarData && navbarData.nav.map((data, index) => {
                         const Icon = data.Icon;

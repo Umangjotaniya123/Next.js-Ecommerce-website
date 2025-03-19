@@ -1,7 +1,4 @@
 import { useState } from "react";
-import dynamic from "next/dynamic";
-
-const AdminSidebar = dynamic(() => import('@/components/AdminSidebar'));
 
 const Toss = () => {
   const [angle, setAngle] = useState<number>(0);
@@ -12,13 +9,11 @@ const Toss = () => {
   };
 
   return (
-    <div className="admin-container">
-      <AdminSidebar />
       <main className="dashboard-app-container">
         <h1>Toss</h1>
         <section>
           <article
-            className="tosscoin m-8 w-60 h-60 relative cursor-pointer transform-3d transition-all duration-500"
+            className="tosscoin"
             onClick={flipCoin}
             style={{
               transform: `rotateY(${angle}deg)`,
@@ -29,7 +24,6 @@ const Toss = () => {
           </article>
         </section>
       </main>
-    </div>
   );
 };
 

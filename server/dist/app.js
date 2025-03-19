@@ -14,7 +14,7 @@ import orderRoute from './routes/order.js';
 import paymentRoute from './routes/payment.js';
 import dashboardRoute from './routes/dashboard.js';
 import cartItemsRoute from './routes/cartItems.js';
-import WatchListRoute from './routes/watchList.js';
+import wishlistRoute from './routes/wishlist.js';
 config({
     path: './.env',
 });
@@ -42,7 +42,7 @@ app.use("/api/v1/order", orderRoute);
 app.use("/api/v1/payment", paymentRoute);
 app.use("/api/v1/dashboard", dashboardRoute);
 app.use("/api/v1/cartItems", cartItemsRoute);
-app.use("/api/v1/watchList", WatchListRoute);
+app.use("/api/v1/wishlist", wishlistRoute);
 app.use('/uploads', express.static("uploads"));
 app.use(errorMiddkeware);
 app.listen(port, () => {

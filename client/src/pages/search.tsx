@@ -19,6 +19,7 @@ const search = ({ data }: { data: string }) => {
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("");
     const [maxPrice, setMaxPrice] = useState<number>(0);
+    const [tempPrice, setTempPrice] = useState<number>(0);
     const [selectedCategory, setSelectedCategory] = useState(router.query.category ? router.query.category as string : "");
     const [allCategory, setAllCategory] = useState<string[] | []>([]);
     const [page, setPage] = useState(1);
@@ -130,13 +131,14 @@ const search = ({ data }: { data: string }) => {
                 </div>
                 {/* Max Price */}
                 <div className="inputStyle">
-                    <h4>Max Price: {maxPrice ? maxPrice : 200000}</h4>
+                    <h4>Max Price: {tempPrice ? tempPrice : 200000}</h4>
                     <input
                         type="range"
                         min={100}
                         max={200000}
-                        value={maxPrice ? maxPrice : 200000}
-                        onChange={e => setMaxPrice(Number(e.target.value))}
+                        value={tempPrice ? tempPrice : 200000}
+                        onChange={e => setTempPrice(Number((e.target as HTMLInputElement).value))}
+                        onPointerUp={e => setMaxPrice(Number((e.target as HTMLInputElement).value))}
                         className="w-full"
                     />
                 </div>
@@ -154,6 +156,7 @@ const search = ({ data }: { data: string }) => {
 
             {/* Main Content */}
             <main ref={divRef} className="w-full md:w-[80%] p-8 border-l-2 border-black overflow-y-scroll">
+                <h1 className="heading font-bold text-2xl px-4 mb-4">Products</h1>
                 {/* Search Bar (Only for Desktop) */}
                 <div className="hidden md:flex w-full px-4 mb-4">
                     <input
@@ -176,25 +179,27 @@ const search = ({ data }: { data: string }) => {
                 }
 
                 {/* Pagination */}
-                <article className="flex justify-center items-center gap-2 sm:gap-4">
-                    <button
-                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page <= 1 ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
-                        disabled={page <= 1}
-                        onClick={() => setPage((prev) => prev - 1)}
-                    >
-                        Prev
-                    </button>
-                    <span className="font-semibold">{page}</span>
-                    <button
-                        className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page >= maxPage ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
-                        disabled={page >= maxPage}
-                        onClick={() => setPage((prev) => prev + 1)}
-                    >
-                        Next
-                    </button>
-                </article>
+                {maxPage > 1 &&
+                    <article className="flex justify-center items-center gap-2 sm:gap-4">
+                        <button
+                            className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page <= 1 ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
+                            disabled={page <= 1}
+                            onClick={() => setPage((prev) => prev - 1)}
+                        >
+                            Prev
+                        </button>
+                        <span className="font-semibold">{page}</span>
+                        <button
+                            className={`font-semibold rounded-3xl px-6 py-2 bg-orange-900 text-white text-sm ${page >= maxPage ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
+                            disabled={page >= maxPage}
+                            onClick={() => setPage((prev) => prev + 1)}
+                        >
+                            Next
+                        </button>
+                    </article>
+                }
             </main>
         </div>
     );
