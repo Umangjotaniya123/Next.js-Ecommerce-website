@@ -3,6 +3,7 @@ import TableHook from '@/components/TableHook';
 import Axios from '@/config/axios';
 import { Order, OrderItem } from '@/types/types';
 import { decryptedData, encryptedData } from '@/utilities/features';
+import { Skeleton } from '@heroui/react';
 import { GetServerSideProps } from 'next';
 import React, { useEffect, useState } from 'react'
 
@@ -184,22 +185,27 @@ const columns = [
     }
 ];
 
-const order = ({ data }: { data: string}) => {
+const order = ({ data }: { data: string }) => {
 
     const [orderData, setOrderData] = useState<OrderItem[] | []>([]);
 
     useEffect(() => {
-        setOrderData(decryptedData(data));
-        console.log(decryptedData(data));
-        
+
+        if (data)
+            setOrderData(decryptedData(data));
+
     }, [data])
 
+    console.log(orderData);
+
     return (
-        <div className="h-screen flex flex-col items-center gap-6 px-4 py-8 text-lg">
+        <div className="flex flex-col items-center gap-6 px-4 py-8 text-lg">
             <h1 className="heading text-xl sm:text-2xl font-semibold">My Orders</h1>
             {
-                // isLoading ? <Skeleton length={20} /> : 
-                <RecentOrders data={orderData} />
+                (Array.isArray(orderData) && orderData.length > 0) &&
+                <div className='w-[60%]'>
+                    <RecentOrders data={orderData} />
+                </div>
             }
         </div>
     );
@@ -215,8 +221,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     try {
         const { data } = await Axios.get(`/order/my?token=${token}`);
-        console.log(data);
-        
+
         if (data) {
             order = encryptedData(data.orders);
         }

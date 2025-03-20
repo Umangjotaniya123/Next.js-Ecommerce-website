@@ -4,21 +4,29 @@ import AddressInfo from '@/components/AddressInfo';
 import EditProfileInfo from '@/components/EditPersonalInfo';
 import Order from '@/pages/order'
 import { useAuth } from '@/context/AuthContext';
-import { Address } from '@/types/types';
+import { Address, OrderItem } from '@/types/types';
 import Axios from '@/config/axios';
-import { responseToast } from '@/utilities/features';
+import { decryptedData, encryptedData, responseToast } from '@/utilities/features';
 import { FaAddressBook, FaUserAlt } from 'react-icons/fa';
 import { RiBillFill } from 'react-icons/ri';
+import { GetServerSideProps } from 'next';
+import { RecentOrders } from '@/components/DashboardTable';
+import { Skeleton } from '@heroui/react';
 
-const profile = () => {
+const profile = ({ data }: { data: string }) => {
 
     const { user, getUser } = useAuth();
-    const [addressInfo, setAddresInfo] = useState<Address | null>(null)
+    const [addressInfo, setAddresInfo] = useState<Address | null>(null);
 
     const [img, setImg] = useState('');
     const [showOrders, setShowOrders] = useState<boolean>(true);
     const [showProfileInfo, setShowProfileInfo] = useState<boolean>(false);
     const [showAddressInfo, setShowAddressInfo] = useState<boolean>(false);
+    const [orderData, setOrderData] = useState<OrderItem[] | []>([]);
+
+    useEffect(() => {
+        setOrderData(decryptedData(data));
+    }, [data])
 
     useEffect(() => {
         if (user) {
@@ -50,7 +58,7 @@ const profile = () => {
 
             responseToast(res);
 
-            if(res.data){
+            if (res.data) {
                 getUser();
             }
 
@@ -168,9 +176,16 @@ const profile = () => {
             </div>
 
             <div className='w-[60%]'>
-                {/* {showOrders &&
-                    <Order />
-                } */}
+                {showOrders &&
+                    <div className="h-screen flex flex-col items-center gap-6 px-4 py-8 text-lg">
+                        <h1 className="heading text-xl sm:text-2xl font-semibold">My Orders</h1>
+                        {
+                            (Array.isArray(orderData) && orderData.length) ? 
+                                <RecentOrders data={orderData} />
+                                : <Skeleton />
+                        }
+                    </div>
+                }
                 {showProfileInfo &&
                     <EditProfileInfo />
                 }
@@ -183,3 +198,24 @@ const profile = () => {
 }
 
 export default profile;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+
+    let order = null;
+    const { token } = req.cookies;
+
+    try {
+        const { data } = await Axios.get(`/order/my?token=${token}`);
+
+        if (data) {
+            order = encryptedData(data.orders);
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    return {
+        props: { data: order }
+    };
+}

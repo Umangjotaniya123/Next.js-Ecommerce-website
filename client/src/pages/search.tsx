@@ -64,7 +64,7 @@ const search = ({ data }: { data: string }) => {
     }, [search, maxPrice, selectedCategory, sort]);
 
     return (
-        <div className="w-full h-[calc(100vh-5rem)] pt-8 flex flex-col md:flex-row gap-2">
+        <div className="w-full pt-8 flex flex-col md:flex-row gap-2">
             {/* Mobile: Search Bar + Filter Button */}
             <div className="flex justify-between items-center w-full px-4 md:hidden">
                 <input
@@ -155,7 +155,7 @@ const search = ({ data }: { data: string }) => {
             </aside>
 
             {/* Main Content */}
-            <main ref={divRef} className="w-full md:w-[80%] p-8 border-l-2 border-black overflow-y-scroll">
+            <main ref={divRef} className="w-full md:w-[80%] p-8 border-l-2 border-black">
                 <h1 className="heading font-bold text-2xl px-4 mb-4">Products</h1>
                 {/* Search Bar (Only for Desktop) */}
                 <div className="hidden md:flex w-full px-4 mb-4">

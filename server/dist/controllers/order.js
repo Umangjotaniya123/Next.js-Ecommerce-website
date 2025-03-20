@@ -47,7 +47,7 @@ export const myOrders = TryCatch(async (req, res, next) => {
         orders.map(({ orderItems }) => {
             orderItem = [...orderItem, ...orderItems];
         });
-        myCache.set(key, JSON.stringify(orders));
+        myCache.set(key, JSON.stringify(orderItem));
     }
     res.status(200).json({
         success: true,

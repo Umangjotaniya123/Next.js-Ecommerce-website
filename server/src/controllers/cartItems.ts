@@ -3,7 +3,7 @@ import { CartItems } from "../models/cartItems.js";
 import ErrorHandler from "../utils/utility-class.js";
 
 export const newCartItems = TryCatch(async (req, res, next) => {
-    const { name, photo, price, quantity, stock, productId } = req.body;
+    const { name, photo, price, discount, quantity, stock, productId } = req.body;
     const { id } = req.query;
 
     if (!id)
@@ -26,7 +26,7 @@ export const newCartItems = TryCatch(async (req, res, next) => {
     }
     else {
         await CartItems.create({
-            name, price, stock, photo, quantity, productId, userId: id
+            name, price, stock, photo, discount, quantity, productId, userId: id
         });
 
         return res.status(201).json({

@@ -11,6 +11,9 @@ const schema = new mongoose.Schema({
         type: Number,
         required: [true, "Please add Price"],
     },
+    discount: {
+        type: Number,
+    },
     quantity: {
         type: Number,
         required: [true, "Please add Quantity"],

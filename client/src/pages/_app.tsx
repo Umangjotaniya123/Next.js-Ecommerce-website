@@ -30,7 +30,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   </div>
                 </div> :
                 <>
-                  <Component {...pageProps} />
+                  <div className="min-h-[calc(100vh-5.5rem)]">
+                    <Component {...pageProps} />
+                  </div>
                   <Footer />
                 </>
               }

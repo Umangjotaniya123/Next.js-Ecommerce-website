@@ -20,7 +20,7 @@ export const newOrder = TryCatch(
         } = req.body;
 
         console.log(req.body);
-        
+
 
         if (
             !shippingInfo ||
@@ -44,10 +44,10 @@ export const newOrder = TryCatch(
         });
 
         await reduceStock(orderItems);
-        invalidateCache({ 
-            product: true, 
-            order: true, 
-            admin: true, 
+        invalidateCache({
+            product: true,
+            order: true,
+            admin: true,
             userId: user,
             productId: order.orderItems.map(i => String(i.productId)),
         });
@@ -72,7 +72,7 @@ export const myOrders = TryCatch(async (req, res, next) => {
         orders.map(({ orderItems }) => {
             orderItem = [...orderItem, ...orderItems]
         })
-        myCache.set(key, JSON.stringify(orders));
+        myCache.set(key, JSON.stringify(orderItem));
     }
 
     res.status(200).json({
@@ -134,7 +134,7 @@ export const processOrder = TryCatch(async (req, res, next) => {
     if (status === order.status) {
         return;
     }
-    
+
     order.status = status;
     await order.save();
 

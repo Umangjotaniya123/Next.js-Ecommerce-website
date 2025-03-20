@@ -31,7 +31,7 @@ export const ProductCard = ({ product, latest, wishlist }: PageProps) => {
         try {
             const res = await Axios.post('/cartItems/new', {
                 productId: product._id,
-                price, name, stock, quantity: 1,
+                price, name, stock, quantity: 1, discount,
                 photo: (photos && photos.length) ? photos[0] : '',
             })
 

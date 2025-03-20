@@ -49,11 +49,6 @@ const cart = () => {
           </div>
         </div>
 
-        <div className="flex my-8 border-1 border-yellow-950 dark:border-slate-200 rounded-md p-2">
-          <input type="text" placeholder="Voucher" className="w-full px-2 border-none bg-transparent focus:ring-0 outline-none" />
-          <button className="text-indigo-800 dark:text-indigo-600 px-2 font-semibold">Apply</button>
-        </div>
-
         <div className="flex justify-between font-bold text-lg mt-4">
           <span>Total :</span> <span>₹{total}</span>
         </div>

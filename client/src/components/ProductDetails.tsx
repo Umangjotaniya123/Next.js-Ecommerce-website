@@ -87,9 +87,9 @@ const details = ({ data }: { data: string }) => {
                             ))}
                         </div>
                     }
-                    <div className={(product?.photos && product.photos.length > 0) ? `w-[80%]` : 'w-full'}>
+                    <div className={`p-2 border border-gray-700 shadow-sm shadow-black dark:shadow-white rounded-md cursor-pointer ${(product?.photos && product.photos.length > 0) ? `w-[80%]` : 'w-full'}`}>
                         <Image
-                            className="w-full h-[500px] object-contain border border-gray-700 shadow-sm shadow-black dark:shadow-white rounded-md cursor-pointer"
+                            className="w-full h-[500px] object-contain "
                             src={(imagePrev) ? imagePrev : '/images/Image-not-found.png'}
                             alt={'Photo'}
                             width={0}
