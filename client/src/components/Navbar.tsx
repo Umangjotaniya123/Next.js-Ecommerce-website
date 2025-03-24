@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CartReducerInitialState } from '@/types/reducer-types';
 import { resetCart } from '@/redux/reducer/cartReducer';
 import { ThemeContext } from '@/context/ThemeContext';
-import { FiMoon, FiSun } from 'react-icons/fi';
 import { AiFillMoon, AiFillSun } from 'react-icons/ai';
 
 const Navbar = () => {
@@ -19,6 +18,7 @@ const Navbar = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
     const router = useRouter();
     const dispatch = useDispatch()
+
     const [menuOpen, setMenuOpen] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -31,6 +31,15 @@ const Navbar = () => {
         else
             setIsAdmin(false);
     }, [router])
+
+    useEffect(() => {
+
+        const handleClick = () => setDropdownOpen(false);
+
+        window.addEventListener('click', handleClick);
+
+        return () => window.removeEventListener('click', handleClick);
+    }, [])
 
     const handleLogout = async () => {
         const res = await Axios.post('/user/logout');
@@ -90,7 +99,10 @@ const Navbar = () => {
 
                             <FaUser
                                 className="text-xl cursor-pointer hover:text-orange-900 dark:hover:text-black"
-                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                                onClick={(e) => {
+                                    setDropdownOpen((prev) => !prev);
+                                    e.stopPropagation(); // Prevents event from reaching window
+                                }}
                             />
 
                             {dropdownOpen && (

@@ -38,7 +38,7 @@
   }
 
   >div {
-    width: 100%;
+    /* width: 100%; */
     background-color: var(--input-color);
     padding: 0.3rem 10px;
     border: 1px solid rgba(154, 154, 154, 0.38);

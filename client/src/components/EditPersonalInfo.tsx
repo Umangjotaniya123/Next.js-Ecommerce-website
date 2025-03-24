@@ -75,7 +75,7 @@ const EditPersonalInfo = () => {
     return (
         <div className="flex flex-col justify-center py-3 w-full text-sm">
                 <form
-                    className='py-6 px-2 border rounded-br-2xl rounded-tl-2xl bg-orange-100 border-orange-950 dark:bg-slate-900 dark:border-slate-200 flex flex-col justify-center items-center '
+                    className='py-6 px-2 rounded-xl bg-orange-100 dark:bg-slate-900 flex flex-col justify-center items-center '
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <div className="box grid grid-cols-1 gap-4 w-full p-3 sm:justify-between lg:grid-cols-2 lg:gap-8 text-base tracking-wide">

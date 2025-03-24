@@ -81,7 +81,7 @@ const AddressInfo = () => {
     return (
         <div className="flex flex-col justify-center py-3 w-full text-sm">
             <form
-                className='py-6 px-2 border rounded-br-2xl rounded-tl-2xl bg-orange-100 border-orange-950 dark:bg-slate-900 dark:border-slate-200 flex flex-col justify-center gap-4 '
+                className='py-6 px-2 rounded-xl bg-orange-100 dark:bg-slate-900 flex flex-col justify-center gap-4 '
                 onSubmit={handleSubmit(onSubmit)}
             >
                 {fields.map((field: { id: React.Key, addType: string }, index: number) => (

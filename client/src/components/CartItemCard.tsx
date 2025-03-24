@@ -51,18 +51,21 @@ const CartItemCard = ({ cartItem }: CartItemProps) => {
     }
 
     return (
-        <div className="cart-item p-3 mx-3 w-[80%] flex flex-col justify-center items-center gap-2 rounded-bl-lg sm:flex-row sm:justify-start sm:gap-10 sm:px-7 sm:py-4">
+        <div className="p-3 mx-3 w-[80%] flex flex-col justify-center items-center gap-2 rounded-bl-lg sm:flex-row sm:justify-start sm:gap-10 sm:px-7 sm:py-4">
             {/* <Image className='w-full h-24 rounded-md' src={`${process.env.NEXT_PUBLIC_SERVER}/${photo}`} alt={name} width={200} height={200} /> */}
             <Image
-                className='w-full h-28 rounded-md'
+                className='w-28 h-28 rounded-md'
                 src={(photo && photo.includes('uploads/')) ? `${process.env.NEXT_PUBLIC_SERVER}/${photo}` : '/images/Image-not-found.png'}
                 alt={name}
                 width={0}
                 height={0}
-                sizes='70vw'
+                sizes='100vw'
             />
             {/* <article className='flex flex-row justify-center items-center gap-3 font-medium text-base sm:flex-col sm:gap-0'> */}
-            <Link className='text-amber-950 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-500 w-[90%] font-medium text-base' href={`/product/${productId}`}>{name}</Link>
+            <Link 
+                href={`/product/${productId}`}
+                className='text-amber-950 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-500 w-[90%] text-center font-medium text-base' 
+            >{name}</Link>
             <span className='font-semibold text-base px-2'>₹{price}</span>
             {/* </article> */}
             <div className='flex felx-row justify-between items-center gap-6 font-medium sm:w-full sm:justify-end'>

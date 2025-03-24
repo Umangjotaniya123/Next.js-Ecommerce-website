@@ -9,7 +9,7 @@ export const newCartItems = TryCatch(async (req, res, next) => {
     if (!id)
         return next(new ErrorHandler("Please Login First!!!", 401));
 
-    if (!name || !price || !quantity || !stock || !productId)
+    if (!name || !price || !quantity || !productId)
         return next(new ErrorHandler("Please enter all fields", 400));
 
     let cartItem = await CartItems.find({ 'userId': id });
@@ -26,7 +26,7 @@ export const newCartItems = TryCatch(async (req, res, next) => {
     }
     else {
         await CartItems.create({
-            name, price, stock, photo, discount, quantity, productId, userId: id
+            name, price, stock: Number(stock), photo, discount, quantity, productId, userId: id
         });
 
         return res.status(201).json({

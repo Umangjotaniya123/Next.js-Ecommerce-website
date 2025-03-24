@@ -1,4 +1,4 @@
-import { MessageResponse } from "@/types/types";
+import { CartItem, MessageResponse } from "@/types/types";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { NextRouter } from "next/router";
 import toast from "react-hot-toast";
@@ -71,4 +71,16 @@ export const monthSequence = (state: number[]) => {
     }) : [];
 
     return data;
+}
+
+export const checkProsuctStock = (cartItems: CartItem[]) => {
+    if(cartItems && !cartItems.length) return null;
+
+    for (let i = 0; i < cartItems.length; i++) {
+        const product = cartItems[i];
+        if (product.quantity > product.stock) {
+            return product;
+        }
+    }
+    return null;
 }

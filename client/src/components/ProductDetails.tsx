@@ -109,7 +109,7 @@ const details = ({ data }: { data: string }) => {
                     </div>
 
                     <div className='flex items-center mt-3 gap-6'>
-                        <h2 className="text-3xl font-semibold">₹{product?.price! - discount}</h2>
+                        <h2 className="text-3xl font-semibold">₹{Math.floor(product?.price! - discount)}</h2>
                         {product?.discount && <span className="font-semibold text-xl text-green-600">{product.discount}% off</span>}
                     </div>
 
@@ -190,7 +190,7 @@ const details = ({ data }: { data: string }) => {
                     <span>Specification</span>
                 </div>
             </div>
-            <div className={`${isAdmin ? 'w-[80%]' : 'w-[70%]'} bg-orange-100 dark:bg-slate-900 min-h-64 p-4 rounded-tl-3xl rounded-br-3xl border border-orange-900 dark:border-slate-200`}>
+            <div className={`${isAdmin ? 'w-[80%]' : 'w-[70%]'} bg-orange-100 dark:bg-gray-900 min-h-64 p-4 rounded-lg border-orange-900 dark:border-slate-200`}>
                 {description && (product?.description ?
                     <p>{product.description}</p> :
                     <p>No description available</p>
@@ -200,10 +200,10 @@ const details = ({ data }: { data: string }) => {
                         {specification && Object.entries(product.specification).map(([key, value]: any, index) => (
                             <div
                                 key={index}
-                                className='w-full flex items-center gap-4'
+                                className='inputStyle w-full flex items-center gap-4'
                             >
-                                <span className='w-[20%] text-center p-2 '>{key}</span>
-                                <span className='text-start border-b border-gray-500 p-2 px-5 bg-orange-50 dark:bg-black w-[60%]'>{value}</span>
+                                <div className='w-[20%] text-center p-2 '>{key}</div>
+                                <div className='text-start border-gray-500 p-2 px-5 bg-orange-50 dark:bg-black w-[60%]'>{value}</div>
                             </div>
                         ))}
                     </div> :

@@ -5,6 +5,7 @@ import Link from "next/link"
 import TableHook from "./TableHook"
 import { Tooltip } from "@heroui/react"
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi"
+import { useRouter } from "next/router"
 
 const orderColumns = [
     {
@@ -30,7 +31,14 @@ const orderColumns = [
 ]
 
 export const RecentOrders = ({ data }: { data: OrderItem[] }) => {
+
+    const router = useRouter();
+
+
     const orders = data.map((item, index) => {
+        const URL = router.pathname.includes('/admin') ?
+            `/admin/products/details?id=${item.productId}` :
+            `/product/${item.productId}`;
         return (
             {
                 _id: index,
@@ -46,7 +54,7 @@ export const RecentOrders = ({ data }: { data: OrderItem[] }) => {
                     </div>
                 ),
                 product: (
-                    <Link href={`/admin/products/details?id=${item.productId}`}>
+                    <Link href={URL}>
                         <span className="text-blue-500 hover:underline">{item.name}</span>
                     </Link>
                 ),

@@ -16,6 +16,7 @@ import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import { categoriesWithIcons } from '@/utilities/data';
 import { useRouter } from 'next/router';
+import ProductList from './ProductList';
 
 const Home = ({ data }: { data: string }) => {
     const [products, setProducts] = useState<Product[] | []>([]);
@@ -77,32 +78,7 @@ const Home = ({ data }: { data: string }) => {
 
             {/* Latest Products */}
             <section className="w-full">
-                <h1 className="uppercase mx-3 mt-4 text-xl md:text-2xl flex justify-between items-center">
-                    Latest Products
-                    <Link href="/search" className="text-sm md:text-md">More</Link>
-                </h1>
-                <main className="py-4 w-full">
-                    <Swiper
-                        slidesPerView={2}
-                        breakpoints={{
-                            740: { slidesPerView: 3 },
-                            1000: { slidesPerView: 4 },
-                            1224: { slidesPerView: 5 },
-                        }}
-                        spaceBetween={20}
-                        navigation
-                        freeMode={true}
-                        modules={[FreeMode, Navigation]}
-                        className="w-full"
-                        style={{ padding: '2.25rem' }}
-                    >
-                        {Array.isArray(products) && products.map((product, index) => (
-                            <SwiperSlide key={index}>
-                                <ProductCard product={product} latest />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </main>
+                <ProductList products={products} title='Latest Products' latest/>
             </section>
 
             {/* Casual Selection */}
@@ -130,37 +106,9 @@ const Home = ({ data }: { data: string }) => {
                 </div>
             </section>
 
-
-
-
             {/* Best Selling Products */}
             <section className="w-full">
-                <h1 className="uppercase mx-3 mt-4 text-xl md:text-2xl flex justify-between items-center">
-                    Best Selling Products
-                    <Link href="/search" className="text-sm md:text-md">More</Link>
-                </h1>
-                <main className="py-4 w-full">
-                    <Swiper
-                        slidesPerView={2}
-                        breakpoints={{
-                            740: { slidesPerView: 3 },
-                            1000: { slidesPerView: 4 },
-                            1224: { slidesPerView: 5 },
-                        }}
-                        spaceBetween={20}
-                        navigation
-                        freeMode={true}
-                        modules={[FreeMode, Navigation]}
-                        className="w-full"
-                        style={{ padding: '2.25rem' }}
-                    >
-                        {Array.isArray(products) && products.map((product, index) => (
-                            <SwiperSlide key={index}>
-                                <ProductCard product={product} />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </main>
+                <ProductList products={products} title='Best Selling Products'/>
             </section>
         </div>
     );

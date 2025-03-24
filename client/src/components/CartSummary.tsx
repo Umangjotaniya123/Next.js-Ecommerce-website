@@ -103,7 +103,7 @@ const CartSummary = () => {
                     <span>Shipping Cost :</span> <span className="font-semibold">₹{shippingCharges}</span>
                 </div>
                 <div className="flex justify-between">
-                    <span>Coupon Discount :</span> <span className="font-semibold text-green-500">-₹{coupon}</span>
+                    <span>Coupon Discount :</span> <span className="font-semibold text-green-500">- ₹{coupon}</span>
                 </div>
             </div>
 

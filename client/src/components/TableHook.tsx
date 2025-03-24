@@ -46,7 +46,7 @@ const TableHook = ({ columns, items }: Props) => {
 
     const classNames = useMemo(
         () => ({
-            wrapper: ["bg-gray-700/50"],
+            wrapper: ["bg-orange-100/50", "dark:bg-gray-700/50"],
             th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
             td: [
                 // changing the rows border radius

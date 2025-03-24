@@ -21,8 +21,7 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
         setTheme(newTheme);
         localStorage.setItem("theme", newTheme);
 
-        document.documentElement.classList.remove("light", "dark");
-        document.documentElement.classList.add(newTheme);
+        document.documentElement.classList.toggle("dark", newTheme === "dark");
     };
 
     return <ThemeContext.Provider value={{ theme, toggleTheme }}>
