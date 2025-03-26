@@ -74,10 +74,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     let products = null;
 
     try {
-        const { data } = await Axios.get(`/wishlist/get?token=${token}`);
+        const { data } = await Axios.get(`/wishlist/get`, {
+            headers: { token },
+        });
 
         if (data)
             products = encryptedData(data.wishlistItems);
+        
     } catch (error) {
         console.log(error);
     }

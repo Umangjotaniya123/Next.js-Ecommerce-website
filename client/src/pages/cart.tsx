@@ -73,6 +73,8 @@ const cart = ({ data }: { data: string }) => {
         </div>
       </div>
 
+      <hr className="w-[80%] border-gray-500 my-3" />
+
       <section className='w-full md:w-[80%]'>
         <ProductList products={products} title='Also Search Products' latest />
       </section>

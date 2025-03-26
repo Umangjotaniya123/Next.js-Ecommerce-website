@@ -74,12 +74,14 @@ const Products = ({ data }: Props) => {
     return {
       _id: product._id,
       photo: <div className="w-full flex justify-center">
-        <Image
-          src={product.photos && product.photos.length ? `${SERVER}/${product.photos[0]}` : '/images/Image-not-found.png'}
-          alt={product.name}
-          width={70}
-          height={60}
-        />
+        <Link href={`/admin/products/details?id=${product._id}`}>
+          <Image
+            src={product.photos && product.photos.length ? `${SERVER}/${product.photos[0]}` : '/images/Image-not-found.png'}
+            alt={product.name}
+            width={70}
+            height={60}
+          />
+        </Link>
       </div>
       ,
       name: <Link href={`/admin/products/details?id=${product._id}`}>
@@ -121,18 +123,20 @@ const Products = ({ data }: Props) => {
 
   return (
     <main className="w-full flex flex-col items-center">
-      <h1 className="w-[80%] heading text-2xl font-semibold m-4">All Products</h1>
+      <div className="w-[80%] flex justify-between items-center m-4">
+        <h1 className="heading text-2xl font-semibold">All Products</h1>
+        <Link
+          className="create-product-btn w-10 h-10 rounded-full bg-gray-700 text-white flex justify-center items-center"
+          href={"/admin/products/new"}
+        >
+          <FaPlus />
+        </Link>
+      </div>
       <div className="m-8 w-[80%]">
         {products.length ?
           <TableHook columns={columns} items={products} /> :
           <h1>No any Products Available</h1>}
       </div>
-      <Link
-        className="create-product-btn absolute right-10 top-28 w-10 h-10 rounded-full bg-gray-700 text-white flex justify-center items-center"
-        href={"/admin/products/new"}
-      >
-        <FaPlus />
-      </Link>
     </main>
   );
 };

@@ -2,9 +2,8 @@ import Image from 'next/image';
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import AddressInfo from '@/components/AddressInfo';
 import EditProfileInfo from '@/components/EditPersonalInfo';
-import Order from '@/pages/order'
 import { useAuth } from '@/context/AuthContext';
-import { Address, OrderItem } from '@/types/types';
+import { Address, OrderItem, UserDetails } from '@/types/types';
 import Axios from '@/config/axios';
 import { decryptedData, encryptedData, responseToast } from '@/utilities/features';
 import { FaAddressBook, FaUserAlt } from 'react-icons/fa';
@@ -12,8 +11,16 @@ import { RiBillFill } from 'react-icons/ri';
 import { GetServerSideProps } from 'next';
 import { RecentOrders } from '@/components/DashboardTable';
 import { Skeleton } from '@heroui/react';
+import { TbPhotoEdit } from 'react-icons/tb';
 
-const profile = ({ data }: { data: string }) => {
+type Props = {
+    data: {
+        order: string,
+        userData: string
+    }
+}
+
+const profile = ({ data: { order, userData } }: Props) => {
 
     const { user, getUser } = useAuth();
     const [addressInfo, setAddresInfo] = useState<Address | null>(null);
@@ -23,10 +30,17 @@ const profile = ({ data }: { data: string }) => {
     const [showProfileInfo, setShowProfileInfo] = useState<boolean>(false);
     const [showAddressInfo, setShowAddressInfo] = useState<boolean>(false);
     const [orderData, setOrderData] = useState<OrderItem[] | []>([]);
+    const [userDetails, setUserDetails] = useState<UserDetails>();
 
     useEffect(() => {
-        setOrderData(decryptedData(data));
-    }, [data])
+
+        if (order)
+            setOrderData(decryptedData(order));
+
+        if (userData)
+            setUserDetails(decryptedData(userData));
+
+    }, [order, userData])
 
     useEffect(() => {
         if (user) {
@@ -85,32 +99,36 @@ const profile = ({ data }: { data: string }) => {
                         onChange={changeImageHandler}
                     />
                     {img &&
-                        <label htmlFor='imageRef' className='w-40 h-32 '>
+                        <label htmlFor='imageRef' className='w-40 h-32 border-4 rounded-full cursor-pointer relative'>
                             <Image
-                                className="w-full h-full rounded-full border shadow-md cursor-pointer"
+                                className="w-full h-full rounded-full shadow-md"
                                 src={img}
                                 alt="User Profile"
                                 width={0}
                                 height={0}
                                 sizes='100vw'
                             />
+                            {/* <div className="fixed inset-0 bg-gray-100 bg-opacity-40 backdrop-brightness-50 dark:bg-gray-950/50 dark:bg-opacity-60 dark:backdrop-brightness-90 z-10"></div> */}
+                            <div
+                                className='absolute top-0 left-0 rounded-full w-full h-full flex justify-center items-center font-bold text-white text-4xl bg-gray-600/50 opacity-0 hover:opacity-100'
+                            ><TbPhotoEdit /></div>
                         </label>
                     }
                     <div className="text-center w-full p-6">
                         <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">{user?.name}</h2>
-                        <p className="text-gray-500 text-sm">Joined 3 months ago</p>
+                        {userDetails?.joined && <p className="text-gray-500 text-sm">Joined {userDetails.joined}</p>}
 
                         <div className="grid grid-cols-3 gap-4 mt-4">
                             <div>
-                                <p className="text-xl font-bold">₹89400</p>
+                                {userDetails && <p className="text-xl font-bold">₹{userDetails.totalTransection}</p>}
                                 <p className="text-gray-500 text-sm">Total Spent</p>
                             </div>
                             <div>
-                                <p className="text-xl font-bold">1 week ago</p>
+                                {userDetails && <p className="text-xl font-bold">{userDetails.lastOrder}</p>}
                                 <p className="text-gray-500 text-sm">Last Order</p>
                             </div>
                             <div>
-                                <p className="text-xl font-bold">97</p>
+                                {userDetails && <p className="text-xl font-bold">{userDetails.totalOrders}</p>}
                                 <p className="text-gray-500 text-sm">Total Orders</p>
                             </div>
                         </div>
@@ -176,15 +194,16 @@ const profile = ({ data }: { data: string }) => {
             </div>
 
             <div className='w-[60%]'>
-                {showOrders &&
+                {showOrders && orderData.length ?
                     <div className="h-screen flex flex-col items-center gap-6 px-4 py-8 text-lg">
                         <h1 className="heading text-xl sm:text-2xl font-semibold">My Orders</h1>
                         {
-                            (Array.isArray(orderData) && orderData.length) ? 
+                            (Array.isArray(orderData) && orderData.length) ?
                                 <RecentOrders data={orderData} />
                                 : <Skeleton />
                         }
-                    </div>
+                    </div> :
+                    <h1 className="heading text-center text-xl sm:text-2xl font-semibold">No Orders Available</h1>
                 }
                 {showProfileInfo &&
                     <EditProfileInfo />
@@ -202,10 +221,13 @@ export default profile;
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     let order = null;
+    let userData = null;
     const { token } = req.cookies;
 
     try {
-        const { data } = await Axios.get(`/order/my?token=${token}`);
+        const { data } = await Axios.get(`/order/my`, {
+            headers: { token }
+        });
 
         if (data) {
             order = encryptedData(data.orders);
@@ -215,7 +237,21 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         console.log(error);
     }
 
+    try {
+        const { data } = await Axios.get(`/user/details`, {
+            headers: { token },
+        });
+
+        if (data) {
+            userData = encryptedData(data.userData);
+        }
+
+    }
+    catch (error: any) {
+        console.log(error.response.data.message);
+    }
+
     return {
-        props: { data: order }
+        props: { data: { order, userData } }
     };
 }

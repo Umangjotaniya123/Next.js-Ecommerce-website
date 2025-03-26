@@ -34,8 +34,8 @@ export const isUserLogin = TryCatch(async (req, res, next) => {
     let token = null;
     if (req.cookies?.token)
         token = req.cookies.token;
-    if (req.query?.token)
-        token = req.query.token;
+    if (req.headers?.token)
+        token = req.headers.token;
     if (!token)
         return next(new ErrorHandler("Please Login First!!!", 401));
     const { _id } = jwt.verify(token, process.env.JWT_SECRET);

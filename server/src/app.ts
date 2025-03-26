@@ -16,6 +16,7 @@ import paymentRoute from './routes/payment.js'
 import dashboardRoute from './routes/dashboard.js'
 import cartItemsRoute from './routes/cartItems.js'
 import wishlistRoute from './routes/wishlist.js'
+import categoryRoute from './routes/category.js'
 
 config({
     path: './.env',
@@ -52,6 +53,7 @@ app.use("/api/v1/payment", paymentRoute);
 app.use("/api/v1/dashboard", dashboardRoute);
 app.use("/api/v1/cartItems", cartItemsRoute);
 app.use("/api/v1/wishlist", wishlistRoute);
+app.use("/api/v1/category", categoryRoute)
 
 app.use('/uploads', express.static("uploads"));
 app.use(errorMiddkeware)

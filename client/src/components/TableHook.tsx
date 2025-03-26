@@ -74,7 +74,7 @@ const TableHook = ({ columns, items }: Props) => {
             sortDescriptor={list.sortDescriptor}
         >
             <TableHeader columns={columns}>
-                {(column) => <TableColumn align='center' key={column.uid} allowsSorting>{column.name}</TableColumn>}
+                {(column) => <TableColumn align='center' key={column.uid} allowsSorting={column.name !== 'Action' && column.name !== 'Photo'}>{column.name}</TableColumn>}
             </TableHeader>
             <TableBody
                 isLoading={isLoading}

@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 
 export type MessageResponse = {
     success: boolean,
@@ -24,6 +24,13 @@ export interface User {
     addressInfo: Address[];
     dob: string;
     _id: string;
+}
+
+export interface UserDetails {
+    joined: string;
+    totalOrders: number;
+    totalTransection: number;
+    lastOrder: string | null;
 }
 
 export interface Product {
@@ -93,6 +100,12 @@ export interface BaseQuery {
         $lte: number;
     }
     category?: string;
+}
+
+export interface Categories {
+    _id: string;
+    name: string;
+    description: string;
 }
 
 type CountAndChange = {
@@ -182,7 +195,7 @@ export interface columnsType {
 
 export interface TUserType {
     _id: string;
-    avatar: ReactElement;
+    photo: ReactElement;
     name: string;
     email: string;
     gender: string;
@@ -225,9 +238,18 @@ export interface TRecentOrderType {
     total: number;
 }
 
+export interface TCategoryType {
+    _id: string;
+    name: React.JSX.Element;
+    description: React.JSX.Element;
+    action: React.JSX.Element;
+}
+
 export type ItemsType =
     TUserType |
     TProductType |
     TOrderType |
     TTransactionType |
-    TRecentOrderType ;
+    TRecentOrderType |
+    TCategoryType
+;

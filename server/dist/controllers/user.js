@@ -4,6 +4,8 @@ import { TryCatch } from "../middlewares/error.js";
 import { rm } from "fs";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { getDateInfo } from "../utils/features.js";
+import { Order } from "../models/order.js";
 export const registerUser = TryCatch(async (req, res, next) => {
     // const { name, email, photo, gender, _id, dob } = req.body;
     const { name, email, password, gender, dob } = req.body;
@@ -62,6 +64,31 @@ export const getAllUsers = TryCatch(async (req, res, next) => {
     res.status(200).json({
         success: true,
         users,
+    });
+});
+export const getUserDetails = TryCatch(async (req, res, next) => {
+    const { id } = req.query;
+    const user = await User.findById(id);
+    if (!user)
+        return next(new ErrorHandler('User Not Found!', 400));
+    const joined = getDateInfo(user.createdAt);
+    const orders = await Order.find({ user: id }).select(['total', 'orderItems', 'createdAt']);
+    let lastOrder = '-';
+    let totalTransection = 0;
+    let totalOrders = 0;
+    if (orders.length) {
+        orders.forEach(({ total, orderItems }) => (totalTransection += total,
+            totalOrders += orderItems.length));
+        lastOrder = getDateInfo(orders[orders.length - 1].createdAt);
+    }
+    return res.status(200).json({
+        success: true,
+        userData: {
+            joined,
+            totalOrders,
+            totalTransection,
+            lastOrder,
+        }
     });
 });
 export const getUsers = TryCatch(async (req, res, next) => {

@@ -77,3 +77,30 @@ export const getChartData = ({ length, docArr, today, property }) => {
     });
     return data;
 };
+export const getDateInfo = (date) => {
+    const today = new Date();
+    const diffYear = today.getFullYear() - date.getFullYear();
+    if (diffYear > 0) {
+        const year = diffYear == 1 ? 'year ago' : 'years ago';
+        return `${diffYear} ${year}`;
+    }
+    const diffMonth = (today.getMonth() - date.getMonth() + 12) % 12;
+    if (diffMonth > 0) {
+        const month = diffMonth == 1 ? 'month ago' : 'months ago';
+        return `${diffMonth} ${month}`;
+    }
+    const diffDate = (today.getDate() - date.getDate() + 30) % 30;
+    if (diffDate > 0) {
+        if (diffDate == 1)
+            return '1 day ago';
+        else if (diffDate < 8)
+            return `${diffDate} days ago`;
+        else if (diffDate < 15)
+            return `1 week ago`;
+        else {
+            const week = Math.floor(diffDate / 7);
+            return `${week} weeks ago`;
+        }
+    }
+    return 'Today';
+};

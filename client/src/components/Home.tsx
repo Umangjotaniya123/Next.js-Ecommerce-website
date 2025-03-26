@@ -98,7 +98,7 @@ const Home = ({ data }: { data: string }) => {
                         Vel non viverra ligula odio ornare turpis mauris. Odio aliquam, tincidunt ut vitae elit risus. Tempor egestas condimentum et ac rutrum dui, odio.
                     </p>
                     <Link
-                        href="/"
+                        href={`/search?category=clothing`}
                         className="inline-flex items-center gap-2 md:gap-4 text-lg md:text-2xl font-semibold mt-4 text-gray-800 hover:underline"
                     >
                         Shop Collection <FaArrowRight />

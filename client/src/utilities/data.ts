@@ -31,6 +31,7 @@ import {
     RiHome5Fill,
     RiShoppingBag3Fill,
 } from "react-icons/ri";
+import { MdCategory } from "react-icons/md";
 
 export const sideBarData = {
     dashboard: [
@@ -67,19 +68,15 @@ export const sideBarData = {
             Icon: FaChartLine,
         }
     ],
-    Apps: [
+    Management: [
         {
-            url: "/admin/app/stopwatch",
-            text: "Stopwatch",
-            Icon: FaStopwatch,
+            url: "/admin/manage/category",
+            text: "Categories",
+            Icon: MdCategory,
         }, {
-            url: "/admin/app/coupon",
+            url: "/admin/manage/coupon",
             text: "Coupon",
             Icon: RiCoupon3Fill,
-        }, {
-            url: "/admin/app/toss",
-            text: "Toss",
-            Icon: FaGamepad,
         }
     ],
 

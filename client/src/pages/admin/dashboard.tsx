@@ -6,6 +6,7 @@ import { decryptedData, encryptedData } from '@/utilities/features';
 import { Stats } from '@/types/types';
 import { CategoryItem, LatestProducts, RecentOrders, WidgetItem } from '@/components/DashboardTable';
 import { DoughnutChart, LineChart } from '@/components/Charts';
+import Link from 'next/link';
 
 const dashboard = ({ data }: { data: string }) => {
 
@@ -73,7 +74,7 @@ const dashboard = ({ data }: { data: string }) => {
 
       </section>
 
-      <section className="transaction-container w-full lg:h-[600px] flex flex-col justify-center gap-6 lg:flex-row">
+      <section className="transaction-container w-full flex flex-col justify-center gap-6 lg:flex-row">
         <div className="gender-chart bg-white dark:bg-slate-800 rounded-lg w-full lg:w-[35%] p-4 relative flex flex-col justify-center items-center gap-3">
           <h2 className='heading text-sm sm:text-xl'>Gender Ratio</h2>
 
@@ -91,9 +92,17 @@ const dashboard = ({ data }: { data: string }) => {
           </p>
         </div>
 
-        <div className='w-full lg:w-[70%] h-full rounded-lg bg-white dark:bg-slate-800'>
-          <h3 className="w-full text-center heading text-gray-800 dark:text-gray-200 text-lg font-semibold m-4">Recent Orders</h3>
-          <div className='w-full lg:h-[90%] p-3'>
+        <div className='w-full lg:w-[70%] rounded-lg bg-white dark:bg-slate-800'>
+          <div className='w-full flex justify-between items-center p-4 text-gray-800 dark:text-gray-200 '>
+            <h3 className="heading text-medium font-semibold m-4">Recent Orders</h3>
+            <Link
+              href={'/admin/orders'}
+              className="py-2 px-3 flex justify-center items-center gap-2 font-medium tracking-wider uppercase"
+            >
+              View More
+            </Link>
+          </div>
+          <div className='w-full p-3'>
             {dashboardStats?.recentOrder && dashboardStats.recentOrder.length && <RecentOrders data={dashboardStats.recentOrder} />}
           </div>
         </div>
@@ -101,7 +110,15 @@ const dashboard = ({ data }: { data: string }) => {
 
       <section className='w-full h-fit flex flex-col lg:flex-row justify-between gap-6'>
         <div className='w-full lg:w-[70%] rounded-lg bg-white dark:bg-slate-800'>
-          <h3 className="w-full heading text-gray-800 dark:text-gray-200 text-lg font-semibold m-4">Latest Products</h3>
+          <div className='w-full flex justify-between items-center p-4 text-gray-800 dark:text-gray-200 '>
+            <h3 className="heading text-medium font-semibold m-4">Latest Products</h3>
+            <Link
+              href={'/admin/products'}
+              className="py-2 px-3 flex justify-center items-center gap-2 font-medium tracking-wider uppercase"
+            >
+              View More
+            </Link>
+          </div>
           <div className='p-4'>
             {Array.isArray(dashboardStats?.latestProducts) && <LatestProducts data={dashboardStats.latestProducts} />}
           </div>

@@ -15,12 +15,12 @@ import { useAuth } from "@/context/AuthContext";
 const AdminSidebar = dynamic(() => import('@/components/AdminSidebar'));
 
 const columns = [
-  { name: "Avatar", uid: "avatar" },
+  { name: "Photo", uid: "photo" },
   { name: "Name", uid: "name" },
   { name: "Email", uid: "email" },
   { name: "Gender", uid: "gender" },
   { name: "Role", uid: "role" },
-  { name: "ACTIONS", uid: "action" },
+  { name: "Action", uid: "action" },
 ];
 
 type Props = {
@@ -44,13 +44,13 @@ const Customers = ({ data }: Props) => {
     return (
       {
         _id: user._id,
-        avatar: (
+        photo: (
           <div className="w-full flex justify-center">
             {user.photo ? (
               <Image
                 className="rounded-full w-14 h-14"
                 src={`${process.env.NEXT_PUBLIC_SERVER}/${user.photo}`}
-                alt="avatar"
+                alt="photo"
                 width={0}
                 height={0}
                 sizes="100vw"
@@ -58,7 +58,7 @@ const Customers = ({ data }: Props) => {
             ) : <Image
               className="rounded-full w-14 h-14"
               src={userImage}
-              alt="avatar"
+              alt="photo"
               width={0}
               height={0}
               sizes="100vw"

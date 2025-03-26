@@ -81,7 +81,7 @@ export const ProductCard = ({ product, latest, wishlist }: PageProps) => {
                         {wishlist ? <FaHeart className='text-red-500 text-xl' /> : <RiHeartLine className='text-red-500 text-xl' />}
                     </button>
                 </Tooltip>
-                <Link href={`/product/${_id}`}>
+                <Link href={`/product/${_id}`} className='h-[20rem] content-center'>
                     <Image
                         className='rounded-xl w-full h-full max-h-[250px] object-contain'
                         src={(photos && photos.length) ? `${process.env.NEXT_PUBLIC_SERVER}/${photos[0]}` : '/images/Image-not-found.png'}
