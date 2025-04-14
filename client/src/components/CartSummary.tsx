@@ -69,7 +69,7 @@ const CartSummary = () => {
                     cartItems.map((item, index) => (
                         <div key={index} className="flex items-center justify-between">
                             <Image
-                                src={`${process.env.NEXT_PUBLIC_SERVER}/${item.photo}`}
+                                src={item.photo ? `${process.env.NEXT_PUBLIC_SERVER}/${item.photo}` : '/images/image-not-found.png'}
                                 alt={item.name}
                                 width={50}
                                 height={50}

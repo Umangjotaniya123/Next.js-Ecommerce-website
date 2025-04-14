@@ -25,7 +25,7 @@ const profile = ({ data: { order, userData } }: Props) => {
     const { user, getUser } = useAuth();
     const [addressInfo, setAddresInfo] = useState<Address | null>(null);
 
-    const [img, setImg] = useState('');
+    const [img, setImg] = useState('/images/profile.webp');
     const [showOrders, setShowOrders] = useState<boolean>(true);
     const [showProfileInfo, setShowProfileInfo] = useState<boolean>(false);
     const [showAddressInfo, setShowAddressInfo] = useState<boolean>(false);
@@ -48,7 +48,8 @@ const profile = ({ data: { order, userData } }: Props) => {
             if (user.addressInfo && user.addressInfo.length)
                 setAddresInfo(user.addressInfo[0]);
 
-            setImg(`${process.env.NEXT_PUBLIC_SERVER}/${user?.photo}`)
+            if (user.photo)
+                setImg(`${process.env.NEXT_PUBLIC_SERVER}/${user?.photo}`)
         }
     }, [user]);
 
@@ -98,7 +99,6 @@ const profile = ({ data: { order, userData } }: Props) => {
                         id='imageRef'
                         onChange={changeImageHandler}
                     />
-                    {img &&
                         <label htmlFor='imageRef' className='w-40 h-32 border-4 rounded-full cursor-pointer relative'>
                             <Image
                                 className="w-full h-full rounded-full shadow-md"
@@ -113,7 +113,6 @@ const profile = ({ data: { order, userData } }: Props) => {
                                 className='absolute top-0 left-0 rounded-full w-full h-full flex justify-center items-center font-bold text-white text-4xl bg-gray-600/50 opacity-0 hover:opacity-100'
                             ><TbPhotoEdit /></div>
                         </label>
-                    }
                     <div className="text-center w-full p-6">
                         <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">{user?.name}</h2>
                         {userDetails?.joined && <p className="text-gray-500 text-sm">Joined {userDetails.joined}</p>}
@@ -194,7 +193,7 @@ const profile = ({ data: { order, userData } }: Props) => {
             </div>
 
             <div className='w-[60%]'>
-                {showOrders && orderData.length ?
+                {showOrders && (orderData.length ?
                     <div className="h-screen flex flex-col items-center gap-6 px-4 py-8 text-lg">
                         <h1 className="heading text-xl sm:text-2xl font-semibold">My Orders</h1>
                         {
@@ -203,7 +202,7 @@ const profile = ({ data: { order, userData } }: Props) => {
                                 : <Skeleton />
                         }
                     </div> :
-                    <h1 className="heading text-center text-xl sm:text-2xl font-semibold">No Orders Available</h1>
+                    <h1 className="heading text-center text-xl sm:text-2xl font-semibold">No Orders Available</h1>)
                 }
                 {showProfileInfo &&
                     <EditProfileInfo />

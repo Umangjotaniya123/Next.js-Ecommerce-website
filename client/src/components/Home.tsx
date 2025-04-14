@@ -110,6 +110,7 @@ const Home = ({ data }: { data: string }) => {
             <section className="w-full">
                 <ProductList products={products} title='Best Selling Products'/>
             </section>
+            Your Cozy Era
         </div>
     );
 };

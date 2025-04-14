@@ -62,24 +62,6 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
                 $lte: lastMonth.end,
             },
         });
-        const lastSixMonthUsersPromise = User.find({
-            createdAt: {
-                $gte: sixMonthsAgo,
-                $lte: today,
-            },
-        });
-        const lastSixMonthProductsPromise = Product.find({
-            createdAt: {
-                $gte: sixMonthsAgo,
-                $lte: today,
-            },
-        });
-        const lastSixMonthOrdersPromise = Order.find({
-            createdAt: {
-                $gte: sixMonthsAgo,
-                $lte: today,
-            },
-        });
         const lastTwelveMonthOrdersPromise = Order.find({
             createdAt: {
                 $gte: twelveMonthsAgo,
@@ -93,7 +75,7 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
             .select(["orderItems"])
             .sort({ createdAt: -1 })
             .limit(5);
-        const [thisMonthProducts, thisMonthUsers, thisMonthOrders, lastMonthProducts, lastMonthUsers, lastMonthOrders, allProducts, usersCount, allOrders, lastSixMonthUsers, lastSixMonthProducts, lastSixMonthOrders, lastTwelveMonthOrders, categories, femaleUsersCount, latestOrderItems,] = await Promise.all([
+        const [thisMonthProducts, thisMonthUsers, thisMonthOrders, lastMonthProducts, lastMonthUsers, lastMonthOrders, allProducts, usersCount, allOrders, lastTwelveMonthOrders, categories, femaleUsersCount, latestOrderItems,] = await Promise.all([
             thisMonthProductsPromise,
             thisMonthUsersPromise,
             thisMonthOrdersPromise,
@@ -103,9 +85,6 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
             allProductsPromise,
             User.countDocuments(),
             Order.find({}).select('total'),
-            lastSixMonthUsersPromise,
-            lastSixMonthProductsPromise,
-            lastSixMonthOrdersPromise,
             lastTwelveMonthOrdersPromise,
             Product.distinct("category"),
             User.countDocuments({ gender: 'female' }),
@@ -126,31 +105,7 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
             user: usersCount,
             order: allOrders.length,
         };
-        // const userMonthCounts = new Array(6).fill(0);
-        // const productMonthCounts = new Array(6).fill(0);
-        // const orderMonthCounts = new Array(6).fill(0);
         const orderMonthlyRevenue = new Array(12).fill(0);
-        // lastSixMonthUsers.forEach((user) => {
-        //     const creationDate = user.createdAt;
-        //     const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
-        //     if (monthDiff < 6) {
-        //         userMonthCounts[6 - 1 - monthDiff] += 1;
-        //     }
-        // });
-        // lastSixMonthProducts.forEach((product) => {
-        //     const creationDate = product.createdAt;
-        //     const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
-        //     if (monthDiff < 6) {
-        //         productMonthCounts[6 - 1 - monthDiff] += 1;
-        //     }
-        // });
-        // lastSixMonthOrders.forEach((order) => {
-        //     const creationDate = order.createdAt;
-        //     const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
-        //     if (monthDiff < 6) {
-        //         orderMonthCounts[6 - 1 - monthDiff] += 1;
-        //     }
-        // });
         lastTwelveMonthOrders.forEach((order) => {
             const creationDate = order.createdAt;
             const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;

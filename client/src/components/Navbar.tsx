@@ -112,7 +112,7 @@ const Navbar = () => {
                                     {/* User Info */}
                                     <div className="flex flex-col items-center text-center border-b border-gray-700 pb-4">
                                         <Image
-                                            src={user.photo ? `${process.env.NEXT_PUBLIC_SERVER}/${user.photo}` : '/download.jpeg'}
+                                            src={user.photo ? `${process.env.NEXT_PUBLIC_SERVER}/${user.photo}` : '/images/profile.webp'}
                                             alt="User"
                                             width={0}
                                             height={0}

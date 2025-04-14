@@ -18,16 +18,18 @@ export default async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/', req.nextUrl));
 
     if (path.includes('/admin')) {
-        let user:User | null = null;
+        let user: User | null = null;
 
         try {
-            const { data } = await Axios.get(`/user/verify?token=${cookies}`);
-            
+            const { data } = await Axios.get(`/user/verify`, {
+                headers: { token: cookies },
+            });
+
             if (data)
                 user = data.user;
 
         } catch (error) {
-            
+
         }
 
         if (user && user?.role !== 'admin')
